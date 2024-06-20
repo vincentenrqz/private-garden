@@ -10,7 +10,9 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
 
 function Copyright(props: any) {
   return (
@@ -22,7 +24,7 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <Link color="inherit" href="/">
-        Your Website
+        Private Garden
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -53,9 +55,11 @@ export default function SignIn() {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          {/* <LockOutlinedIcon /> */}
-        </Avatar>
+        <img
+          loading="lazy"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/1e2245ffba16fb77f2a8b3241893dba35479111cf865356ba56f758912fe28a6?"
+          className="shrink-0 my-auto aspect-[1.06] w-[35px]"
+        />
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
@@ -80,26 +84,26 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+          {/* <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            /> */}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            onClick={() => navigate("/admin/dashboard")}
+            onClick={() => navigate("/admin/dashboard/")}
           >
             Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-          </Grid>
+          {/* <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+            </Grid> */}
         </Box>
       </Box>
       <Copyright sx={{ mt: 8, mb: 4 }} />
