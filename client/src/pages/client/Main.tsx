@@ -26,7 +26,8 @@ const Main = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const controls = useAnimation();
 
-  const handleDragEnd = (info: any) => {
+  const handleDragEnd = (event: any, info: any) => {
+    console.log("Drag event", event);
     const offset = info.offset.x;
     const velocity = info.velocity.x;
 
@@ -77,9 +78,9 @@ const Main = () => {
           height: "100vh",
         }}
       >
-        {pages.map((page) => (
+        {pages.map((page, index) => (
           <div
-            key={page.id}
+            key={index}
             style={{
               minWidth: "100vw",
               minHeight: "100vh",
