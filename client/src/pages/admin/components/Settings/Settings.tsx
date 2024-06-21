@@ -2,16 +2,41 @@ import React from "react";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import MediaControlCard from "../Overview/TestFile";
-import { Grid } from "@mui/material";
+import { Grid, useMediaQuery } from "@mui/material";
 import UserSettings from "./UserSettings";
 
 const Settings = () => {
+  const mobile = useMediaQuery("(max-width:800px)");
+
   return (
     <>
       <Header />
-      <div className="mx-6 my-10 mr-6">
-        <UserSettings />
-      </div>
+      <Grid container>
+        {mobile && (
+          <>
+            <Grid item xs={12}>
+              <Sidebar />
+            </Grid>
+            <Grid item xs={12}>
+              <div className="my-10 mr-6">
+                <MediaControlCard />
+              </div>
+            </Grid>
+          </>
+        )}
+        {!mobile && (
+          <>
+            <Grid item xs={4}>
+              <Sidebar />
+            </Grid>
+            <Grid item xs={8}>
+              <div className="my-10 mr-6">
+                <MediaControlCard />
+              </div>
+            </Grid>
+          </>
+        )}
+      </Grid>
     </>
   );
 };

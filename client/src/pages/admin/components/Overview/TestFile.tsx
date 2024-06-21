@@ -9,14 +9,15 @@ import Typography from "@mui/material/Typography";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
+import { Container } from "@mui/material";
 
 export default function MediaControlCard() {
   const theme = useTheme();
 
   return (
-    <React.Fragment>
-      {Array.from({ length: 10 }).map((_, index) => (
-        <Card sx={{ display: "flex" }} className="mt-10">
+    <Container maxWidth="xl">
+      {Array.from({ length: 4 }).map((_, index) => (
+        <Card key={index} sx={{ display: "flex" }} className="mt-10">
           <CardMedia
             component="img"
             sx={{ width: 151 }}
@@ -58,6 +59,6 @@ export default function MediaControlCard() {
           </Box>
         </Card>
       ))}
-    </React.Fragment>
+    </Container>
   );
 }
