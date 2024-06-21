@@ -16,7 +16,7 @@ export default function MediaControlCard() {
 
   return (
     <Container maxWidth="xl">
-      {Array.from({ length: 4 }).map((_, index) => (
+      {Array.from({ length: 1 }).map((_, index) => (
         <Card key={index} sx={{ display: "flex" }} className="mt-10">
           <CardMedia
             component="img"

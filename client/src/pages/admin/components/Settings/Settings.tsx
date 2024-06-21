@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
-import MediaControlCard from "../Overview/TestFile";
+import MediaControlCard from "../../TestFile";
 import { Grid, useMediaQuery } from "@mui/material";
 import UserSettings from "./UserSettings";
 

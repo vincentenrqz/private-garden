@@ -8,6 +8,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Container, ListItemIcon, useMediaQuery } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
+import scrollToSection from "../../hooks";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -21,13 +22,11 @@ export default function Sidebar() {
         <PieChartIcon
           fontSize="large"
           className={`${
-            location.pathname === "/admin/dashboard/"
-              ? "text-blue-500"
-              : "text-gray-800"
+            location.hash === "#overview" ? "text-blue-500" : "text-gray-800"
           }`}
         />
       ),
-      route: "/admin/dashboard/",
+      route: "#overview",
     },
     {
       name: "Species",
@@ -35,13 +34,11 @@ export default function Sidebar() {
         <FormatListBulletedIcon
           fontSize="large"
           className={`${
-            location.pathname === "/admin/species/"
-              ? "text-blue-500"
-              : "text-gray-800"
+            location.hash === "#species" ? "text-blue-500" : "text-gray-800"
           }`}
         />
       ),
-      route: "/admin/species/",
+      route: "#species",
     },
     {
       name: "Maps",
@@ -49,13 +46,11 @@ export default function Sidebar() {
         <PlaceIcon
           fontSize="large"
           className={`${
-            location.pathname === "/admin/maps/"
-              ? "text-blue-500"
-              : "text-gray-800"
+            location.hash === "#maps" ? "text-blue-500" : "text-gray-800"
           }`}
         />
       ),
-      route: "/admin/maps/",
+      route: "#maps",
     },
     {
       name: "Settings",
@@ -63,17 +58,21 @@ export default function Sidebar() {
         <SettingsIcon
           fontSize="large"
           className={`${
-            location.pathname === "/admin/settings/"
-              ? "text-blue-500"
-              : "text-gray-800"
+            location.hash === "#settings" ? "text-blue-500" : "text-gray-800"
           }`}
         />
       ),
-      route: "/admin/settings/",
+      route: "#settings",
     },
   ];
 
-  //Menu list should be in # anchor target and not in pages since pages will be listed in the header
+  const handleClick = (route: any) => {
+    navigate(route);
+
+    const id = route.startsWith("#") ? route.slice(1) : route;
+    scrollToSection(id);
+  };
+
   return (
     <Container maxWidth="xl">
       <div
@@ -84,11 +83,9 @@ export default function Sidebar() {
         {menuList.map((list) => (
           <MenuList
             key={list.name}
-            onClick={() => navigate(list.route)}
+            onClick={() => handleClick(list.route)}
             className={`${
-              location.pathname === list.route
-                ? "text-blue-500"
-                : "text-gray-800"
+              location.hash === list.route ? "text-blue-500" : "text-gray-800"
             }`}
           >
             <MenuItem>
