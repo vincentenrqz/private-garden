@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { motion, useAnimation } from "framer-motion";
-import MapPage from "./MapPage";
+// import MapPage from "./MapPage";
 import CoverPage from "./CoverPage";
+import map from "../../assets/map.png";
+import Map from "../client/MapPage/Map";
 
 const pages = [
   {
@@ -10,9 +12,9 @@ const pages = [
     content: <CoverPage />,
   },
   {
-    id: 1,
-    color: "#FF6347",
-    content: <MapPage />,
+    id: 2,
+    color: "#f7d79f",
+    content: <Map />,
   },
   {
     id: 3,
