@@ -5,7 +5,7 @@ import Main from "./pages/client/Main";
 import Species from "./pages/admin/components/Species/Species";
 import Maps from "./pages/admin/components/Maps/Maps";
 import Settings from "./pages/admin/components/Settings/Settings";
-import AdminDashboard from "./pages/admin/components/AdminDashboard";
+import AdminDashboard from "./pages/admin/components/Overview/AdminDashboard";
 import MapPage from "./pages/client/MapPage/Map";
 
 const App = () => {
