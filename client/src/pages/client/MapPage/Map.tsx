@@ -9,7 +9,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { Drawer } from "@mui/material";
+import { Drawer, useMediaQuery } from "@mui/material";
 import MapDrawer from "./MapDrawer";
 import { CustomLatLngBoundsLiteral } from "../../../types/react-leaflet";
 
@@ -120,6 +120,8 @@ const MapPage = () => {
 
   const [open, setOpen] = useState<boolean>(false);
   const [data, setData] = useState<any>({});
+  const mobile = useMediaQuery("(max-width:768px)");
+  const [readMore, setReadMore] = useState(false);
   const toggleDrawer = (newOpen: boolean) => {
     setOpen(newOpen);
   };
@@ -164,18 +166,23 @@ const MapPage = () => {
         ></Marker>
       ))}
       <Drawer
-        anchor="left"
-        onClick={() => toggleDrawer(false)}
+        anchor={`${mobile ? "bottom" : "left"}`}
+        onClose={() => {
+          toggleDrawer(false);
+          setReadMore(false);
+        }}
         open={open}
         ModalProps={{
           keepMounted: true,
         }}
         PaperProps={{
           sx: {
-            height: "90vh",
-            width: 300,
+            height: mobile ? (readMore ? "50vh" : "40%") : "90vh",
+            width: mobile ? "90%" : 300,
             position: "fixed",
-            top: "5%",
+            top: mobile ? "" : "5%",
+            bottom: "0%",
+            left: mobile ? "5%" : "",
             transform: "translateY(-50%)",
             transition: "width 0.3s ease-in-out",
             borderTopRightRadius: 10,
@@ -184,7 +191,13 @@ const MapPage = () => {
           },
         }}
       >
-        <MapDrawer toggleDrawer={toggleDrawer} data={data} />
+        <MapDrawer
+          toggleDrawer={toggleDrawer}
+          data={data}
+          mobile={mobile}
+          readMore={readMore}
+          setReadMore={setReadMore}
+        />
       </Drawer>
       <MapClickHandler onClick={handleMapClick} />
       <ZoomHandler />
