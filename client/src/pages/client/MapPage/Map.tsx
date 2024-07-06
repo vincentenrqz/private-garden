@@ -1,17 +1,9 @@
-import React, { useRef, useEffect, useState } from "react";
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  // LatLngBoundsLiteral,
-  useMap,
-} from "react-leaflet";
+import React, { useEffect, useState } from "react";
+import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
 import { Drawer, useMediaQuery } from "@mui/material";
+import L, { LatLngBoundsExpression } from "leaflet";
 import MapDrawer from "./MapDrawer";
-import { CustomLatLngBoundsLiteral } from "../../../types/react-leaflet";
 
 interface MarkerType {
   id: number;
@@ -34,78 +26,54 @@ const markerIcon = L.icon({
 });
 
 const MapPage = () => {
-  const mapRef = useRef<any>(null);
-  const [markers, setMarkers] = useState<MarkerType[]>([
-    {
-      id: 1,
-      position: [15.623037, 28.152447],
-      title: "Test Title",
-      description: "Test Description",
-      type: "Trees",
-    },
-    {
-      id: 2,
-      position: [-9.102097, 79.841222],
-      title: "Title 2",
-      description: "Descrioptiuon 2",
-      type: "Flowers",
-    },
-  ]);
+  const [markers, setMarkers] = useState<MarkerType[]>([]);
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState<any>({});
+  const [screenSize, setScreenSize] = useState("");
+  const [defaultZoom, setDefaultZoom] = useState(1);
+  const [minZoom, setMinZoom] = useState(1);
 
-  const bounds: CustomLatLngBoundsLiteral = [
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+
+      if (screenWidth < 576) {
+        setScreenSize("sm");
+      } else if (screenWidth >= 576 && screenWidth < 768) {
+        setScreenSize("md");
+      } else if (screenWidth >= 768 && screenWidth < 992) {
+        setScreenSize("lg");
+      } else if (screenWidth >= 992) {
+        setScreenSize("xl");
+      }
+    };
+
+    handleResize();
+  }, []);
+
+  useEffect(() => {
+    const handleZoom = () => {
+      switch (screenSize) {
+        case "sm":
+        case "md":
+        case "lg":
+          return setDefaultZoom(2), setMinZoom(2);
+        case "xl":
+          return setDefaultZoom(3), setMinZoom(3);
+        default:
+          setDefaultZoom(1);
+          setMinZoom(1);
+          break;
+      }
+    };
+
+    handleZoom();
+  }, [screenSize]);
+
+  const maxBounds: LatLngBoundsExpression = [
     [83.318733, -161.164965],
     [-83.366776, 160.93596],
   ];
-
-  useEffect(() => {
-    if (mapRef.current) {
-      const map = mapRef.current.leafletElement;
-      const southWest = L.latLng(bounds[0]);
-      const northEast = L.latLng(bounds[1]);
-      const boundsLatLng = L.latLngBounds(southWest, northEast);
-
-      const center = boundsLatLng.getCenter();
-
-      if (map) {
-        map.setMaxBounds(boundsLatLng);
-        map.setMinZoom(1);
-        map.setMaxZoom(2);
-        const zoom = calculateZoomLevel(boundsLatLng, map.getSize());
-
-        map.setView(center, zoom);
-      }
-    }
-  }, [bounds]);
-
-  const calculateZoomLevel = (
-    bounds: L.LatLngBounds,
-    mapSize?: { x: number; y: number }
-  ): number => {
-    if (!mapSize) return 1;
-
-    const WORLD_DIM = { height: 256, width: 256 };
-    const ZOOM_MAX = 2;
-
-    const ne = bounds.getNorthEast();
-    const sw = bounds.getSouthWest();
-
-    const latFraction =
-      (Math.log(Math.tan(Math.PI / 4 + (ne.lat * Math.PI) / 360)) -
-        Math.log(Math.tan(Math.PI / 4 + (sw.lat * Math.PI) / 360))) /
-      (2 * Math.PI);
-
-    const lngDiff = ne.lng - sw.lng;
-    const lngFraction = lngDiff < 0 ? (lngDiff + 360) / 360 : lngDiff / 360;
-
-    const latZoom = Math.floor(
-      Math.log(mapSize.y / WORLD_DIM.height / latFraction) / Math.LN2
-    );
-    const lngZoom = Math.floor(
-      Math.log(mapSize.x / WORLD_DIM.width / lngFraction) / Math.LN2
-    );
-
-    return Math.min(latZoom, lngZoom, ZOOM_MAX);
-  };
 
   const handleMapClick = (e: L.LeafletMouseEvent) => {
     const newMarker: MarkerType = {
@@ -118,8 +86,6 @@ const MapPage = () => {
     setMarkers([...markers, newMarker]);
   };
 
-  const [open, setOpen] = useState<boolean>(false);
-  const [data, setData] = useState<any>({});
   const mobile = useMediaQuery("(max-width:768px)");
   const [readMore, setReadMore] = useState(false);
   const toggleDrawer = (newOpen: boolean) => {
@@ -135,24 +101,28 @@ const MapPage = () => {
 
     setData(matchedPositionMarker);
   };
-  console.log("data", data);
 
   return (
     <MapContainer
-      ref={mapRef}
+      key={defaultZoom}
+      bounds={maxBounds}
       center={[0, 0]}
-      zoom={2}
-      zoomControl={true} // Enable zoom control buttons
+      zoom={defaultZoom}
+      // minZoom={minZoom}
+      zoomControl={true}
       scrollWheelZoom={false}
       doubleClickZoom={false}
-      style={{ height: "100vh", width: "48vw" }}
-      maxBounds={bounds}
+      maxBounds={maxBounds}
       maxBoundsViscosity={1.0}
+      style={{ height: "90vh", width: "90vw" }}
     >
-      <TileLayer attribution="Private Garden" url={`/map5/{z}/{x}/{y}.png`} />
+      <TileLayer
+        attribution="Private Garden"
+        url="/map5/{z}/{x}/{y}.png"
+        bounds={maxBounds}
+        noWrap={true}
+      />
       {markers?.map((marker) => (
-        //TODO: ICON SHOULD BE THE MARKER TYPE. TREES/FLOWER/ETC.
-        //TODO: Marker should have a data of ID, POSITION, TITLE, DESCRIPTION, IMAGE, TYPE
         <Marker
           key={marker.id}
           position={marker.position}
@@ -200,16 +170,15 @@ const MapPage = () => {
         />
       </Drawer>
       <MapClickHandler onClick={handleMapClick} />
-      <ZoomHandler />
     </MapContainer>
   );
 };
 
-function MapClickHandler({
+const MapClickHandler = ({
   onClick,
 }: {
   onClick: (e: L.LeafletMouseEvent) => void;
-}) {
+}) => {
   const map = useMap();
 
   useEffect(() => {
@@ -225,27 +194,6 @@ function MapClickHandler({
   }, [map, onClick]);
 
   return null;
-}
-
-function ZoomHandler() {
-  const map = useMap();
-
-  useEffect(() => {
-    const handleZoomEnd = () => {
-      const currentZoom = map.getZoom();
-      if (currentZoom < 1) {
-        map.setZoom(1); // Prevent zoom out beyond zoom level 1
-      }
-    };
-
-    map.on("zoomend", handleZoomEnd);
-
-    return () => {
-      map.off("zoomend", handleZoomEnd);
-    };
-  }, [map]);
-
-  return null;
-}
+};
 
 export default MapPage;

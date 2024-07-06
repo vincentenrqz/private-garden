@@ -13,14 +13,8 @@ const pages = [
   },
   {
     id: 2,
-    color: "#f7d79f",
+    color: "#6a5841",
     content: <Map />,
-  },
-  {
-    id: 3,
-    color: "#87CEEB",
-    content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
   },
 ];
 
@@ -30,6 +24,7 @@ const Main = () => {
 
   const handleDragEnd = (event: any, info: any) => {
     console.log("Drag event", event);
+    console.log("info", info);
     const offset = info.offset.x;
     const velocity = info.velocity.x;
 
@@ -67,7 +62,7 @@ const Main = () => {
     >
       <motion.div
         className="container"
-        drag="x"
+        drag={currentPage !== 1 ? "x" : false}
         dragConstraints={{
           left: -window.innerWidth * (pages.length - 1),
           right: 0,
