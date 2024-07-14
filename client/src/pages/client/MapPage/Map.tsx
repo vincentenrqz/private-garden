@@ -221,11 +221,12 @@ const MapPage = () => {
   };
 
   const matchPosition = (position: any) => {
-    const matchedPositionMarker = markers?.find(
-      (marker: any) =>
-        marker.position[0] === position.lat &&
-        marker.position[1] === position.lng
-    );
+    const matchedPositionMarker = markers?.find((marker: any) => {
+      return (
+        marker.position.lat === position.lat &&
+        marker.position.lng === position.lng
+      );
+    });
 
     setData(matchedPositionMarker);
   };
