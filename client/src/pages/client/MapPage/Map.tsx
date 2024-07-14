@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import { Box, Drawer, useMediaQuery } from "@mui/material";
 import L, { LatLngBoundsExpression } from "leaflet";
 import MapDrawer from "./MapDrawer";
+import ButtonFilters from "../components/ButtonFilters";
 
 interface MarkerType {
   id: number;
@@ -32,10 +33,10 @@ const MapPage = () => {
       position: { lat: -68.04045866686049, lng: 23.52547138119504 },
       title: "",
       description: "",
-      type: "tree",
+      type: "grass",
       icon: {
         options: {
-          iconUrl: "http://localhost:5173/resources/tree.svg",
+          iconUrl: `${window.location.origin}/resources/grass.svg`,
           iconSize: [40, 41],
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
@@ -52,10 +53,10 @@ const MapPage = () => {
       position: { lat: -68.62454109968843, lng: 28.095805294846134 },
       title: "",
       description: "",
-      type: "tree",
+      type: "grass",
       icon: {
         options: {
-          iconUrl: "http://localhost:5173/resources/tree.svg",
+          iconUrl: `${window.location.origin}/resources/grass.svg`,
           iconSize: [40, 41],
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
@@ -69,13 +70,13 @@ const MapPage = () => {
     },
     {
       id: 3,
-      position: { lat: -69.6876159230656, lng: 30.556754325273708 },
+      position: { lat: -45.573889514708746, lng: 48.12835693359375 },
       title: "",
       description: "",
       type: "tree",
       icon: {
         options: {
-          iconUrl: "http://localhost:5173/resources/tree.svg",
+          iconUrl: `${window.location.origin}/resources/tree.svg`,
           iconSize: [40, 41],
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
@@ -89,13 +90,53 @@ const MapPage = () => {
     },
     {
       id: 4,
-      position: { lat: -71.04552638704712, lng: 29.32627981005992 },
+      position: { lat: -44.25354186472623, lng: 36.4480011946954 },
       title: "",
       description: "",
       type: "tree",
       icon: {
         options: {
-          iconUrl: "http://localhost:5173/resources/tree.svg",
+          iconUrl: `${window.location.origin}/resources/tree.svg`,
+          iconSize: [40, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+          shadowSize: [41, 41],
+        },
+        _initHooksCalled: true,
+      },
+    },
+    {
+      id: 5,
+      position: { lat: -51.70485290641144, lng: 15.099334716796877 },
+      title: "",
+      description: "",
+      type: "flower",
+      icon: {
+        options: {
+          iconUrl: `${window.location.origin}/resources/flower.svg`,
+          iconSize: [40, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+          shadowSize: [41, 41],
+        },
+        _initHooksCalled: true,
+      },
+    },
+    {
+      id: 6,
+      position: { lat: -51.26728128825844, lng: 24.064178466796875 },
+      title: "",
+      description: "",
+      type: "flower",
+      icon: {
+        options: {
+          iconUrl: `${window.location.origin}/resources/flower.svg`,
           iconSize: [40, 41],
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
@@ -113,8 +154,7 @@ const MapPage = () => {
   const [screenSize, setScreenSize] = useState("");
   const [defaultZoom, setDefaultZoom] = useState(1);
   const [minZoom, setMinZoom] = useState(1);
-  const [selectedType, setSelectedType] = useState(null);
-  console.log("markers", JSON.stringify(markers));
+  const [selectedType, setSelectedType] = useState<string | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -158,6 +198,9 @@ const MapPage = () => {
     [-83.366776, 160.93596],
   ];
 
+  console.log("markers", markers);
+
+  // Function to add an icon position
   const handleMapClick = (e: L.LeafletMouseEvent) => {
     const newMarker: MarkerType = {
       id: markers.length + 1,
@@ -187,6 +230,14 @@ const MapPage = () => {
     setData(matchedPositionMarker);
   };
 
+  const handleTypeClick = (type: string) => {
+    setSelectedType(type);
+  };
+
+  const filteredMarkers = selectedType
+    ? markers.filter((marker) => marker?.type === selectedType)
+    : markers;
+
   return (
     <Box
       style={{
@@ -198,79 +249,103 @@ const MapPage = () => {
         boxShadow: "10px 10px 5px rgba(0, 0, 0, 0.3)",
       }}
     >
-      <MapContainer
-        key={defaultZoom}
-        bounds={maxBounds}
-        center={[0, 0]}
-        zoom={defaultZoom}
-        minZoom={minZoom}
-        zoomControl={true}
-        scrollWheelZoom={false}
-        doubleClickZoom={false}
-        maxBounds={maxBounds}
-        maxBoundsViscosity={1.0}
-        style={{ height: "90vh", width: "90vw" }}
-      >
-        <TileLayer
-          attribution="Private Garden"
-          url="/map5/{z}/{x}/{y}.png"
+      <div className="flex flex-row items-end">
+        <MapContainer
+          key={defaultZoom}
           bounds={maxBounds}
-          noWrap={true}
-        />
-        {markers?.map((marker) => {
-          const { id, position, icon } = marker;
-
-          return (
-            <Marker
-              key={id}
-              position={position}
-              icon={markerIcon}
-              eventHandlers={{
-                click: (e) => {
-                  toggleDrawer(true);
-                  matchPosition(e.latlng);
-                },
-              }}
-            ></Marker>
-          );
-        })}
-
-        <Drawer
-          anchor={`${mobile ? "bottom" : "left"}`}
-          onClose={() => {
-            toggleDrawer(false);
-            setReadMore(false);
-          }}
-          open={open}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          PaperProps={{
-            sx: {
-              height: mobile ? (readMore ? "50vh" : "40%") : "90vh",
-              width: mobile ? "90%" : 300,
-              position: "fixed",
-              top: mobile ? "" : "5%",
-              bottom: "0%",
-              left: mobile ? "5%" : "",
-              transform: "translateY(-50%)",
-              transition: "width 0.3s ease-in-out",
-              borderTopRightRadius: 10,
-              borderBottomRightRadius: 10,
-              overflow: "hidden",
-            },
-          }}
+          center={[0, 0]}
+          zoom={defaultZoom}
+          // minZoom={minZoom}
+          zoomControl={true}
+          scrollWheelZoom={false}
+          doubleClickZoom={false}
+          maxBounds={maxBounds}
+          maxBoundsViscosity={1.0}
+          style={{ height: "90vh", width: "90vw" }}
         >
-          <MapDrawer
-            toggleDrawer={toggleDrawer}
-            data={data}
-            mobile={mobile}
-            readMore={readMore}
-            setReadMore={setReadMore}
+          <TileLayer
+            attribution="Private Garden"
+            url="/map5/{z}/{x}/{y}.png"
+            bounds={maxBounds}
+            noWrap={true}
           />
-        </Drawer>
-        <MapClickHandler onClick={handleMapClick} />
-      </MapContainer>
+          {!selectedType &&
+            markers?.map((marker) => {
+              const { id, position, icon } = marker;
+
+              return (
+                <Marker
+                  key={id}
+                  position={position}
+                  icon={markerIconFunction(icon.options)}
+                  eventHandlers={{
+                    click: (e) => {
+                      toggleDrawer(true);
+                      matchPosition(e.latlng);
+                    },
+                  }}
+                ></Marker>
+              );
+            })}
+          {selectedType &&
+            filteredMarkers?.map((marker) => {
+              const { id, position, icon } = marker;
+
+              return (
+                <Marker
+                  key={id}
+                  position={position}
+                  icon={markerIconFunction(icon.options)}
+                  eventHandlers={{
+                    click: (e) => {
+                      toggleDrawer(true);
+                      matchPosition(e.latlng);
+                    },
+                  }}
+                ></Marker>
+              );
+            })}
+          <Drawer
+            anchor={`${mobile ? "bottom" : "left"}`}
+            onClose={() => {
+              toggleDrawer(false);
+              setReadMore(false);
+            }}
+            open={open}
+            ModalProps={{
+              keepMounted: true,
+            }}
+            PaperProps={{
+              sx: {
+                height: mobile ? (readMore ? "50vh" : "40%") : "90vh",
+                width: mobile ? "90%" : 300,
+                position: "fixed",
+                top: mobile ? "" : "5%",
+                bottom: "0%",
+                left: mobile ? "5%" : "",
+                transform: "translateY(-50%)",
+                transition: "width 0.3s ease-in-out",
+                borderTopRightRadius: 10,
+                borderBottomRightRadius: 10,
+                overflow: "hidden",
+              },
+            }}
+          >
+            <MapDrawer
+              toggleDrawer={toggleDrawer}
+              data={data}
+              mobile={mobile}
+              readMore={readMore}
+              setReadMore={setReadMore}
+            />
+          </Drawer>
+          <MapClickHandler onClick={handleMapClick} />
+        </MapContainer>
+        <ButtonFilters
+          setSelectedType={setSelectedType}
+          handleTypeClick={handleTypeClick}
+        />
+      </div>
     </Box>
   );
 };
@@ -295,6 +370,18 @@ const MapClickHandler = ({
   }, [map, onClick]);
 
   return null;
+};
+
+const markerIconFunction = (props: any) => {
+  return L.icon({
+    iconUrl: props.iconUrl,
+    iconSize: props.iconSize,
+    iconAnchor: props.iconAnchor,
+    popupAnchor: props.popupAnchor,
+    tooltipAnchor: props.tooltipAnchor,
+    shadowUrl: props.shadowUrl,
+    shadowSize: props.shadowSize,
+  });
 };
 
 export default MapPage;
