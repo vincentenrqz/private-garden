@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { Drawer, useMediaQuery } from "@mui/material";
+import { Box, Drawer, useMediaQuery } from "@mui/material";
 import L, { LatLngBoundsExpression } from "leaflet";
 import MapDrawer from "./MapDrawer";
 
@@ -11,12 +11,12 @@ interface MarkerType {
   title: string;
   description: string;
   type?: string;
+  icon: any;
 }
 
 const markerIcon = L.icon({
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  iconSize: [25, 41],
+  iconUrl: `${window.location.origin}/resources/grass.svg`,
+  iconSize: [40, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
   tooltipAnchor: [16, -28],
@@ -26,12 +26,95 @@ const markerIcon = L.icon({
 });
 
 const MapPage = () => {
-  const [markers, setMarkers] = useState<MarkerType[]>([]);
+  const [markers, setMarkers] = useState<MarkerType[]>([
+    {
+      id: 1,
+      position: { lat: -68.04045866686049, lng: 23.52547138119504 },
+      title: "",
+      description: "",
+      type: "tree",
+      icon: {
+        options: {
+          iconUrl: "http://localhost:5173/resources/tree.svg",
+          iconSize: [40, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+          shadowSize: [41, 41],
+        },
+        _initHooksCalled: true,
+      },
+    },
+    {
+      id: 2,
+      position: { lat: -68.62454109968843, lng: 28.095805294846134 },
+      title: "",
+      description: "",
+      type: "tree",
+      icon: {
+        options: {
+          iconUrl: "http://localhost:5173/resources/tree.svg",
+          iconSize: [40, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+          shadowSize: [41, 41],
+        },
+        _initHooksCalled: true,
+      },
+    },
+    {
+      id: 3,
+      position: { lat: -69.6876159230656, lng: 30.556754325273708 },
+      title: "",
+      description: "",
+      type: "tree",
+      icon: {
+        options: {
+          iconUrl: "http://localhost:5173/resources/tree.svg",
+          iconSize: [40, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+          shadowSize: [41, 41],
+        },
+        _initHooksCalled: true,
+      },
+    },
+    {
+      id: 4,
+      position: { lat: -71.04552638704712, lng: 29.32627981005992 },
+      title: "",
+      description: "",
+      type: "tree",
+      icon: {
+        options: {
+          iconUrl: "http://localhost:5173/resources/tree.svg",
+          iconSize: [40, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+          shadowSize: [41, 41],
+        },
+        _initHooksCalled: true,
+      },
+    },
+  ]);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState<any>({});
   const [screenSize, setScreenSize] = useState("");
   const [defaultZoom, setDefaultZoom] = useState(1);
   const [minZoom, setMinZoom] = useState(1);
+  const [selectedType, setSelectedType] = useState(null);
+  console.log("markers", JSON.stringify(markers));
 
   useEffect(() => {
     const handleResize = () => {
@@ -81,6 +164,8 @@ const MapPage = () => {
       position: e.latlng,
       title: "",
       description: "",
+      type: "tree",
+      icon: markerIcon,
     };
 
     setMarkers([...markers, newMarker]);
@@ -103,74 +188,90 @@ const MapPage = () => {
   };
 
   return (
-    <MapContainer
-      key={defaultZoom}
-      bounds={maxBounds}
-      center={[0, 0]}
-      zoom={defaultZoom}
-      // minZoom={minZoom}
-      zoomControl={true}
-      scrollWheelZoom={false}
-      doubleClickZoom={false}
-      maxBounds={maxBounds}
-      maxBoundsViscosity={1.0}
-      style={{ height: "90vh", width: "90vw" }}
+    <Box
+      style={{
+        paddingTop: "8px",
+        paddingBottom: "8px",
+        paddingLeft: "16px",
+        paddingRight: "16px",
+        backgroundColor: "white",
+        boxShadow: "10px 10px 5px rgba(0, 0, 0, 0.3)",
+      }}
     >
-      <TileLayer
-        attribution="Private Garden"
-        url="/map5/{z}/{x}/{y}.png"
+      <MapContainer
+        key={defaultZoom}
         bounds={maxBounds}
-        noWrap={true}
-      />
-      {markers?.map((marker) => (
-        <Marker
-          key={marker.id}
-          position={marker.position}
-          icon={markerIcon}
-          eventHandlers={{
-            click: (e) => {
-              toggleDrawer(true);
-              matchPosition(e.latlng);
+        center={[0, 0]}
+        zoom={defaultZoom}
+        minZoom={minZoom}
+        zoomControl={true}
+        scrollWheelZoom={false}
+        doubleClickZoom={false}
+        maxBounds={maxBounds}
+        maxBoundsViscosity={1.0}
+        style={{ height: "90vh", width: "90vw" }}
+      >
+        <TileLayer
+          attribution="Private Garden"
+          url="/map5/{z}/{x}/{y}.png"
+          bounds={maxBounds}
+          noWrap={true}
+        />
+        {markers?.map((marker) => {
+          const { id, position, icon } = marker;
+
+          return (
+            <Marker
+              key={id}
+              position={position}
+              icon={markerIcon}
+              eventHandlers={{
+                click: (e) => {
+                  toggleDrawer(true);
+                  matchPosition(e.latlng);
+                },
+              }}
+            ></Marker>
+          );
+        })}
+
+        <Drawer
+          anchor={`${mobile ? "bottom" : "left"}`}
+          onClose={() => {
+            toggleDrawer(false);
+            setReadMore(false);
+          }}
+          open={open}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          PaperProps={{
+            sx: {
+              height: mobile ? (readMore ? "50vh" : "40%") : "90vh",
+              width: mobile ? "90%" : 300,
+              position: "fixed",
+              top: mobile ? "" : "5%",
+              bottom: "0%",
+              left: mobile ? "5%" : "",
+              transform: "translateY(-50%)",
+              transition: "width 0.3s ease-in-out",
+              borderTopRightRadius: 10,
+              borderBottomRightRadius: 10,
+              overflow: "hidden",
             },
           }}
-        ></Marker>
-      ))}
-      <Drawer
-        anchor={`${mobile ? "bottom" : "left"}`}
-        onClose={() => {
-          toggleDrawer(false);
-          setReadMore(false);
-        }}
-        open={open}
-        ModalProps={{
-          keepMounted: true,
-        }}
-        PaperProps={{
-          sx: {
-            height: mobile ? (readMore ? "50vh" : "40%") : "90vh",
-            width: mobile ? "90%" : 300,
-            position: "fixed",
-            top: mobile ? "" : "5%",
-            bottom: "0%",
-            left: mobile ? "5%" : "",
-            transform: "translateY(-50%)",
-            transition: "width 0.3s ease-in-out",
-            borderTopRightRadius: 10,
-            borderBottomRightRadius: 10,
-            overflow: "hidden",
-          },
-        }}
-      >
-        <MapDrawer
-          toggleDrawer={toggleDrawer}
-          data={data}
-          mobile={mobile}
-          readMore={readMore}
-          setReadMore={setReadMore}
-        />
-      </Drawer>
-      <MapClickHandler onClick={handleMapClick} />
-    </MapContainer>
+        >
+          <MapDrawer
+            toggleDrawer={toggleDrawer}
+            data={data}
+            mobile={mobile}
+            readMore={readMore}
+            setReadMore={setReadMore}
+          />
+        </Drawer>
+        <MapClickHandler onClick={handleMapClick} />
+      </MapContainer>
+    </Box>
   );
 };
 
