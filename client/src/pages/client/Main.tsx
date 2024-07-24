@@ -4,6 +4,7 @@ import { motion, useAnimation } from "framer-motion";
 import CoverPage from "./CoverPage";
 import map from "../../assets/map.png";
 import Map from "../client/MapPage/Map";
+import Map2 from "../client/MapPage/Map2";
 
 const pages = [
   {
@@ -14,7 +15,7 @@ const pages = [
   {
     id: 2,
     color: "#6a5841",
-    content: <Map />,
+    content: <Map2 />,
   },
 ];
 
@@ -83,7 +84,8 @@ const Main = () => {
               minHeight: "100vh",
               display: "flex",
               justifyContent: "center",
-              alignItems: "center",
+              // alignItems: "center", // Remove for iPad
+              paddingTop: "20px",
               backgroundColor: page.color,
               border: "1px solid #ddd",
               position: "relative",
@@ -95,7 +97,7 @@ const Main = () => {
           </div>
         ))}
       </motion.div>
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+      {/* <div className="absolute bottom-4 left-0 right-0 flex justify-center">
         {pages.map((_, index) => (
           <div
             key={index}
@@ -105,7 +107,7 @@ const Main = () => {
             onClick={() => handleIndicatorClick(index)}
           ></div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

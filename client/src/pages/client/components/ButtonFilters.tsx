@@ -7,8 +7,8 @@ export default function ButtonFilters({
   handleTypeClick,
 }: any) {
   return (
-    <div className="text-black flex flex-col">
-      <div>
+    <div className="text-black flex flex-row">
+      <div className="bg-lime-600">
         <IconButton onClick={() => setSelectedType(null)}>
           <Icon fontSize="large">
             <BsFlower1 />
@@ -16,7 +16,7 @@ export default function ButtonFilters({
         </IconButton>
       </div>
 
-      <div>
+      <div className="bg-cyan-200">
         <IconButton onClick={() => handleTypeClick("flower")}>
           <Icon fontSize="large">
             <GiFlowers />
@@ -24,7 +24,7 @@ export default function ButtonFilters({
         </IconButton>
       </div>
 
-      <div>
+      <div className="bg-rose-400">
         <IconButton onClick={() => handleTypeClick("grass")}>
           <Icon fontSize="large">
             <GiGrass />
@@ -32,7 +32,7 @@ export default function ButtonFilters({
         </IconButton>
       </div>
 
-      <div>
+      <div className="bg-yellow-200">
         <IconButton onClick={() => handleTypeClick("tree")}>
           <Icon fontSize="large">
             <GiFruitTree />

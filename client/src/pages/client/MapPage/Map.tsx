@@ -16,7 +16,7 @@ interface MarkerType {
 }
 
 const markerIcon = L.icon({
-  iconUrl: `${window.location.origin}/resources/grass.svg`,
+  iconUrl: `${window.location.origin}/resources/tree.svg`,
   iconSize: [40, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -240,113 +240,115 @@ const MapPage = () => {
     : markers;
 
   return (
-    <Box
-      style={{
-        paddingTop: "8px",
-        paddingBottom: "8px",
-        paddingLeft: "16px",
-        paddingRight: "16px",
-        backgroundColor: "white",
-        boxShadow: "10px 10px 5px rgba(0, 0, 0, 0.3)",
-      }}
-    >
-      <div className="flex flex-row items-end">
-        <MapContainer
-          key={defaultZoom}
-          bounds={maxBounds}
-          center={[0, 0]}
-          zoom={defaultZoom}
-          // minZoom={minZoom}
-          zoomControl={true}
-          scrollWheelZoom={false}
-          doubleClickZoom={false}
-          maxBounds={maxBounds}
-          maxBoundsViscosity={1.0}
-          style={{ height: "90vh", width: "90vw" }}
-        >
-          <TileLayer
-            attribution="Private Garden"
-            url="/map5/{z}/{x}/{y}.png"
+    <Box sx={{ display: "flex" }}>
+      <Box
+        style={{
+          paddingTop: "8px",
+          paddingBottom: "8px",
+          paddingLeft: "16px",
+          paddingRight: "16px",
+          backgroundColor: "white",
+          boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
+        }}
+      >
+        <div className="flex flex-row items-end">
+          <MapContainer
+            key={defaultZoom}
             bounds={maxBounds}
-            noWrap={true}
-          />
-          {!selectedType &&
-            markers?.map((marker) => {
-              const { id, position, icon } = marker;
-
-              return (
-                <Marker
-                  key={id}
-                  position={position}
-                  icon={markerIconFunction(icon.options)}
-                  eventHandlers={{
-                    click: (e) => {
-                      toggleDrawer(true);
-                      matchPosition(e.latlng);
-                    },
-                  }}
-                ></Marker>
-              );
-            })}
-          {selectedType &&
-            filteredMarkers?.map((marker) => {
-              const { id, position, icon } = marker;
-
-              return (
-                <Marker
-                  key={id}
-                  position={position}
-                  icon={markerIconFunction(icon.options)}
-                  eventHandlers={{
-                    click: (e) => {
-                      toggleDrawer(true);
-                      matchPosition(e.latlng);
-                    },
-                  }}
-                ></Marker>
-              );
-            })}
-          <Drawer
-            anchor={`${mobile ? "bottom" : "left"}`}
-            onClose={() => {
-              toggleDrawer(false);
-              setReadMore(false);
-            }}
-            open={open}
-            ModalProps={{
-              keepMounted: true,
-            }}
-            PaperProps={{
-              sx: {
-                height: mobile ? (readMore ? "50vh" : "40%") : "90vh",
-                width: mobile ? "90%" : 300,
-                position: "fixed",
-                top: mobile ? "" : "5%",
-                bottom: "0%",
-                left: mobile ? "5%" : "",
-                transform: "translateY(-50%)",
-                transition: "width 0.3s ease-in-out",
-                borderTopRightRadius: 10,
-                borderBottomRightRadius: 10,
-                overflow: "hidden",
-              },
-            }}
+            center={[0, 0]}
+            zoom={defaultZoom}
+            minZoom={minZoom}
+            zoomControl={true}
+            scrollWheelZoom={false}
+            doubleClickZoom={false}
+            maxBounds={maxBounds}
+            maxBoundsViscosity={1.0}
+            style={{ height: "90vh", width: "70vw" }}
           >
-            <MapDrawer
-              toggleDrawer={toggleDrawer}
-              data={data}
-              mobile={mobile}
-              readMore={readMore}
-              setReadMore={setReadMore}
+            <TileLayer
+              attribution="Private Garden"
+              url="/map5/{z}/{x}/{y}.png"
+              bounds={maxBounds}
+              noWrap={true}
             />
-          </Drawer>
-          <MapClickHandler onClick={handleMapClick} />
-        </MapContainer>
-        <ButtonFilters
-          setSelectedType={setSelectedType}
-          handleTypeClick={handleTypeClick}
-        />
-      </div>
+            {!selectedType &&
+              markers?.map((marker) => {
+                const { id, position, icon } = marker;
+
+                return (
+                  <Marker
+                    key={id}
+                    position={position}
+                    icon={markerIconFunction(icon.options)}
+                    eventHandlers={{
+                      click: (e) => {
+                        toggleDrawer(true);
+                        matchPosition(e.latlng);
+                      },
+                    }}
+                  ></Marker>
+                );
+              })}
+            {selectedType &&
+              filteredMarkers?.map((marker) => {
+                const { id, position, icon } = marker;
+
+                return (
+                  <Marker
+                    key={id}
+                    position={position}
+                    icon={markerIconFunction(icon.options)}
+                    eventHandlers={{
+                      click: (e) => {
+                        toggleDrawer(true);
+                        matchPosition(e.latlng);
+                      },
+                    }}
+                  ></Marker>
+                );
+              })}
+            <Drawer
+              anchor={`${mobile ? "bottom" : "left"}`}
+              onClose={() => {
+                toggleDrawer(false);
+                setReadMore(false);
+              }}
+              open={open}
+              ModalProps={{
+                keepMounted: true,
+              }}
+              PaperProps={{
+                sx: {
+                  height: mobile ? (readMore ? "50vh" : "40%") : "90vh",
+                  width: mobile ? "90%" : 300,
+                  position: "fixed",
+                  top: mobile ? "" : "5%",
+                  bottom: "0%",
+                  left: mobile ? "5%" : "",
+                  transform: "translateY(-50%)",
+                  transition: "width 0.3s ease-in-out",
+                  borderTopRightRadius: 10,
+                  borderBottomRightRadius: 10,
+                  overflow: "hidden",
+                },
+              }}
+            >
+              <MapDrawer
+                toggleDrawer={toggleDrawer}
+                data={data}
+                mobile={mobile}
+                readMore={readMore}
+                setReadMore={setReadMore}
+              />
+            </Drawer>
+            <MapClickHandler onClick={handleMapClick} />
+          </MapContainer>
+        </div>
+      </Box>
+      <ButtonFilters
+        setSelectedType={setSelectedType}
+        handleTypeClick={handleTypeClick}
+      />
     </Box>
   );
 };

@@ -1,18 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  // LatLngBoundsLiteral,
-  useMap,
-  useMapEvent,
-} from "react-leaflet";
+import React, { useEffect, useState } from "react";
+import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-import { Drawer } from "@mui/material";
+import { Box, styled, useMediaQuery } from "@mui/material";
+import L, { LatLngBoundsExpression } from "leaflet";
 import MapDrawer from "./MapDrawer";
-import { CustomLatLngBoundsLiteral } from "../../../types/react-leaflet";
+import ButtonFilters from "../components/ButtonFilters";
 
 interface MarkerType {
   id: number;
@@ -20,12 +12,12 @@ interface MarkerType {
   title: string;
   description: string;
   type?: string;
+  icon: any;
 }
 
 const markerIcon = L.icon({
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  iconSize: [25, 41],
+  iconUrl: `${window.location.origin}/resources/tree.svg`,
+  iconSize: [40, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
   tooltipAnchor: [16, -28],
@@ -35,196 +27,315 @@ const markerIcon = L.icon({
 });
 
 const MapPage = () => {
-  const mapRef = useRef<any>(null);
   const [markers, setMarkers] = useState<MarkerType[]>([
-    // {
-    //   id: 1,
-    //   position: [15.623037, 28.152447],
-    //   title: "Test Title",
-    //   description: "Test Description",
-    //   type: "Trees",
-    // },
-    // {
-    //   id: 2,
-    //   position: [-9.102097, 79.841222],
-    //   title: "Title 2",
-    //   description: "Descrioptiuon 2",
-    //   type: "Flowers",
-    // },
+    {
+      id: 1,
+      position: { lat: -68.04045866686049, lng: 23.52547138119504 },
+      title: "",
+      description: "",
+      type: "grass",
+      icon: {
+        options: {
+          iconUrl: `${window.location.origin}/resources/grass.svg`,
+          iconSize: [40, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+          shadowSize: [41, 41],
+        },
+        _initHooksCalled: true,
+      },
+    },
+    {
+      id: 2,
+      position: { lat: -68.62454109968843, lng: 28.095805294846134 },
+      title: "",
+      description: "",
+      type: "grass",
+      icon: {
+        options: {
+          iconUrl: `${window.location.origin}/resources/grass.svg`,
+          iconSize: [40, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+          shadowSize: [41, 41],
+        },
+        _initHooksCalled: true,
+      },
+    },
+    {
+      id: 3,
+      position: { lat: -45.573889514708746, lng: 48.12835693359375 },
+      title: "",
+      description: "",
+      type: "tree",
+      icon: {
+        options: {
+          iconUrl: `${window.location.origin}/resources/tree.svg`,
+          iconSize: [40, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+          shadowSize: [41, 41],
+        },
+        _initHooksCalled: true,
+      },
+    },
+    {
+      id: 4,
+      position: { lat: -44.25354186472623, lng: 36.4480011946954 },
+      title: "",
+      description: "",
+      type: "tree",
+      icon: {
+        options: {
+          iconUrl: `${window.location.origin}/resources/tree.svg`,
+          iconSize: [40, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+          shadowSize: [41, 41],
+        },
+        _initHooksCalled: true,
+      },
+    },
+    {
+      id: 5,
+      position: { lat: -51.70485290641144, lng: 15.099334716796877 },
+      title: "",
+      description: "",
+      type: "flower",
+      icon: {
+        options: {
+          iconUrl: `${window.location.origin}/resources/flower.svg`,
+          iconSize: [40, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+          shadowSize: [41, 41],
+        },
+        _initHooksCalled: true,
+      },
+    },
+    {
+      id: 6,
+      position: { lat: -51.26728128825844, lng: 24.064178466796875 },
+      title: "",
+      description: "",
+      type: "flower",
+      icon: {
+        options: {
+          iconUrl: `${window.location.origin}/resources/flower.svg`,
+          iconSize: [40, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+          shadowSize: [41, 41],
+        },
+        _initHooksCalled: true,
+      },
+    },
   ]);
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState<any>({});
+  const [screenSize, setScreenSize] = useState("");
+  const [defaultZoom, setDefaultZoom] = useState(1);
+  const [minZoom, setMinZoom] = useState(1);
+  const [selectedType, setSelectedType] = useState<string | null>(null);
 
-  const bounds: CustomLatLngBoundsLiteral = [
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+
+      if (screenWidth < 576) {
+        setScreenSize("sm");
+      } else if (screenWidth >= 576 && screenWidth < 768) {
+        setScreenSize("md");
+      } else if (screenWidth >= 768 && screenWidth < 992) {
+        setScreenSize("lg");
+      } else if (screenWidth >= 992) {
+        setScreenSize("xl");
+      }
+    };
+
+    handleResize();
+  }, []);
+
+  useEffect(() => {
+    const handleZoom = () => {
+      switch (screenSize) {
+        case "sm":
+        case "md":
+        case "lg":
+          return setDefaultZoom(2), setMinZoom(2);
+        case "xl":
+          return setDefaultZoom(3), setMinZoom(3);
+        default:
+          setDefaultZoom(1);
+          setMinZoom(1);
+          break;
+      }
+    };
+
+    handleZoom();
+  }, [screenSize]);
+
+  const maxBounds: LatLngBoundsExpression = [
     [83.318733, -161.164965],
     [-83.366776, 160.93596],
   ];
 
-  useEffect(() => {
-    if (mapRef.current) {
-      const map = mapRef.current.leafletElement;
-      const southWest = L.latLng(bounds[0]);
-      const northEast = L.latLng(bounds[1]);
-      const boundsLatLng = L.latLngBounds(southWest, northEast);
+  console.log("markers", markers);
 
-      const center = boundsLatLng.getCenter();
-
-      if (map) {
-        map.setMaxBounds(boundsLatLng);
-        map.setMinZoom(1);
-        map.setMaxZoom(2);
-        const zoom = calculateZoomLevel(boundsLatLng, map.getSize());
-
-        map.setView(center, zoom);
-      }
-    }
-  }, [bounds]);
-
-  const calculateZoomLevel = (
-    bounds: L.LatLngBounds,
-    mapSize?: { x: number; y: number }
-  ): number => {
-    if (!mapSize) return 1;
-
-    const WORLD_DIM = { height: 256, width: 256 };
-    const ZOOM_MAX = 2;
-
-    const ne = bounds.getNorthEast();
-    const sw = bounds.getSouthWest();
-
-    const latFraction =
-      (Math.log(Math.tan(Math.PI / 4 + (ne.lat * Math.PI) / 360)) -
-        Math.log(Math.tan(Math.PI / 4 + (sw.lat * Math.PI) / 360))) /
-      (2 * Math.PI);
-
-    const lngDiff = ne.lng - sw.lng;
-    const lngFraction = lngDiff < 0 ? (lngDiff + 360) / 360 : lngDiff / 360;
-
-    const latZoom = Math.floor(
-      Math.log(mapSize.y / WORLD_DIM.height / latFraction) / Math.LN2
-    );
-    const lngZoom = Math.floor(
-      Math.log(mapSize.x / WORLD_DIM.width / lngFraction) / Math.LN2
-    );
-
-    return Math.min(latZoom, lngZoom, ZOOM_MAX);
-  };
-
+  // Function to add an icon position
   const handleMapClick = (e: L.LeafletMouseEvent) => {
     const newMarker: MarkerType = {
       id: markers.length + 1,
       position: e.latlng,
       title: "",
       description: "",
+      type: "tree",
+      icon: markerIcon,
     };
 
     setMarkers([...markers, newMarker]);
   };
 
-  const [open, setOpen] = useState<boolean>(false);
-  const [data, setData] = useState<any>({});
+  const mobile = useMediaQuery("(max-width:768px)");
+  const [readMore, setReadMore] = useState(false);
   const toggleDrawer = (newOpen: boolean) => {
     setOpen(newOpen);
   };
 
   const matchPosition = (position: any) => {
-    const matchedPositionMarker = markers?.find(
-      (marker: any) =>
-        marker.position[0] === position.lat &&
-        marker.position[1] === position.lng
-    );
+    const matchedPositionMarker = markers?.find((marker: any) => {
+      return (
+        marker.position.lat === position.lat &&
+        marker.position.lng === position.lng
+      );
+    });
 
     setData(matchedPositionMarker);
   };
 
-  const SetMaxBounds = () => {
-    const map = useMap();
-
-    const logZoom = () => {
-      console.log("Current Zoom Level:", map.getZoom());
-    };
-
-    // const setBoundsByZoom = () => {
-    //   const currentZoom = map.getZoom();
-    //   if (currentZoom === 2) {
-    //     setMaxBounds(initialBounds);
-    //   } else {
-    //     setMaxBounds(null); // Reset maxBounds if not at zoom level 2
-    //   }
-    // };
-
-    map.on("zoomend", logZoom);
-    useMapEvent("zoomend", () => {
-      if (map.getZoom() < 3) {
-        map.setZoom(3); // Ensure minimum zoom level
-      }
-      map.setMaxBounds(bounds);
-    });
-
-    return null;
+  const handleTypeClick = (type: string) => {
+    setSelectedType(type);
   };
 
+  const filteredMarkers = selectedType
+    ? markers.filter((marker) => marker?.type === selectedType)
+    : markers;
+
   return (
-    <div className="m-2 bg-zinc-50">
-      <MapContainer
-        ref={mapRef}
-        center={[0, 0]}
-        zoom={1}
-        zoomControl={true}
-        scrollWheelZoom={false}
-        doubleClickZoom={false}
-        style={{ height: "90vh", width: "70vw" }}
-        maxBounds={bounds}
-        maxBoundsViscosity={1.0}
-      >
-        <TileLayer attribution="Private Garden" url={`/map5/{z}/{x}/{y}.png`} />
-        {markers?.map((marker) => (
-          <Marker
-            key={marker.id}
-            position={marker.position}
-            icon={markerIcon}
-            eventHandlers={{
-              click: (e) => {
-                toggleDrawer(true);
-                matchPosition(e.latlng);
-              },
-            }}
-          ></Marker>
-        ))}
-        {/* <Drawer
-        anchor="left"
-        onClick={() => toggleDrawer(false)}
-        open={open}
-        ModalProps={{
-          keepMounted: true,
-        }}
-        PaperProps={{
-          sx: {
-            height: "90vh",
-            width: 300,
-            position: "fixed",
-            top: "5%",
-            transform: "translateY(-50%)",
-            transition: "width 0.3s ease-in-out",
-            borderTopRightRadius: 10,
-            borderBottomRightRadius: 10,
-            overflow: "hidden",
-          },
+    <>
+      <Box
+        style={{
+          paddingTop: "8px",
+          paddingBottom: "8px",
+          paddingLeft: "16px",
+          paddingRight: "16px",
+          backgroundColor: "white",
+          boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
         }}
       >
-        <MapDrawer toggleDrawer={toggleDrawer} data={data} />
-      </Drawer> */}
-        <MapClickHandler onClick={handleMapClick} />
-        {/* <ZoomHandler /> */}
-        <SetMaxBounds />
-      </MapContainer>
-    </div>
+        <div className="flex flex-row items-end">
+          <MapContainer
+            key={defaultZoom}
+            bounds={maxBounds}
+            center={[0, 0]}
+            zoom={defaultZoom}
+            minZoom={minZoom}
+            zoomControl={true}
+            scrollWheelZoom={false}
+            doubleClickZoom={false}
+            maxBounds={maxBounds}
+            maxBoundsViscosity={1.0}
+            style={{ height: "80vh", width: "90vw" }}
+          >
+            <TileLayer
+              attribution="Private Garden"
+              url="/map5/{z}/{x}/{y}.png"
+              bounds={maxBounds}
+              noWrap={true}
+            />
+            {!selectedType &&
+              markers?.map((marker) => {
+                const { id, position, icon } = marker;
+
+                return (
+                  <Marker
+                    key={id}
+                    position={position}
+                    icon={markerIconFunction(icon.options)}
+                    eventHandlers={{
+                      click: (e) => {
+                        toggleDrawer(true);
+                        matchPosition(e.latlng);
+                      },
+                    }}
+                  ></Marker>
+                );
+              })}
+            {selectedType &&
+              filteredMarkers?.map((marker) => {
+                const { id, position, icon } = marker;
+
+                return (
+                  <Marker
+                    key={id}
+                    position={position}
+                    icon={markerIconFunction(icon.options)}
+                    eventHandlers={{
+                      click: (e) => {
+                        toggleDrawer(true);
+                        matchPosition(e.latlng);
+                      },
+                    }}
+                  ></Marker>
+                );
+              })}
+
+            <MapDrawer
+              toggleDrawer={toggleDrawer}
+              data={data}
+              mobile={mobile}
+              readMore={readMore}
+              setReadMore={setReadMore}
+              open={open}
+            />
+
+            <MapClickHandler onClick={handleMapClick} />
+          </MapContainer>
+        </div>
+      </Box>
+      <Box sx={{ display: "flex" }}>
+        <ButtonFilters
+          setSelectedType={setSelectedType}
+          handleTypeClick={handleTypeClick}
+        />
+      </Box>
+    </>
   );
 };
 
-function MapClickHandler({
+const MapClickHandler = ({
   onClick,
 }: {
   onClick: (e: L.LeafletMouseEvent) => void;
-}) {
+}) => {
   const map = useMap();
 
   useEffect(() => {
@@ -240,27 +351,18 @@ function MapClickHandler({
   }, [map, onClick]);
 
   return null;
-}
+};
 
-function ZoomHandler() {
-  const map = useMap();
-
-  useEffect(() => {
-    const handleZoomEnd = () => {
-      const currentZoom = map.getZoom();
-      if (currentZoom < 1) {
-        map.setZoom(1); // Prevent zoom out beyond zoom level 1
-      }
-    };
-
-    map.on("zoomend", handleZoomEnd);
-
-    return () => {
-      map.off("zoomend", handleZoomEnd);
-    };
-  }, [map]);
-
-  return null;
-}
+const markerIconFunction = (props: any) => {
+  return L.icon({
+    iconUrl: props.iconUrl,
+    iconSize: props.iconSize,
+    iconAnchor: props.iconAnchor,
+    popupAnchor: props.popupAnchor,
+    tooltipAnchor: props.tooltipAnchor,
+    shadowUrl: props.shadowUrl,
+    shadowSize: props.shadowSize,
+  });
+};
 
 export default MapPage;
