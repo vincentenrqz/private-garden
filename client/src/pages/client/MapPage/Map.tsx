@@ -28,7 +28,7 @@ const markerIcon = L.icon({
 });
 
 const MapPage = () => {
-  const paperRef = useRef(null);
+  const paperRef = useRef<HTMLDivElement>(null);
 
   const [markers, setMarkers] = useState<MarkerType[]>([
     {
