@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { Box, Drawer, useMediaQuery } from "@mui/material";
+import { Box } from "@mui/material";
 import L, { LatLngBoundsExpression } from "leaflet";
-import MapDrawer from "./MapDrawer";
 import ButtonFilters from "../components/ButtonFilters";
+import CustomDrawer from "../components/CustomDrawer";
+import { useScreenSize } from "../../../context/MediaContext";
 
 interface MarkerType {
   id: number;
@@ -27,6 +28,8 @@ const markerIcon = L.icon({
 });
 
 const MapPage = () => {
+  const paperRef = useRef(null);
+
   const [markers, setMarkers] = useState<MarkerType[]>([
     {
       id: 1,
@@ -151,28 +154,11 @@ const MapPage = () => {
   ]);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState<any>({});
-  const [screenSize, setScreenSize] = useState("");
   const [defaultZoom, setDefaultZoom] = useState(1);
   const [minZoom, setMinZoom] = useState(1);
   const [selectedType, setSelectedType] = useState<string | null>(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const screenWidth = window.innerWidth;
-
-      if (screenWidth < 576) {
-        setScreenSize("sm");
-      } else if (screenWidth >= 576 && screenWidth < 768) {
-        setScreenSize("md");
-      } else if (screenWidth >= 768 && screenWidth < 992) {
-        setScreenSize("lg");
-      } else if (screenWidth >= 992) {
-        setScreenSize("xl");
-      }
-    };
-
-    handleResize();
-  }, []);
+  const [readMore, setReadMore] = useState(false);
+  const screenSize = useScreenSize();
 
   useEffect(() => {
     const handleZoom = () => {
@@ -180,7 +166,7 @@ const MapPage = () => {
         case "sm":
         case "md":
         case "lg":
-          return setDefaultZoom(2), setMinZoom(2);
+          return setDefaultZoom(3), setMinZoom(3);
         case "xl":
           return setDefaultZoom(3), setMinZoom(3);
         default:
@@ -198,9 +184,6 @@ const MapPage = () => {
     [-83.366776, 160.93596],
   ];
 
-  console.log("markers", markers);
-
-  // Function to add an icon position
   const handleMapClick = (e: L.LeafletMouseEvent) => {
     const newMarker: MarkerType = {
       id: markers.length + 1,
@@ -214,10 +197,11 @@ const MapPage = () => {
     setMarkers([...markers, newMarker]);
   };
 
-  const mobile = useMediaQuery("(max-width:768px)");
-  const [readMore, setReadMore] = useState(false);
   const toggleDrawer = (newOpen: boolean) => {
     setOpen(newOpen);
+    if (paperRef.current) {
+      paperRef.current.style.left = "-15%";
+    }
   };
 
   const matchPosition = (position: any) => {
@@ -239,8 +223,30 @@ const MapPage = () => {
     ? markers.filter((marker) => marker?.type === selectedType)
     : markers;
 
+  const toggleReadMore = () => {
+    setReadMore(!readMore);
+    if (!readMore && paperRef.current) {
+      paperRef.current.style.left = "50%";
+    }
+
+    if (readMore && paperRef.current) {
+      paperRef.current.style.left = "-45%";
+    }
+  };
+
+  const handleMapSize = () => {
+    switch (screenSize) {
+      case "sm":
+      case "md":
+      case "lg":
+        return "90vw";
+      case "xl":
+        return "80vw";
+    }
+  };
+
   return (
-    <Box sx={{ display: "flex" }}>
+    <div className="flex flex-col">
       <Box
         style={{
           paddingTop: "8px",
@@ -248,6 +254,7 @@ const MapPage = () => {
           paddingLeft: "16px",
           paddingRight: "16px",
           backgroundColor: "white",
+          height: "82vh",
           boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
         }}
       >
@@ -263,7 +270,7 @@ const MapPage = () => {
             doubleClickZoom={false}
             maxBounds={maxBounds}
             maxBoundsViscosity={1.0}
-            style={{ height: "90vh", width: "70vw" }}
+            style={{ height: "80vh", width: handleMapSize() }}
           >
             <TileLayer
               attribution="Private Garden"
@@ -307,49 +314,23 @@ const MapPage = () => {
                   ></Marker>
                 );
               })}
-            <Drawer
-              anchor={`${mobile ? "bottom" : "left"}`}
-              onClose={() => {
-                toggleDrawer(false);
-                setReadMore(false);
-              }}
-              open={open}
-              ModalProps={{
-                keepMounted: true,
-              }}
-              PaperProps={{
-                sx: {
-                  height: mobile ? (readMore ? "50vh" : "40%") : "90vh",
-                  width: mobile ? "90%" : 300,
-                  position: "fixed",
-                  top: mobile ? "" : "5%",
-                  bottom: "0%",
-                  left: mobile ? "5%" : "",
-                  transform: "translateY(-50%)",
-                  transition: "width 0.3s ease-in-out",
-                  borderTopRightRadius: 10,
-                  borderBottomRightRadius: 10,
-                  overflow: "hidden",
-                },
-              }}
-            >
-              <MapDrawer
-                toggleDrawer={toggleDrawer}
-                data={data}
-                mobile={mobile}
-                readMore={readMore}
-                setReadMore={setReadMore}
-              />
-            </Drawer>
             <MapClickHandler onClick={handleMapClick} />
           </MapContainer>
         </div>
       </Box>
-      <ButtonFilters
-        setSelectedType={setSelectedType}
-        handleTypeClick={handleTypeClick}
+      <Box sx={{ display: "flex" }}>
+        <ButtonFilters
+          setSelectedType={setSelectedType}
+          handleTypeClick={handleTypeClick}
+        />
+      </Box>
+      <CustomDrawer
+        paperRef={paperRef}
+        open={open}
+        readMore={readMore}
+        toggleReadMore={toggleReadMore}
       />
-    </Box>
+    </div>
   );
 };
 

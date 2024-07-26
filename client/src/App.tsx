@@ -2,12 +2,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Signin from "./pages/admin/components/Signin/Signin";
 import Main from "./pages/client/Main";
-import Species from "./pages/admin/components/Species/Species";
-import Maps from "./pages/admin/components/Maps/Maps";
-import Settings from "./pages/admin/components/Settings/Settings";
 import AdminDashboard from "./pages/admin/components/Overview/AdminDashboard";
-import Map from "./pages/client/MapPage/Map";
-import Map2 from "./pages/client/MapPage/Map2";
 
 const App = () => {
   return (
@@ -16,7 +11,6 @@ const App = () => {
         <Route path="/" element={<Main />} />
         <Route path="/admin" element={<Signin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/map" element={<Map2 />} />
       </Routes>
     </>
   );

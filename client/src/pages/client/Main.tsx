@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { motion, useAnimation } from "framer-motion";
-// import MapPage from "./MapPage";
 import CoverPage from "./CoverPage";
-import map from "../../assets/map.png";
-import Map from "../client/MapPage/Map";
-import Map2 from "../client/MapPage/Map2";
+import Map from "./MapPage/Map";
+import { useMediaQuery } from "@mui/material";
+import { MediaContextProvider } from "../../context/MediaContext";
 
 const pages = [
   {
@@ -15,7 +14,7 @@ const pages = [
   {
     id: 2,
     color: "#6a5841",
-    content: <Map2 />,
+    content: <Map />,
   },
 ];
 
@@ -52,63 +51,76 @@ const Main = () => {
       transition: { type: "spring", stiffness: 300, damping: 30 },
     });
   };
+
+  const mobile = useMediaQuery("(max-width:768px)");
+
   return (
-    <div
-      style={{
-        overflow: "hidden",
-        height: "100vh",
-        width: "100vw",
-        position: "relative",
-      }}
-    >
-      <motion.div
-        className="container"
-        drag={currentPage !== 1 ? "x" : false}
-        dragConstraints={{
-          left: -window.innerWidth * (pages.length - 1),
-          right: 0,
-        }}
-        onDragEnd={handleDragEnd}
-        animate={controls}
-        style={{
-          display: "flex",
-          width: `${pages.length * 100}vw`,
-          height: "100vh",
-        }}
+    <MediaContextProvider>
+      <div
+        style={{ backgroundColor: "#6a5841" }}
+        className="min-w-full min-h-screen flex justify-center pt-5 border border-gray-300 relative items-center"
       >
-        {pages.map((page, index) => (
-          <div
-            key={index}
-            style={{
-              minWidth: "100vw",
-              minHeight: "100vh",
-              display: "flex",
-              justifyContent: "center",
-              // alignItems: "center", // Remove for iPad
-              paddingTop: "20px",
-              backgroundColor: page.color,
-              border: "1px solid #ddd",
-              position: "relative",
-            }}
-          >
-            <p className="font-mono text-5xl antialiased font-black text-white">
-              {page.content}
-            </p>
-          </div>
-        ))}
-      </motion.div>
-      {/* <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-        {pages.map((_, index) => (
-          <div
-            key={index}
-            className={`h-4 w-4 mx-2 rounded-full cursor-pointer ${
-              index === currentPage ? "bg-gray-300" : "bg-gray-100"
-            }`}
-            onClick={() => handleIndicatorClick(index)}
-          ></div>
-        ))}
-      </div> */}
-    </div>
+        <Map />
+      </div>
+    </MediaContextProvider>
+    // <div
+    //   style={{
+    //     overflow: "hidden",
+    //     height: "100vh",
+    //     width: "100vw",
+    //     position: "relative",
+    //   }}
+    // >
+    //   <motion.div
+    //     className="container"
+    //     drag={currentPage !== 1 ? "x" : false}
+    //     dragConstraints={{
+    //       left: -window.innerWidth * (pages.length - 1),
+    //       right: 0,
+    //     }}
+    //     onDragEnd={handleDragEnd}
+    //     animate={controls}
+    //     style={{
+    //       display: "flex",
+    //       width: `${pages.length * 100}vw`,
+    //       height: "100vh",
+    //     }}
+    //   >
+    //     {pages.map((page, index) => (
+    //       <div
+    //         key={index}
+    //         style={{
+    //           minWidth: "100vw",
+    //           minHeight: "100vh",
+    //           display: "flex",
+    //           justifyContent: "center",
+    //           // alignItems: "center", // Remove for iPad
+    //           paddingTop: "20px",
+    //           backgroundColor: page.color,
+    //           border: "1px solid #ddd",
+    //           position: "relative",
+    //         }}
+    //       >
+    //         <MediaContextProvider>
+    //           <p className="font-mono text-5xl antialiased font-black text-white">
+    //             {page.content}
+    //           </p>
+    //         </MediaContextProvider>
+    //       </div>
+    //     ))}
+    //   </motion.div>
+    //   {/* <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+    //     {pages.map((_, index) => (
+    //       <div
+    //         key={index}
+    //         className={`h-4 w-4 mx-2 rounded-full cursor-pointer ${
+    //           index === currentPage ? "bg-gray-300" : "bg-gray-100"
+    //         }`}
+    //         onClick={() => handleIndicatorClick(index)}
+    //       ></div>
+    //     ))}
+    //   </div> */}
+    // </div>
   );
 };
 
