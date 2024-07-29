@@ -6,6 +6,7 @@ import L, { LatLngBoundsExpression } from "leaflet";
 import ButtonFilters from "../components/ButtonFilters";
 import CustomDrawer from "../components/CustomDrawer";
 import { useScreenSize } from "../../../context/MediaContext";
+import { handleFlexStyles, handleMapSize } from "../../../utils/utils";
 
 interface MarkerType {
   id: number;
@@ -159,16 +160,17 @@ const MapPage = () => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [readMore, setReadMore] = useState(false);
   const screenSize = useScreenSize();
+  const mapSize = handleMapSize(screenSize);
+  const flexStyle = handleFlexStyles(screenSize);
 
   useEffect(() => {
     const handleZoom = () => {
-      switch (screenSize) {
+      switch (screenSize?.screenSize) {
         case "sm":
         case "md":
         case "lg":
-          return setDefaultZoom(3), setMinZoom(3);
         case "xl":
-          return setDefaultZoom(3), setMinZoom(3);
+          return setDefaultZoom(2), setMinZoom(2);
         default:
           setDefaultZoom(1);
           setMinZoom(1);
@@ -178,6 +180,24 @@ const MapPage = () => {
 
     handleZoom();
   }, [screenSize]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: any) => {
+      if (paperRef.current && !paperRef.current.contains(e.target as Node)) {
+        paperRef.current.style.left = "-43%";
+        setOpen(false);
+        setReadMore(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open, setOpen]);
 
   const maxBounds: LatLngBoundsExpression = [
     [83.318733, -161.164965],
@@ -233,53 +253,42 @@ const MapPage = () => {
     }
 
     if (readMore && paperRef.current) {
-      paperRef.current.style.left = "-45%";
+      paperRef.current.style.left = "-43%";
     }
   };
-
-  const handleMapSize = () => {
-    switch (screenSize) {
-      case "sm":
-      case "md":
-      case "lg":
-        return "90vw";
-      case "xl":
-        return "80vw";
-    }
-  };
-
-  const largeScreen = screenSize === "lg";
 
   return (
-    <div className="flex flex-col">
+    <div className={`flex ${flexStyle?.parent} `}>
       <Box
         style={{
           paddingTop: "8px",
           paddingBottom: "8px",
           paddingLeft: "16px",
           paddingRight: "16px",
-          height: "82vh",
-          // backgroundColor: "white",
-          // boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
+          height: mapSize?.containerHeight,
+          maxWidth: mapSize?.width,
+          backgroundColor: "#c9c9c9",
+          boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
         }}
       >
         <div className="flex flex-row items-end">
           <MapContainer
             key={defaultZoom}
             bounds={maxBounds}
-            center={[0, 0]}
+            center={[51.505, -0.09]}
             zoom={defaultZoom}
             minZoom={minZoom}
+            maxZoom={5}
             zoomControl={true}
             scrollWheelZoom={false}
             doubleClickZoom={false}
             maxBounds={maxBounds}
             maxBoundsViscosity={1.0}
-            style={{ height: "80vh", width: handleMapSize() }}
+            style={{ height: mapSize?.height, width: mapSize?.width }}
           >
             <TileLayer
               attribution="Private Garden"
-              url="/map5/{z}/{x}/{y}.png"
+              url="/anning/{z}/{x}/{y}.jpg"
               bounds={maxBounds}
               noWrap={true}
             />
@@ -321,23 +330,14 @@ const MapPage = () => {
               })}
             <MapClickHandler onClick={handleMapClick} />
           </MapContainer>
-          {largeScreen && (
-            <ButtonFilters
-              screenSize={screenSize}
-              setSelectedType={setSelectedType}
-              handleTypeClick={handleTypeClick}
-            />
-          )}
         </div>
       </Box>
-      {!largeScreen && (
-        <Box sx={{ display: "flex" }}>
-          <ButtonFilters
-            setSelectedType={setSelectedType}
-            handleTypeClick={handleTypeClick}
-          />
-        </Box>
-      )}
+      <ButtonFilters
+        flexStyle={flexStyle}
+        screenSize={screenSize}
+        setSelectedType={setSelectedType}
+        handleTypeClick={handleTypeClick}
+      />
       <CustomDrawer
         data={data}
         paperRef={paperRef}

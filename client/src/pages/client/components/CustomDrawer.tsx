@@ -16,8 +16,6 @@ const CustomDrawer = ({
   readMore,
   toggleReadMore,
 }: Props) => {
-  console.log("data", data);
-
   return (
     <Paper
       ref={paperRef}
@@ -25,7 +23,7 @@ const CustomDrawer = ({
         position: "fixed",
         top: "10%",
         bottom: 0,
-        left: "-45%",
+        left: "-43%",
         transform: "translateX(-50%)",
         zIndex: 1000,
         height: "75vh",
@@ -68,7 +66,7 @@ const CustomDrawer = ({
             flex: 1,
             display: "flex",
             flexDirection: "column",
-            backgroundColor: "lightcoral",
+            backgroundColor: "#ffffff",
             padding: 2,
           }}
         >

@@ -52,14 +52,9 @@ const Main = () => {
     });
   };
 
-  const mobile = useMediaQuery("(max-width:768px)");
-
   return (
     <MediaContextProvider>
-      <div
-        style={{ backgroundColor: "#6a5841" }}
-        className="min-w-full min-h-screen flex justify-center pt-5 border border-gray-300 relative items-center"
-      >
+      <div className="bg-gradient-page min-w-full min-h-screen flex justify-center pt-5 border border-gray-300 relative items-center">
         <Map />
       </div>
     </MediaContextProvider>

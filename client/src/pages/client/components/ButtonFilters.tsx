@@ -2,21 +2,19 @@ import { Icon, IconButton } from "@mui/material";
 import React from "react";
 import { BsFlower1 } from "react-icons/bs";
 import { GiFlowers, GiFruitTree, GiGrass } from "react-icons/gi";
+import { handleIconSize } from "../../../utils/utils";
 
 export default function ButtonFilters({
   screenSize,
   setSelectedType,
   handleTypeClick,
+  flexStyle,
 }: any) {
   return (
-    <div
-      className={`text-black flex ${
-        screenSize === "lg" ? "flex-col" : "flex-row mx-5"
-      }`}
-    >
+    <div className={`text-black flex ${flexStyle.child}`}>
       <div className="bg-lime-600">
         <IconButton onClick={() => setSelectedType(null)}>
-          <Icon fontSize="large">
+          <Icon fontSize={handleIconSize(screenSize)}>
             <BsFlower1 />
           </Icon>
         </IconButton>
@@ -24,7 +22,7 @@ export default function ButtonFilters({
 
       <div className="bg-cyan-200">
         <IconButton onClick={() => handleTypeClick("flower")}>
-          <Icon fontSize="large">
+          <Icon fontSize={handleIconSize(screenSize)}>
             <GiFlowers />
           </Icon>
         </IconButton>
@@ -32,7 +30,7 @@ export default function ButtonFilters({
 
       <div className="bg-rose-400">
         <IconButton onClick={() => handleTypeClick("grass")}>
-          <Icon fontSize="large">
+          <Icon fontSize={handleIconSize(screenSize)}>
             <GiGrass />
           </Icon>
         </IconButton>
@@ -40,7 +38,7 @@ export default function ButtonFilters({
 
       <div className="bg-yellow-200">
         <IconButton onClick={() => handleTypeClick("tree")}>
-          <Icon fontSize="large">
+          <Icon fontSize={handleIconSize(screenSize)}>
             <GiFruitTree />
           </Icon>
         </IconButton>
