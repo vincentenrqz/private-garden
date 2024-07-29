@@ -3,12 +3,21 @@ import { Box, Button, Paper } from "@mui/material";
 import { IoIosInformationCircle } from "react-icons/io";
 
 interface Props {
+  data: any;
   paperRef: React.RefObject<HTMLDivElement>;
   open: boolean;
   readMore: boolean;
   toggleReadMore: () => void;
 }
-const CustomDrawer = ({ paperRef, open, readMore, toggleReadMore }: Props) => {
+const CustomDrawer = ({
+  data,
+  paperRef,
+  open,
+  readMore,
+  toggleReadMore,
+}: Props) => {
+  console.log("data", data);
+
   return (
     <Paper
       ref={paperRef}

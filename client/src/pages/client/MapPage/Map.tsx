@@ -204,6 +204,7 @@ const MapPage = () => {
     }
   };
 
+  // Display the marker position
   const matchPosition = (position: any) => {
     const matchedPositionMarker = markers?.find((marker: any) => {
       return (
@@ -215,10 +216,12 @@ const MapPage = () => {
     setData(matchedPositionMarker);
   };
 
+  // Handles selected type: Trees/Flowers/Grass, etc.
   const handleTypeClick = (type: string) => {
     setSelectedType(type);
   };
 
+  // Displays filtered marker by clicking button filters
   const filteredMarkers = selectedType
     ? markers.filter((marker) => marker?.type === selectedType)
     : markers;
@@ -336,6 +339,7 @@ const MapPage = () => {
         </Box>
       )}
       <CustomDrawer
+        data={data}
         paperRef={paperRef}
         open={open}
         readMore={readMore}
