@@ -245,6 +245,8 @@ const MapPage = () => {
     }
   };
 
+  const largeScreen = screenSize === "lg";
+
   return (
     <div className="flex flex-col">
       <Box
@@ -253,9 +255,9 @@ const MapPage = () => {
           paddingBottom: "8px",
           paddingLeft: "16px",
           paddingRight: "16px",
-          backgroundColor: "white",
           height: "82vh",
-          boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
+          // backgroundColor: "white",
+          // boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
         }}
       >
         <div className="flex flex-row items-end">
@@ -316,14 +318,23 @@ const MapPage = () => {
               })}
             <MapClickHandler onClick={handleMapClick} />
           </MapContainer>
+          {largeScreen && (
+            <ButtonFilters
+              screenSize={screenSize}
+              setSelectedType={setSelectedType}
+              handleTypeClick={handleTypeClick}
+            />
+          )}
         </div>
       </Box>
-      <Box sx={{ display: "flex" }}>
-        <ButtonFilters
-          setSelectedType={setSelectedType}
-          handleTypeClick={handleTypeClick}
-        />
-      </Box>
+      {!largeScreen && (
+        <Box sx={{ display: "flex" }}>
+          <ButtonFilters
+            setSelectedType={setSelectedType}
+            handleTypeClick={handleTypeClick}
+          />
+        </Box>
+      )}
       <CustomDrawer
         paperRef={paperRef}
         open={open}
