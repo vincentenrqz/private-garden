@@ -25,30 +25,30 @@ connectMongoDB();
 //User Routes
 app.post("/", UsersController.createUsersData);
 app.get("/", UsersController.getAllUsersData);
-app.get("/", UsersController.getUsersDataById);
-app.put("/", UsersController.updateUsersData);
-app.delete("/", UsersController.deleteUsersData);
+app.get("/:id", UsersController.getUsersDataById);
+app.put("/:id", UsersController.updateUsersData);
+app.delete("/:id", UsersController.deleteUsersData);
 
 //Types Routes
 app.post("/", TypesController.createTypesData);
 app.get("/", TypesController.getAllTypesData);
-app.get("/", TypesController.getTypesDataById);
-app.put("/", TypesController.updateTypesData);
-app.delete("/", TypesController.deleteTypesData);
+app.get("/:od", TypesController.getTypesDataById);
+app.put("/:id", TypesController.updateTypesData);
+app.delete("/:id", TypesController.deleteTypesData);
 
 //Species Routes
 app.post("/", SpeciesController.createSpeciesData);
 app.get("/", SpeciesController.getAllSpeciesData);
-app.get("/", SpeciesController.getSpeciesDataById);
-app.put("/", SpeciesController.updateSpeciesData);
-app.delete("/", SpeciesController.deleteSpeciesData);
+app.get("/:id", SpeciesController.getSpeciesDataById);
+app.put("/:id", SpeciesController.updateSpeciesData);
+app.delete("/:id", SpeciesController.deleteSpeciesData);
 
 //Attachments routes
 app.post("/", AttachmentsController.createAttachmentsData);
 app.get("/", AttachmentsController.getAllAttachmentsData);
-app.get("/", AttachmentsController.getAttachmentsDataById);
-app.put("/", AttachmentsController.updateAttachmentsData);
-app.delete("/", AttachmentsController.deleteAttachmentData);
+app.get("/:id", AttachmentsController.getAttachmentsDataById);
+app.put("/:id", AttachmentsController.updateAttachmentsData);
+app.delete("/:id", AttachmentsController.deleteAttachmentData);
 
 app.listen(process.env.PORT, () => {
   console.log("SERVER RUNNING");
