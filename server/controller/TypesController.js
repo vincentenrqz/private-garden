@@ -40,8 +40,8 @@ const getTypesDataById = async (req, res) => {
 const updateTypesData = async (req, res) => {
   try {
     const id = req.params.id;
-    const data = await Types.findByIdAndUpdate(id, { name, type_id, icon });
-    console.log("updated types data", data);
+    const { name, type_id, icon } = req.body;
+    await Types.findByIdAndUpdate(id, { name, type_id, icon });
 
     const types = await Types.findById(id);
     res.json({ types });

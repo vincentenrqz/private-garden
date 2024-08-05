@@ -47,11 +47,12 @@ const updateUsersData = async (req, res) => {
     const { email, password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const users = await Users.findByIdAndUpdate(id, {
+    await Users.findByIdAndUpdate(id, {
       email,
       password: hashedPassword,
     });
-    res.json({ users });
+    const user = await Users.findById(id);
+    res.json({ user });
   } catch (error) {
     console.log("Error Updating Users Data: ", error);
     res.status(500).json({ error: "Internal Server Error" });

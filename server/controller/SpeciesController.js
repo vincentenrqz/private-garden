@@ -61,7 +61,8 @@ const updateSpeciesData = async (req, res) => {
       description,
       attachments,
     } = req.body;
-    const data = await Species.findByIdAndUpdate(id, {
+
+    await Species.findByIdAndUpdate(id, {
       name,
       sub_name,
       scientific_name,
@@ -71,7 +72,6 @@ const updateSpeciesData = async (req, res) => {
       attachments,
     });
 
-    console.log("Updated Data", data);
     //Fetch the updated data automatically
     const species = await Species.findById(id);
     res.json({ species });
