@@ -184,7 +184,11 @@ const MapPage = () => {
   useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (paperRef.current && !paperRef.current.contains(e.target as Node)) {
-        paperRef.current.style.left = "-43%";
+        if (screenSize?.screenSize === "xs") {
+          paperRef.current.style.top = "95%";
+        } else {
+          paperRef.current.style.left = "-43%";
+        }
         setOpen(false);
         setReadMore(false);
       }
@@ -220,7 +224,11 @@ const MapPage = () => {
   const toggleDrawer = (newOpen: boolean) => {
     setOpen(newOpen);
     if (paperRef.current) {
-      paperRef.current.style.left = "-15%";
+      if (screenSize?.screenSize === "xs") {
+        paperRef.current.style.top = "80%";
+      } else {
+        paperRef.current.style.left = "-15%";
+      }
     }
   };
 
@@ -249,28 +257,38 @@ const MapPage = () => {
   const toggleReadMore = () => {
     setReadMore(!readMore);
     if (!readMore && paperRef.current) {
-      paperRef.current.style.left = "50%";
+      if (screenSize?.screenSize === "xs") {
+        paperRef.current.style.top = "40%";
+      } else {
+        paperRef.current.style.left = "50%";
+      }
     }
 
     if (readMore && paperRef.current) {
-      paperRef.current.style.left = "-43%";
+      if (screenSize?.screenSize === "xs") {
+        paperRef.current.style.top = "95%";
+      } else {
+        paperRef.current.style.left = "-43%";
+      }
     }
   };
 
+  const supportAllDevice = {
+    paddingTop: "8px",
+    paddingBottom: "8px",
+    paddingLeft: "16px",
+    paddingRight: "16px",
+    height: mapSize?.containerHeight,
+    maxWidth: mapSize?.width,
+    backgroundColor: "#c9c9c9",
+    boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
+  };
+
+  const mapStyle = screenSize?.screenSize !== "xs" ? supportAllDevice : {};
+
   return (
     <div className={`flex ${flexStyle?.parent} `}>
-      <Box
-        style={{
-          paddingTop: "8px",
-          paddingBottom: "8px",
-          paddingLeft: "16px",
-          paddingRight: "16px",
-          height: mapSize?.containerHeight,
-          maxWidth: mapSize?.width,
-          backgroundColor: "#c9c9c9",
-          boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
-        }}
-      >
+      <Box style={mapStyle}>
         <div className="flex flex-row items-end">
           <MapContainer
             key={defaultZoom}
@@ -280,7 +298,7 @@ const MapPage = () => {
             minZoom={minZoom}
             maxZoom={5}
             zoomControl={true}
-            scrollWheelZoom={false}
+            scrollWheelZoom={true}
             doubleClickZoom={false}
             maxBounds={maxBounds}
             maxBoundsViscosity={1.0}

@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Button, Paper } from "@mui/material";
 import { IoIosInformationCircle } from "react-icons/io";
+import { useScreenSize } from "../../../context/MediaContext";
 
 interface Props {
   data: any;
@@ -9,25 +10,26 @@ interface Props {
   readMore: boolean;
   toggleReadMore: () => void;
 }
-const CustomDrawer = ({
-  data,
-  paperRef,
-  open,
-  readMore,
-  toggleReadMore,
-}: Props) => {
+const CustomDrawer = ({ paperRef, open, readMore, toggleReadMore }: Props) => {
+  const screenSize = useScreenSize();
+
+  const informationStyle =
+    screenSize?.screenSize === "xs"
+      ? { borderTopLeftRadius: 10, borderTopRightRadius: 10, height: 40 }
+      : { borderTopRightRadius: 10, borderBottomRightRadius: 10, height: 60 };
+
   return (
     <Paper
       ref={paperRef}
       sx={{
         position: "fixed",
-        top: "10%",
+        top: screenSize?.screenSize === "xs" ? "95%" : "10%",
         bottom: 0,
-        left: "-43%",
+        left: screenSize?.screenSize === "xs" ? "50%" : "-43%",
         transform: "translateX(-50%)",
         zIndex: 1000,
         height: "75vh",
-        width: "90%",
+        width: screenSize?.screenSize === "xs" ? "98%" : "90%",
         transition: "all 0.3s ease",
         overflow: "visible",
       }}
@@ -35,16 +37,14 @@ const CustomDrawer = ({
       <Box
         sx={{
           position: "absolute",
-          top: 20,
-          right: "-50px",
+          top: screenSize?.screenSize === "xs" ? -40 : 20,
+          right: screenSize?.screenSize === "xs" ? "10px" : "-50px",
           width: 50,
-          height: 60,
           backgroundColor: "rgba(237,233,146,255)",
           display: "flex",
           alignItems: "center",
           padding: 1,
-          borderTopRightRadius: 10,
-          borderBottomRightRadius: 10,
+          ...informationStyle,
         }}
       >
         <IoIosInformationCircle color="#2196f3" size="40px" />
@@ -71,7 +71,9 @@ const CustomDrawer = ({
           }}
         >
           <Box sx={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            Content 2
+            <Button onClick={() => toggleReadMore()} sx={{ color: "black" }}>
+              {open ? (readMore ? "Read less" : "Read more") : ""}
+            </Button>
           </Box>
           <Box
             sx={{
