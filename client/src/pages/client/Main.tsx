@@ -2,8 +2,7 @@ import { useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import CoverPage from "./CoverPage";
 import Map from "./MapPage/Map";
-import { useMediaQuery } from "@mui/material";
-import { MediaContextProvider } from "../../context/MediaContext";
+import { useScreenSize } from "../../context/MediaContext";
 
 const pages = [
   {
@@ -21,6 +20,7 @@ const pages = [
 const Main = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const controls = useAnimation();
+  const screenSize = useScreenSize();
 
   const handleDragEnd = (event: any, info: any) => {
     console.log("Drag event", event);
@@ -53,11 +53,15 @@ const Main = () => {
   };
 
   return (
-    <MediaContextProvider>
-      <div className="bg-gradient-page min-w-full min-h-screen flex justify-center pt-5 border border-gray-300 relative items-center">
-        <Map />
-      </div>
-    </MediaContextProvider>
+    <div
+      className={`bg-gradient-page ${
+        screenSize?.screenSize === "xs"
+          ? "min-w-full min-h-screen flex justify-center"
+          : "min-w-full min-h-screen flex justify-center pt-5 items-center"
+      }`}
+    >
+      <Map />
+    </div>
     // <div
     //   style={{
     //     overflow: "hidden",

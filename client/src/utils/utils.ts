@@ -17,7 +17,11 @@ export const handleMapSize = (
 ): { height: string; width: string; containerHeight: string } | undefined => {
   switch (screenSize?.screenSize) {
     case "xs":
-      return { height: "53vh", width: "90vw", containerHeight: "55vh" };
+      return {
+        height: "53vh",
+        width: screenSize?.orientation === "portrait" ? "100vw" : "80vw",
+        containerHeight: "55vh",
+      };
     case "sm":
       return {
         height: "73vh",
