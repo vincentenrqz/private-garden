@@ -21,13 +21,12 @@ export default function Sidebar() {
         <PieChartIcon
           fontSize="large"
           className={`${
-            location.pathname === "/admin/dashboard/"
-              ? "text-blue-500"
-              : "text-gray-800"
+            location.hash === "#overview" ? "text-blue-500" : "text-gray-800"
           }`}
         />
       ),
-      route: "/admin/dashboard/",
+      route: "/admin",
+      cardId: "overview",
     },
     {
       name: "Species",
@@ -35,27 +34,25 @@ export default function Sidebar() {
         <FormatListBulletedIcon
           fontSize="large"
           className={`${
-            location.pathname === "/admin/species/"
-              ? "text-blue-500"
-              : "text-gray-800"
+            location.hash === "#species" ? "text-blue-500" : "text-gray-800"
           }`}
         />
       ),
-      route: "/admin/species/",
+      route: "/admin/species",
+      cardId: "species",
     },
     {
-      name: "Maps",
+      name: "Types",
       icon: (
         <PlaceIcon
           fontSize="large"
           className={`${
-            location.pathname === "/admin/maps/"
-              ? "text-blue-500"
-              : "text-gray-800"
+            location.hash === "#types" ? "text-blue-500" : "text-gray-800"
           }`}
         />
       ),
-      route: "/admin/maps/",
+      route: "/admin/types",
+      cardId: "types",
     },
     {
       name: "Settings",
@@ -63,13 +60,14 @@ export default function Sidebar() {
         <SettingsIcon
           fontSize="large"
           className={`${
-            location.pathname === "/admin/settings/"
+            location.hash === "#user-settings"
               ? "text-blue-500"
               : "text-gray-800"
           }`}
         />
       ),
-      route: "/admin/settings/",
+      route: "/admin/user-settings",
+      cardId: "user-settings",
     },
   ];
 
@@ -84,20 +82,33 @@ export default function Sidebar() {
         {menuList.map((list) => (
           <MenuList
             key={list.name}
-            onClick={() => navigate(list.route)}
+            // onClick={() => navigate(list.route)}
             className={`${
-              location.pathname === list.route
+              location.hash === `#${list.cardId}`
                 ? "text-blue-500"
                 : "text-gray-800"
             }`}
           >
-            <MenuItem>
-              <ListItemIcon className="mr-2">{list.icon}</ListItemIcon>
-              <Typography variant="inherit">{list.name}</Typography>
-            </MenuItem>
+            <a
+              href={`#${list.cardId}`}
+              onClick={() => smoothScroll(list.cardId)}
+              className="flex items-center"
+            >
+              <MenuItem>
+                <ListItemIcon className="mr-2">{list.icon}</ListItemIcon>
+                <Typography variant="inherit">{list.name}</Typography>
+              </MenuItem>
+            </a>
           </MenuList>
         ))}
       </div>
     </Container>
   );
+}
+
+function smoothScroll(targetId: string) {
+  const element = document.getElementById(targetId);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
 }

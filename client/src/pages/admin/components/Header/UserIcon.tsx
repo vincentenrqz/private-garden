@@ -71,6 +71,7 @@ export default function UserIcon() {
           placement="bottom-start"
           transition
           disablePortal
+          style={{ zIndex: 1500 }}
         >
           {({ TransitionProps, placement }) => (
             <Grow
@@ -89,14 +90,13 @@ export default function UserIcon() {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem>Profile</MenuItem>
-                    <MenuItem onClick={() => navigate("/admin/settings/")}>
-                      My account
+                    <MenuItem onClick={() => navigate("/admin/user-settings")}>
+                      User Settings
                     </MenuItem>
                     <Divider />
                     <MenuItem
                       style={{ color: "red" }}
-                      onClick={() => navigate("/admin/")}
+                      onClick={() => navigate("/signin")}
                     >
                       <LogoutIcon className="mr-1" fontSize="small" />
                       Logout

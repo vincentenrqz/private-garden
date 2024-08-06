@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "../Header/Header";
-import Sidebar from "../Sidebar/Sidebar";
+import Header from "../../components/Header/Header";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import { Grid, useMediaQuery } from "@mui/material";
-import MediaControlCard from "./TestFile";
+import MediaCard from "./MediaCard";
 
 const AdminDashboard = () => {
   const mobile = useMediaQuery("(max-width:800px)");
@@ -18,7 +18,7 @@ const AdminDashboard = () => {
             </Grid>
             <Grid item xs={12}>
               <div className="my-10 mr-6">
-                <MediaControlCard />
+                <MediaCard />
               </div>
             </Grid>
           </>
@@ -30,7 +30,7 @@ const AdminDashboard = () => {
             </Grid>
             <Grid item xs={8}>
               <div className="my-10 mr-6">
-                <MediaControlCard />
+                <MediaCard />
               </div>
             </Grid>
           </>

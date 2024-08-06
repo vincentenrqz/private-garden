@@ -13,7 +13,7 @@ export default function Header() {
     <Container maxWidth="xl">
       <div className="flex mx-6 justify-between py-3 max-md:flex-wrap border-b">
         <div
-          onClick={() => navigate("/admin/dashboard/")}
+          onClick={() => navigate("/admin")}
           className="flex items-center cursor-pointer gap-5 justify-between text-base leading-6 text-gray-500"
         >
           <img
