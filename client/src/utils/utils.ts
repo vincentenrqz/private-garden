@@ -1,3 +1,5 @@
+import { format, parseISO } from "date-fns";
+
 export const handleFlexStyles = (
   screenSize: any
 ): { parent: string; child: string } | undefined => {
@@ -18,8 +20,8 @@ export const handleMapSize = (
   switch (screenSize?.screenSize) {
     case "xs":
       return {
-        height: "53vh",
-        width: screenSize?.orientation === "portrait" ? "100vw" : "80vw",
+        height: "54vh",
+        width: screenSize?.orientation === "portrait" ? "95vw" : "80vw",
         containerHeight: "55vh",
       };
     case "sm":
@@ -55,4 +57,9 @@ export const handleIconSize = (screenSize: any) => {
     default:
       return "inherit";
   }
+};
+
+export const formatDate = (date: any) => {
+  const parseDate = parseISO(date);
+  return format(parseDate, "MMMM d, yyyy");
 };

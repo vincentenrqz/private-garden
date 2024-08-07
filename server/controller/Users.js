@@ -10,7 +10,7 @@ const createUsersData = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const users = await Users.create({ email, password: hashedPassword });
 
-    res.json({ users });
+    return res.json({ users });
   } catch (error) {
     console.log("Error Creating Users Data", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -21,7 +21,7 @@ const createUsersData = async (req, res) => {
 const getAllUsersData = async (req, res) => {
   try {
     const users = await Users.find();
-    res.json({ users });
+    return res.json({ users });
   } catch (error) {
     console.log("Error Fetching All Users Data", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -33,7 +33,7 @@ const getUsersDataById = async (req, res) => {
   try {
     const id = req.params.id;
     const users = await Users.findById(id);
-    res.json({ users });
+    return res.json({ users });
   } catch (error) {
     console.log("Error Fetching Users Data by Id", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -52,7 +52,7 @@ const updateUsersData = async (req, res) => {
       password: hashedPassword,
     });
     const user = await Users.findById(id);
-    res.json({ user });
+    return res.json({ user });
   } catch (error) {
     console.log("Error Updating Users Data: ", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -64,7 +64,7 @@ const deleteUsersData = async (req, res) => {
   try {
     const id = req.params.id;
     await Users.findByIdAndDelete(id);
-    res.json({ success: "Successfully Deleted User Data Id: ", id });
+    return res.json({ success: "Successfully Deleted User Data Id: ", id });
   } catch (error) {
     console.log("Error Deleting User Data", error);
     res.status(500).json({ error: "Internal Server Error" });

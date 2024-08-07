@@ -5,7 +5,7 @@ const createTypesData = async (req, res) => {
   try {
     const { name, type_id, icon } = req.body;
     const types = await Types.create({ name, type_id, icon });
-    res.json({ types });
+    return res.json({ types });
   } catch (error) {
     console.log("Error Creating Types Data", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -16,7 +16,7 @@ const createTypesData = async (req, res) => {
 const getAllTypesData = async (req, res) => {
   try {
     const types = await Types.find();
-    res.json({ types });
+    return res.json({ types });
   } catch (error) {
     console.log("Error Fetching All Types Data", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -29,7 +29,7 @@ const getTypesDataById = async (req, res) => {
     const id = req.params.id;
     const types = await Types.findById(id);
 
-    res.json({ types });
+    return res.json({ types });
   } catch (error) {
     console.log("Error Fetching Types Data By Id", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -44,7 +44,7 @@ const updateTypesData = async (req, res) => {
     await Types.findByIdAndUpdate(id, { name, type_id, icon });
 
     const types = await Types.findById(id);
-    res.json({ types });
+    return res.json({ types });
   } catch (error) {
     console.log("Error Updating Types Data", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -55,7 +55,7 @@ const deleteTypesData = async (req, res) => {
   try {
     const id = req.params.id;
     await Types.findByIdAndDelete(id);
-    res.json({ success: "Successfully Deleted Types Data Id: ", id });
+    return res.json({ success: "Successfully Deleted Types Data Id: ", id });
   } catch (error) {
     console.log("Error Deleting Types Data: ", error);
     res.status(500).json({ error: "Internal Server Error" });

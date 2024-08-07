@@ -5,7 +5,7 @@ const createAttachmentsData = async (req, res) => {
   try {
     const { file_name, species_id } = req.body;
     const attachments = await Attachments.create({ file_name, species_id });
-    res.json({ attachments });
+    return res.json({ attachments });
   } catch (error) {
     console.log("Error Creating Attachments Data", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -16,7 +16,7 @@ const createAttachmentsData = async (req, res) => {
 const getAllAttachmentsData = async (req, res) => {
   try {
     const attachments = await Attachments.find();
-    res.json({ attachments });
+    return res.json({ attachments });
   } catch (error) {
     console.log("Error Fetching All Attachments Data", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -28,7 +28,7 @@ const getAttachmentsDataById = async (req, res) => {
   try {
     const id = req.params.id;
     const attachments = await Attachments.findByIdAndDelete(id);
-    res.json({ attachments });
+    return res.json({ attachments });
   } catch (error) {
     console.log("Error Fetching Attachments Data by Id", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -43,7 +43,7 @@ const updateAttachmentsData = async (req, res) => {
     await Attachments.findByIdAndUpdate(id, { file_name, species_id });
 
     const attachment = await Attachments.findById(id);
-    res.json({ attachment });
+    return res.json({ attachment });
   } catch (error) {
     console.log("Error Updating Attachment Data", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -55,7 +55,10 @@ const deleteAttachmentData = async (req, res) => {
   try {
     const id = req.params.id;
     await Attachments.findByIdAndDelete(id);
-    res.json({ success: "Succesfully Deleted Attachment Data Id: ", id });
+    return res.json({
+      success: "Succesfully Deleted Attachment Data Id: ",
+      id,
+    });
   } catch (error) {
     console.log("Error Deleting Attachment Data", error);
     res.status(500).json({ error: "Internal Server Error" });
