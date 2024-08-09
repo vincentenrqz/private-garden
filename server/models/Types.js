@@ -3,9 +3,18 @@ const { Schema } = mongoose;
 
 const TypeSchema = new Schema(
   {
-    name: String,
-    type_id: Number,
-    icon: String,
+    name: { type: String, required: true },
+    icons: [
+      {
+        iconUrl: String,
+        iconSize: [Number],
+        iconAnchor: [Number],
+        popupAnchor: [Number],
+        tooltipAnchor: [Number],
+        shadowUrl: String,
+        shadowSize: [Number],
+      },
+    ],
   },
   {
     timestamps: true,

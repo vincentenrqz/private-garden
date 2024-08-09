@@ -132,7 +132,7 @@ const Species = () => {
         <Loader />
       ) : (
         <>
-          <Container maxWidth="lg" sx={{ marginTop: 10 }}>
+          <Container maxWidth="xl" sx={{ marginTop: 10 }}>
             <Box
               sx={{
                 display: "flex",
