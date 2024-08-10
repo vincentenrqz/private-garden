@@ -6,6 +6,7 @@ import TypesCard from "../../components/Card/TypesCard";
 import SettingsCard from "../../components/Card/SettingsCard";
 import { Skeleton } from "@mui/material";
 import MapCard from "../../components/Card/MapCard";
+import TypeCard from "../../components/Card/TypeCard";
 
 export default function MediaControlCard() {
   const { typesData, speciesData, loading, error } = useFetchData();
@@ -24,8 +25,9 @@ export default function MediaControlCard() {
   return (
     <React.Fragment>
       <SpeciesCard />
-      <TypesCard />
+      {/* <TypesCard /> */}
       <MapCard />
+      <TypeCard />
       <SettingsCard />
     </React.Fragment>
   );

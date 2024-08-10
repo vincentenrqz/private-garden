@@ -48,7 +48,7 @@ const Map = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <Container maxWidth="lg" sx={{ marginTop: 10 }}>
+        <Container maxWidth="xl" sx={{ marginTop: 10 }}>
           <Stack direction="column" spacing={4}>
             <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
               <IconButton aria-label="back" onClick={() => navigate("/admin")}>

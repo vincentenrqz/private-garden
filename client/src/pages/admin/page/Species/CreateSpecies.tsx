@@ -95,7 +95,7 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
         Create Species
       </Button>
       <ModalButton
-        key="create"
+        key="create-species"
         open={open}
         setOpen={setOpen}
         title="Create Species"

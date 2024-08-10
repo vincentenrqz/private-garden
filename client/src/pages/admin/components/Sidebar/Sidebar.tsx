@@ -68,6 +68,19 @@ export default function Sidebar() {
       cardId: "maps",
     },
     {
+      name: "Types",
+      icon: (
+        <PlaceIcon
+          fontSize="large"
+          className={`${
+            location.hash === "/types" ? "text-blue-500" : "text-gray-800"
+          }`}
+        />
+      ),
+      route: "/admin/types",
+      cardId: "Types",
+    },
+    {
       name: "Settings",
       icon: (
         <SettingsIcon
