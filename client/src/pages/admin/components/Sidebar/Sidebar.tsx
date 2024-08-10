@@ -2,12 +2,13 @@ import React from "react";
 import MenuList from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
+import { Container, ListItemIcon, useMediaQuery } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import PieChartIcon from "@mui/icons-material/PieChart";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PlaceIcon from "@mui/icons-material/Place";
-import { Container, ListItemIcon, useMediaQuery } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -66,19 +67,6 @@ export default function Sidebar() {
       ),
       route: "/admin/maps",
       cardId: "maps",
-    },
-    {
-      name: "Types",
-      icon: (
-        <PlaceIcon
-          fontSize="large"
-          className={`${
-            location.hash === "/types" ? "text-blue-500" : "text-gray-800"
-          }`}
-        />
-      ),
-      route: "/admin/types",
-      cardId: "Types",
     },
     {
       name: "Settings",
