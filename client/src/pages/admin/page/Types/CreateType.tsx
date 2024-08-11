@@ -13,6 +13,7 @@ import ModalButton from "../../components/ModalButton";
 import { IconDto, TypesDto } from "../../../../types/types.interface";
 import pica from "pica";
 import { typesService } from "../../../../services/types.service";
+import SubmitButton from "../../components/SubmitButton";
 
 type Props = {
   handleOpen: () => void;
@@ -34,7 +35,10 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {};
+  ) => {
+    console.log("e.target.value", e.target.value);
+    setTypes({ name: e.target.value });
+  };
 
   const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -143,6 +147,7 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
 
   console.log("customizeIcon", customizeIcon);
   const handleSubmit = async () => {};
+  console.log("types", types);
 
   return (
     <>
@@ -298,6 +303,24 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                   </Card>
                 );
               })}
+            <Stack
+              direction="row"
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                paddingTop: 5,
+              }}
+              spacing={2}
+            >
+              <Button variant="outlined" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <SubmitButton
+              // isLoading={isLoading} onClick={handleSubmit}
+              >
+                Submit
+              </SubmitButton>
+            </Stack>
           </Stack>
         </form>
       </ModalButton>
