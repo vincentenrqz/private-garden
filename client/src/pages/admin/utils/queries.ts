@@ -1,42 +1,48 @@
 import { useState, useEffect } from "react";
-
-const fetchAllData = async () => {
-  try {
-    const typesResponse = await fetch("http://localhost:3000/types");
-    if (!typesResponse.ok) {
-      console.error("Error fetching types data");
-      throw new Error("Internal Server Error");
-    }
-    const types = await typesResponse.json();
-
-    const speciesResponse = await fetch("http://localhost:3000/species");
-    if (!speciesResponse.ok) {
-      console.error("Error fetching species data");
-      throw new Error("Internal Server Error");
-    }
-    const species = await speciesResponse.json();
-
-    return { types, species };
-  } catch (error) {
-    console.error("Error in fetchAllData:", error);
-    return { types: [], species: [] };
-  }
-};
+import { speciesService } from "../../../services/species.service";
+import { typesService } from "../../../services/types.service";
+import { TypesDto } from "../../../types/types.interface";
+import { SpeciesDto } from "../../../types/species.interface";
 
 export const useFetchData = () => {
-  const [typesData, setTypesData] = useState<any[]>([]);
-  const [speciesData, setSpeciesData] = useState<any[]>([]);
+  const [typesData, setTypesData] = useState<TypesDto[]>([]);
+  const [speciesData, setSpeciesData] = useState<SpeciesDto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState({
+    message: "",
+    status: false,
+    open: false,
+  });
+
+  //Fetch species data
+  const fetchSpecies = async () => {
+    const response = await speciesService.getSpecies();
+    const { data } = response;
+    setSpeciesData(data);
+  };
+
+  //fetch types data
+  const fetchTypes = async () => {
+    const response = await typesService.getType();
+    const { data } = response;
+    setTypesData(data?.types);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { types, species } = await fetchAllData();
-        setTypesData(types?.types);
-        setSpeciesData(species);
+        fetchSpecies();
+        fetchTypes();
       } catch (error: any) {
-        setError(error.message);
+        const { message, status } = error?.response?.data;
+        setMessage({
+          message,
+          status,
+          open: true,
+        });
+
+        console.error("Error fetching species", error);
+        setMessage(error.message);
       } finally {
         setLoading(false);
       }
@@ -45,5 +51,5 @@ export const useFetchData = () => {
     fetchData();
   }, []);
 
-  return { typesData, speciesData, loading, error };
+  return { typesData, speciesData, loading, message, fetchSpecies, fetchTypes };
 };
