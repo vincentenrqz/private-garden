@@ -104,7 +104,7 @@ const EditSpecies = ({
                 variant="outlined"
                 size="small"
                 fullWidth
-                value={species?.name || ""}
+                defaultValue={species?.name || ""}
                 onChange={handleChange}
               />
               <TextField
@@ -113,7 +113,7 @@ const EditSpecies = ({
                 variant="outlined"
                 size="small"
                 fullWidth
-                value={species?.sub_name || ""}
+                defaultValue={species?.sub_name || ""}
                 onChange={handleChange}
               />
             </Stack>
@@ -128,7 +128,7 @@ const EditSpecies = ({
                 helperText="Please select a type"
                 size="small"
                 fullWidth
-                value={species?.type_id || ""}
+                defaultValue={species?.type_id || ""}
                 onChange={handleTypes}
               >
                 <MenuItem key="1" value={1}>
@@ -160,7 +160,7 @@ const EditSpecies = ({
                 rows={4}
                 fullWidth
                 size="small"
-                value={species?.scientific_name || ""}
+                defaultValue={species?.scientific_name || ""}
                 onChange={handleChange}
               />
               <TextField
@@ -170,7 +170,7 @@ const EditSpecies = ({
                 rows={4}
                 fullWidth
                 size="small"
-                value={species?.etymology || ""}
+                defaultValue={species?.etymology || ""}
                 onChange={handleChange}
               />
               <TextField
@@ -180,7 +180,7 @@ const EditSpecies = ({
                 rows={4}
                 fullWidth
                 size="small"
-                value={species?.description || ""}
+                defaultValue={species?.description || ""}
                 onChange={handleChange}
               />
             </Stack>
