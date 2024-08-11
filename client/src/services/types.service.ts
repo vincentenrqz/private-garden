@@ -1,20 +1,20 @@
 import { apiService } from "./api.service";
+import { TypesDto } from "../types/types.interface";
 
 const BASE_URL = "types";
 const UPLOAD_URL = "types/resize-icon";
 
-export interface TypesServiceDto {
-  name: string;
-  sub_name?: string;
-  type_id?: string;
-  scientific_name?: string;
-  etymology?: string;
-  description?: string;
-}
-
 export const typesService = {
-  async createType(types: TypesServiceDto) {
+  async createType(types: TypesDto) {
     return apiService.post(BASE_URL, { types });
+  },
+
+  async getType() {
+    return apiService.get(BASE_URL);
+  },
+
+  async deleteType(id: string) {
+    return apiService.delete(`${BASE_URL}/${id}`);
   },
 
   async resizeImage(formData: any) {

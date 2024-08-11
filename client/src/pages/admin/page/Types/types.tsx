@@ -13,12 +13,13 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import CreateType from "./CreateType";
 import EditType from "./EditType";
+import { typesService } from "../../../../services/types.service";
 
 const Types = () => {
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
-  const [species, setSpecies] = useState<SpeciesDto[]>([]);
+  const [types, setTypes] = useState<SpeciesDto[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedRow, setSelectedRow] = useState<any>(null);
   const [message, setMessage] = useState({
@@ -30,16 +31,16 @@ const Types = () => {
 
   const navigate = useNavigate();
 
-  const fetchSpecies = async () => {
-    const response = await speciesService.getSpecies();
+  const fetchTypes = async () => {
+    const response = await typesService.getType();
     const { data } = response;
-    setSpecies(data);
+    setTypes(data?.types);
   };
 
   useEffect(() => {
     try {
       setIsLoading(true);
-      fetchSpecies();
+      fetchTypes();
     } catch (error: any) {
       const { message, status } = error?.response?.data;
       setMessage({
@@ -48,7 +49,7 @@ const Types = () => {
         open: true,
       });
 
-      console.error("Error fetching species", error);
+      console.error("Error fetching types", error);
     } finally {
       setIsLoading(false);
     }
@@ -74,9 +75,9 @@ const Types = () => {
     }
   };
 
-  const handleDeleteSpecies = async () => {
+  const handleDeleteType = async () => {
     try {
-      const response = await speciesService.deleteSpecies(selectedRow?._id);
+      const response = await typesService.deleteType(selectedRow?._id);
       const { status, message } = response.data;
 
       setMessage({
@@ -86,9 +87,9 @@ const Types = () => {
       });
 
       setOpenMenu(false);
-      fetchSpecies();
+      fetchTypes();
     } catch (error) {
-      console.error("Error deleting species");
+      console.error("Error deleting type");
     }
   };
 
@@ -117,7 +118,7 @@ const Types = () => {
             anchorEl={anchorEl}
             handleClick={handleClickMenu}
             handleClose={handleClose}
-            handleDelete={handleDeleteSpecies}
+            handleDelete={handleDeleteType}
             handleEdit={handleEditMenu}
           />
         </TableCell>
@@ -154,7 +155,7 @@ const Types = () => {
                     component="span"
                     sx={{ color: "gray" }}
                   >
-                    {`(${species?.length})`}
+                    {types?.length}
                   </Typography>
                 </Typography>
               </Stack>
@@ -163,13 +164,13 @@ const Types = () => {
                   handleOpen={handleOpen}
                   open={open}
                   setOpen={setOpen}
-                  forceUpdate={fetchSpecies}
+                  forceUpdate={fetchTypes}
                 />
               </Box>
             </Box>
-            {species.length > 0 ? (
+            {types.length > 0 ? (
               <GenericTable
-                data={species}
+                data={types}
                 headers={["ID", "Name", "Type", "Updated at", ""]}
                 renderRow={renderRow}
               />
@@ -188,10 +189,10 @@ const Types = () => {
           </Container>
           {openEdit && (
             <EditType
-              species={selectedRow}
+              data={selectedRow}
               openEdit={true}
               setOpenEdit={setOpenEdit}
-              forceUpdate={fetchSpecies}
+              forceUpdate={fetchTypes}
             />
           )}
           {message.open && (
