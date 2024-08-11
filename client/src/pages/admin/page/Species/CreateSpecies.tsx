@@ -138,6 +138,7 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
             >
               Type
             </Typography>
+            {/* TODO: FETCH DYNAMICALLY FROM THE CREATED TYPES NAME */}
             <Stack direction="row" spacing={2}>
               <TextField
                 name="type_id"

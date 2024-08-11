@@ -6,16 +6,16 @@ import SubmitButton from "../../components/SubmitButton";
 import Toaster from "../../components/Toaster";
 
 type Props = {
-  species: TypesDto;
+  data: TypesDto;
   openEdit: boolean;
   setOpenEdit: any;
   forceUpdate: any;
 };
 
 //TODO: Create a edit modal for reference: Species.tsx
-const EditType = ({ species, openEdit, setOpenEdit, forceUpdate }: Props) => {
+const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [form, setForm] = useState<TypesDto>(species);
+  const [form, setForm] = useState<TypesDto>(data);
 
   const [message, setMessage] = useState({
     message: "",
@@ -31,12 +31,12 @@ const EditType = ({ species, openEdit, setOpenEdit, forceUpdate }: Props) => {
         key="update"
         open={openEdit}
         setOpen={setOpenEdit}
-        title="Edit Species"
+        title="Edit Types"
       >
         <form onSubmit={handleUpdate}>
           <Stack direction="column" spacing={1}>
             <Typography gutterBottom variant="subtitle1" component="div">
-              Species Name
+              Type
             </Typography>
             <Stack direction="row" spacing={2}>
               <TextField
@@ -45,82 +45,120 @@ const EditType = ({ species, openEdit, setOpenEdit, forceUpdate }: Props) => {
                 variant="outlined"
                 size="small"
                 fullWidth
-                value={species?.name || ""}
-              />
-              <TextField
-                id="sub_name"
-                label="Sub name"
-                variant="outlined"
-                size="small"
-                fullWidth
               />
             </Stack>
-            <Typography gutterBottom variant="subtitle1" component="div">
-              Type
-            </Typography>
-            <Stack direction="row" spacing={2}>
-              <TextField
-                name="type_id"
-                select
-                label="Type"
-                helperText="Please select a type"
-                size="small"
-                fullWidth
-              >
-                <MenuItem key="1" value={1}>
-                  Tree
-                </MenuItem>
-                <MenuItem key="2" value={2}>
-                  Palm
-                </MenuItem>
-                <MenuItem key="3" value={3}>
-                  Shrubs
-                </MenuItem>
-              </TextField>
-            </Stack>
-            <Typography gutterBottom variant="subtitle1" component="div">
-              Information{" "}
+            <Stack direction="column" spacing={1} my={2}>
               <Typography
-                variant="caption"
-                component="span"
-                sx={{ color: "gray" }}
+                gutterBottom
+                variant="subtitle1"
+                component="div"
+                sx={{ fontWeight: "bold" }}
               >
-                (optional)
+                Icons
               </Typography>
-            </Typography>
-            <Stack direction="column" spacing={2}>
-              <TextField
-                id="scientific_name"
-                label="Scientific name"
-                multiline
-                rows={4}
-                fullWidth
-                size="small"
-              />
-              <TextField
-                id="etymology"
-                label="Etymology"
-                multiline
-                rows={4}
-                fullWidth
-                size="small"
-              />
-              <TextField
-                id="description"
-                label="Description"
-                multiline
-                rows={4}
-                fullWidth
-                size="small"
-              />
             </Stack>
-            <Stack direction="column" spacing={2} sx={{ marginY: "5px" }}>
-              <Typography gutterBottom variant="subtitle1" component="div">
-                Attachments
-              </Typography>
-              <Button variant="outlined" fullWidth>
-                Attach images
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: "none", width: "100%" }}
+              // ref={fileInputRef}
+              // onChange={handleIconChange}
+            />
+            <Stack direction="column" spacing={2}>
+              <Button
+                variant="outlined"
+                // onClick={() => triggerFileInput()}
+                fullWidth
+              >
+                Attach Icon
               </Button>
+              {/* {customizeIcon.length > 0 &&
+                customizeIcon.map((item) => {
+                  const { iconUrl, iconSize } = item;
+                  return (
+                    <Card
+                      sx={{
+                        maxWidth: "100%",
+                        display: "column",
+                        marginBottom: 2,
+                      }}
+                    >
+                      <Box display="flex">
+                        <CardContent sx={{ width: 300 }}>
+                          <Typography
+                            sx={{ fontSize: 14 }}
+                            color="text.secondary"
+                            gutterBottom
+                            mb={2}
+                          >
+                            Customize icon dimension
+                          </Typography>
+                          <Stack spacing={2} direction="row">
+                            <Stack
+                              direction="column"
+                              spacing={2}
+                              alignItems="center"
+                            >
+                              <TextField
+                                id="width"
+                                label="Width"
+                                variant="outlined"
+                                size="small"
+                                value={iconWidth}
+                                onChange={(e: any) => handleChangeIconWidth(e)}
+                                fullWidth
+                              />
+                              <TextField
+                                id="height"
+                                label="Height"
+                                variant="outlined"
+                                size="small"
+                                value={iconHeight}
+                                onChange={(e: any) => handleChangeIconHeight(e)}
+                                fullWidth
+                              />
+                            </Stack>
+                          </Stack>
+                          <Stack
+                            spacing={2}
+                            direction="row"
+                            justifyContent="flex-end"
+                            mt={2}
+                          >
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              onClick={() => handleResize(iconUrl)}
+                            >
+                              Resize
+                            </Button>
+                          </Stack>
+                        </CardContent>
+
+                        <CardContent
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            width: 200,
+                            height: 200,
+                            overflow: "hidden",
+                          }}
+                        >
+                          <CardMedia
+                            component="img"
+                            alt="green iguana"
+                            image={`${iconUrl}`}
+                            sx={{
+                              width: "100%",
+                              height: "auto",
+                              objectFit: "none",
+                            }}
+                          />
+                        </CardContent>
+                      </Box>
+                    </Card>
+                  );
+                })} */}
             </Stack>
             <Stack
               direction="row"

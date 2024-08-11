@@ -11,7 +11,6 @@ import {
 import React, { useRef, useState } from "react";
 import ModalButton from "../../components/ModalButton";
 import { IconDto, TypesDto } from "../../../../types/types.interface";
-import pica from "pica";
 import { typesService } from "../../../../services/types.service";
 import SubmitButton from "../../components/SubmitButton";
 
@@ -36,12 +35,15 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    console.log("e.target.value", e.target.value);
-    setTypes({ name: e.target.value });
+    setTypes((prevTypes) => ({
+      ...prevTypes,
+      name: e.target.value,
+    }));
   };
 
   const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file) {
       const reader = new FileReader();
 
@@ -66,6 +68,12 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
             };
 
             setCustomizeIcon((prevIcons) => [...prevIcons, newIcon]);
+
+            //set the newly attached icon
+            setTypes((prevTypes) => ({
+              ...prevTypes,
+              icons: [...customizeIcon, newIcon],
+            }));
           };
           img.src = reader.result as string;
         }
@@ -133,12 +141,19 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
           shadowSize: [],
         };
 
+        // setCustomizeIcon((prevIcons) => prevIcons.map((icon) => newIcon));
         setCustomizeIcon((prevIcons) =>
           prevIcons.map((icon) => ({
             ...icon,
             iconUrl: newIcon.iconUrl,
           }))
         );
+        //set newly resized icon
+
+        setTypes((prevTypes) => ({
+          ...prevTypes,
+          icons: [newIcon],
+        }));
       }
     } catch (error) {
       console.error("Error resizing the image", error);
@@ -146,8 +161,8 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
   };
 
   console.log("customizeIcon", customizeIcon);
-  const handleSubmit = async () => {};
   console.log("types", types);
+  const handleSubmit = async () => {};
 
   return (
     <>
@@ -181,15 +196,6 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
               value={types.name}
               onChange={handleChange}
             />
-            {/* <TextField
-              id="sub_name"
-              label="Sub name"
-              variant="outlined"
-              size="small"
-              fullWidth
-              value={types.sub_name || ""}
-              onChange={handleChange}
-            /> */}
           </Stack>
           <Stack direction="column" spacing={1} my={2}>
             <Typography
@@ -217,10 +223,11 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
               Attach Icon
             </Button>
             {customizeIcon.length > 0 &&
-              customizeIcon.map((item) => {
+              customizeIcon.map((item, index) => {
                 const { iconUrl, iconSize } = item;
                 return (
                   <Card
+                    key={index}
                     sx={{
                       maxWidth: "100%",
                       display: "column",
