@@ -45,7 +45,9 @@ const GenericTable = ({ headers, data, renderRow }: DataProps) => {
           {data
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row: any, index: number) => (
-              <TableRow key={row.id}>{renderRow(row, index)}</TableRow>
+              <TableRow key={row.id || `row-${index}`}>
+                {renderRow(row, index)}
+              </TableRow>
             ))}
         </TableBody>
       </Table>
