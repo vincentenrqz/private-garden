@@ -2,29 +2,29 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
+import { useFetchData } from "../../utils/queries";
+import {
+  findLatestUpdatedAt,
+  formatReadableDate,
+} from "../../../../utils/utils";
 
 export default function TypeCard() {
+  const { typesData } = useFetchData();
   const navigate = useNavigate();
 
+  const latestUpdatedAt = formatReadableDate(
+    new Date(findLatestUpdatedAt(typesData))
+  );
+
   return (
-    <Card
-      id="icons"
-      sx={{ display: "flex", position: "relative", zIndex: 1 }}
-      className="mt-10"
-    >
-      <CardMedia
-        component="img"
-        sx={{ width: 151 }}
-        image="https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp"
-        alt="Live from space album cover"
-      />
+    <Card id="icons" sx={{ position: "relative", zIndex: 1 }} className="mt-10">
       <Box sx={{ flexGrow: 1 }}>
         <Grid container>
           <Grid item xs={7}>
@@ -49,7 +49,7 @@ export default function TypeCard() {
                 component="div"
                 sx={{ marginTop: "1rem" }}
               >
-                Updated at
+                Updated {latestUpdatedAt ? latestUpdatedAt : ""}
               </Typography>
             </CardContent>
           </Grid>
@@ -62,8 +62,23 @@ export default function TypeCard() {
               alignItems: "center",
             }}
           >
+            <FormatListBulletedIcon
+              sx={{ fontSize: "1.3rem" }}
+              className="text-blue-700"
+            />
+            <Typography fontWeight="bold">{typesData?.length}</Typography>
+          </Grid>
+          <Grid
+            item
+            xs
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <IconButton
-              onClick={() => navigate("/admin/types")}
+              onClick={() => navigate("/admin/species")}
               sx={{
                 position: "absolute",
                 right: 10,

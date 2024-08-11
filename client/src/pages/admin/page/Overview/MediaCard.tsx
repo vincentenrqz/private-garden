@@ -8,7 +8,7 @@ import MapCard from "../../components/Card/MapCard";
 import TypeCard from "../../components/Card/TypeCard";
 
 export default function MediaControlCard() {
-  const { typesData, speciesData, loading, error } = useFetchData();
+  const { loading } = useFetchData();
 
   if (loading)
     return Array.from({ length: 3 }).map((_, index) => (

@@ -2,7 +2,6 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 
@@ -14,17 +13,7 @@ export default function MapCard() {
   const navigate = useNavigate();
 
   return (
-    <Card
-      id="maps"
-      sx={{ display: "flex", position: "relative", zIndex: 1 }}
-      className="mt-10"
-    >
-      <CardMedia
-        component="img"
-        sx={{ width: 151 }}
-        image="https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp"
-        alt="Live from space album cover"
-      />
+    <Card id="maps" sx={{ position: "relative", zIndex: 1 }} className="mt-10">
       <Box sx={{ flexGrow: 1 }}>
         <Grid container>
           <Grid item xs={7}>
