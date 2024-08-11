@@ -1,4 +1,4 @@
-import { format, parseISO } from "date-fns";
+import { format, getYear, isToday, isYesterday, parseISO } from "date-fns";
 
 export const handleFlexStyles = (
   screenSize: any
@@ -62,4 +62,25 @@ export const handleIconSize = (screenSize: any) => {
 export const formatDate = (date: any) => {
   const parseDate = parseISO(date);
   return format(parseDate, "MMMM d, yyyy");
+};
+
+export function findLatestUpdatedAt(allData: any) {
+  return allData.reduce((latest, data) => {
+    const updatedAt = new Date(data.updatedAt);
+    return updatedAt > latest ? updatedAt : latest;
+  }, new Date(0));
+}
+
+export const formatReadableDate = (d: Date) => {
+  if (isToday(d)) {
+    return `Today at ${format(d, "p")}`;
+  }
+
+  if (isYesterday(d)) {
+    return `Yesterday at ${format(d, "p")}`;
+  }
+
+  const localizedDate = format(d, "PP").replace(`, ${getYear(d)}`, "");
+
+  return `${localizedDate} at ${format(d, "p")}`;
 };

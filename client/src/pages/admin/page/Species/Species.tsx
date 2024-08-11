@@ -13,12 +13,12 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import EditSpecies from "./EditSpecies";
 import Loader from "../../components/Loader";
+import { useFetchData } from "../../utils/queries";
 
 const Species = () => {
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
-  const [species, setSpecies] = useState<SpeciesDto[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedRow, setSelectedRow] = useState<any>(null);
   const [message, setMessage] = useState({
@@ -26,33 +26,8 @@ const Species = () => {
     status: false,
     open: false,
   });
-  const [isLoading, setIsLoading] = useState(false);
-
+  const { fetchSpecies, speciesData, loading } = useFetchData();
   const navigate = useNavigate();
-
-  const fetchSpecies = async () => {
-    const response = await speciesService.getSpecies();
-    const { data } = response;
-    setSpecies(data);
-  };
-
-  useEffect(() => {
-    try {
-      setIsLoading(true);
-      fetchSpecies();
-    } catch (error: any) {
-      const { message, status } = error?.response?.data;
-      setMessage({
-        message,
-        status,
-        open: true,
-      });
-
-      console.error("Error fetching species", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
 
   const handleOpen = () => {
     setOpen(true);
@@ -84,7 +59,6 @@ const Species = () => {
         status,
         open: true,
       });
-
       setOpenMenu(false);
       fetchSpecies();
     } catch (error) {
@@ -96,7 +70,6 @@ const Species = () => {
     setOpenEdit(true);
   };
 
-  console.log("selectedRow", selectedRow);
   const renderRow = (row: any, index: number) => {
     return (
       <>
@@ -129,7 +102,7 @@ const Species = () => {
   return (
     <>
       <Header />
-      {isLoading ? (
+      {loading ? (
         <Loader />
       ) : (
         <>
@@ -155,7 +128,7 @@ const Species = () => {
                     component="span"
                     sx={{ color: "gray" }}
                   >
-                    {`(${species?.length})`}
+                    {`(${speciesData?.length})`}
                   </Typography>
                 </Typography>
               </Stack>
@@ -168,9 +141,9 @@ const Species = () => {
                 />
               </Box>
             </Box>
-            {species.length > 0 ? (
+            {speciesData.length > 0 ? (
               <GenericTable
-                data={species}
+                data={speciesData}
                 headers={["ID", "Name", "Type", "Updated at", ""]}
                 renderRow={renderRow}
               />

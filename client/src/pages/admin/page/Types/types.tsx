@@ -14,12 +14,12 @@ import Loader from "../../components/Loader";
 import CreateType from "./CreateType";
 import EditType from "./EditType";
 import { typesService } from "../../../../services/types.service";
+import { useFetchData } from "../../utils/queries";
 
 const Types = () => {
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
-  const [types, setTypes] = useState<SpeciesDto[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedRow, setSelectedRow] = useState<any>(null);
   const [message, setMessage] = useState({
@@ -27,33 +27,8 @@ const Types = () => {
     status: false,
     open: false,
   });
-  const [isLoading, setIsLoading] = useState(false);
-
+  const { fetchTypes, typesData, loading } = useFetchData();
   const navigate = useNavigate();
-
-  const fetchTypes = async () => {
-    const response = await typesService.getType();
-    const { data } = response;
-    setTypes(data?.types);
-  };
-
-  useEffect(() => {
-    try {
-      setIsLoading(true);
-      fetchTypes();
-    } catch (error: any) {
-      const { message, status } = error?.response?.data;
-      setMessage({
-        message,
-        status,
-        open: true,
-      });
-
-      console.error("Error fetching types", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
 
   const handleOpen = () => {
     setOpen(true);
@@ -129,7 +104,7 @@ const Types = () => {
   return (
     <>
       <Header />
-      {isLoading ? (
+      {loading ? (
         <Loader />
       ) : (
         <>
@@ -155,7 +130,7 @@ const Types = () => {
                     component="span"
                     sx={{ color: "gray" }}
                   >
-                    {types?.length}
+                    {typesData?.length}
                   </Typography>
                 </Typography>
               </Stack>
@@ -168,9 +143,9 @@ const Types = () => {
                 />
               </Box>
             </Box>
-            {types.length > 0 ? (
+            {typesData.length > 0 ? (
               <GenericTable
-                data={types}
+                data={typesData}
                 headers={["ID", "Name", "Type", "Updated at", ""]}
                 renderRow={renderRow}
               />
