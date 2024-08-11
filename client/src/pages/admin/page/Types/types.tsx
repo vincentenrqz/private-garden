@@ -112,6 +112,7 @@ const Types = () => {
         <TableCell sx={{ textAlign: "right" }}>
           <CustomMenuList
             data={row}
+            selectedData={selectedRow}
             openMenu={openMenu}
             anchorEl={anchorEl}
             handleClick={handleClickMenu}

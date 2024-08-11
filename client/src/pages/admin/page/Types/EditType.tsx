@@ -8,6 +8,7 @@ type Props = {
   forceUpdate: any;
 };
 
+//TODO: Create a edit modal for reference: Species.tsx
 const EditType = ({ species, openEdit, setOpenEdit, forceUpdate }: Props) => {
   return <div>EditType</div>;
 };
