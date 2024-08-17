@@ -38,7 +38,7 @@ export default function MapCard() {
                 component="div"
                 sx={{ marginTop: "1rem" }}
               >
-                Updated at
+                Updated July 28 at 10:30 AM
               </Typography>
             </CardContent>
           </Grid>

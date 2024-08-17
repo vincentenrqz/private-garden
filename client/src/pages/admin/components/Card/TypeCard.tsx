@@ -78,7 +78,7 @@ export default function TypeCard() {
             }}
           >
             <IconButton
-              onClick={() => navigate("/admin/species")}
+              onClick={() => navigate("/admin/types")}
               sx={{
                 position: "absolute",
                 right: 10,
