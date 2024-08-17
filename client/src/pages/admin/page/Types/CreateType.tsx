@@ -27,12 +27,10 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     icons: [],
   });
   const [customizeIcon, setCustomizeIcon] = useState<IconDto[]>([]);
-  const [iconWidth, setIconWidth] = useState(null);
-  const [iconHeight, setIconHeight] = useState(null);
 
   const fileInputRef = useRef(null);
 
-  const handleChange = (
+  const handleNameChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setTypes((prevTypes) => ({
@@ -52,9 +50,6 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
           const img = new Image();
           img.onload = () => {
             const { width, height } = img;
-
-            setIconWidth(width);
-            setIconHeight(height);
 
             const newIcon: IconDto = {
               iconUrl: URL.createObjectURL(file),
@@ -87,35 +82,39 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     fileInputRef.current?.click();
   };
 
-  const handleChangeIconWidth = async (
+  const handleChangeIconWidth = (
+    index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const widthValue = parseInt(e.target.value, 10);
-    if (isNaN(widthValue)) {
+    const newWidth = parseInt(e.target.value, 10);
+    if (isNaN(newWidth)) {
       return;
     }
 
-    try {
-      setIconWidth(widthValue);
-    } catch (error) {
-      console.error("Failed to fetch and resize image:", error);
-    }
+    setCustomizeIcon((prevIcons) => {
+      const updatedIcons = [...prevIcons]; // Copy the array
+      updatedIcons[index].iconSize[0] = newWidth; // Update width
+      return updatedIcons;
+    });
   };
 
-  const handleChangeIconHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const heightValue = parseInt(e.target.value, 10);
-    if (isNaN(heightValue)) {
+  const handleChangeIconHeight = (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newHeight = parseInt(e.target.value, 10);
+    if (isNaN(newHeight)) {
       return;
     }
 
-    try {
-      setIconHeight(heightValue);
-    } catch (error) {
-      console.error("Failed to fetch and resize image:", error);
-    }
+    setCustomizeIcon((prevIcons) => {
+      const updatedIcons = [...prevIcons];
+      updatedIcons[index].iconSize[1] = newHeight;
+      return updatedIcons;
+    });
   };
 
-  const handleResize = async (iconUrl: any) => {
+  const handleResize = async ({ iconUrl, width, height }: any) => {
     try {
       const response = await fetch(iconUrl);
       const blob = await response.blob();
@@ -123,46 +122,51 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
 
       const formData = new FormData();
       formData.append("file", file, "image.png");
-      formData.append("width", iconWidth.toString());
-      formData.append("height", iconHeight.toString());
+      formData.append("width", width.toString());
+      formData.append("height", height.toString());
 
       const res: any = await typesService.resizeImage(formData);
       if (res.data) {
-        const { resizedImage } = res.data;
-
-        const newIcon: IconDto = {
-          iconUrl: `http://localhost:3000${resizedImage}`,
-          iconSize: [iconWidth, iconHeight],
-          iconAnchor: [],
-          popupAnchor: [],
-          tooltipAnchor: [],
-          shadowUrl:
-            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-          shadowSize: [],
-        };
-
-        // setCustomizeIcon((prevIcons) => prevIcons.map((icon) => newIcon));
-        setCustomizeIcon((prevIcons) =>
-          prevIcons.map((icon) => ({
-            ...icon,
-            iconUrl: newIcon.iconUrl,
-          }))
+        const resizedIconIndex = customizeIcon.findIndex(
+          (icon) => icon.iconUrl === iconUrl
         );
-        //set newly resized icon
 
-        setTypes((prevTypes) => ({
-          ...prevTypes,
-          icons: [newIcon],
-        }));
+        if (resizedIconIndex !== -1) {
+          const { resizedImage } = res.data;
+
+          setCustomizeIcon((prevIcons) =>
+            prevIcons.map((icon, index) =>
+              index === resizedIconIndex
+                ? {
+                    ...icon,
+                    iconUrl: `http://localhost:3000${resizedImage}`,
+                    iconSize: [width, height],
+                    iconAnchor: [],
+                    popupAnchor: [],
+                    tooltipAnchor: [],
+                    shadowUrl:
+                      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+                    shadowSize: [],
+                  }
+                : icon
+            )
+          );
+
+          //set newly resized icon
+          setTypes((prevTypes) => ({
+            ...prevTypes,
+            icons: customizeIcon,
+          }));
+        }
       }
     } catch (error) {
       console.error("Error resizing the image", error);
     }
   };
 
-  console.log("customizeIcon", customizeIcon);
-  console.log("types", types);
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    //TODO: TRIGGER API CALL HERE WITH THE VALUES OF THE TYPES FROM SETTYPES
+  };
 
   return (
     <>
@@ -194,7 +198,7 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
               size="small"
               fullWidth
               value={types.name}
-              onChange={handleChange}
+              onChange={handleNameChange}
             />
           </Stack>
           <Stack direction="column" spacing={1} my={2}>
@@ -255,8 +259,10 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                               label="Width"
                               variant="outlined"
                               size="small"
-                              value={iconWidth}
-                              onChange={(e: any) => handleChangeIconWidth(e)}
+                              value={iconSize[0]} //Current width
+                              onChange={(e: any) =>
+                                handleChangeIconWidth(index, e)
+                              }
                               fullWidth
                             />
                             <TextField
@@ -264,8 +270,10 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                               label="Height"
                               variant="outlined"
                               size="small"
-                              value={iconHeight}
-                              onChange={(e: any) => handleChangeIconHeight(e)}
+                              value={iconSize[1]} //Current height
+                              onChange={(e: any) =>
+                                handleChangeIconHeight(index, e)
+                              }
                               fullWidth
                             />
                           </Stack>
@@ -279,7 +287,13 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                           <Button
                             variant="outlined"
                             size="small"
-                            onClick={() => handleResize(iconUrl)}
+                            onClick={() =>
+                              handleResize({
+                                iconUrl,
+                                width: iconSize[0],
+                                height: iconSize[1],
+                              })
+                            }
                           >
                             Resize
                           </Button>
@@ -289,6 +303,8 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                       <CardContent
                         sx={{
                           display: "flex",
+                          flexDirection: "column", // Add flex-direction column
+                          alignItems: "center",
                           justifyContent: "center",
                           width: 200,
                           height: 200,
@@ -305,6 +321,10 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                             objectFit: "none",
                           }}
                         />
+                        //TODO: FIX CSS HERE, USE BUTTON
+                        <Typography variant="body2" color="text.secondary">
+                          Remove
+                        </Typography>
                       </CardContent>
                     </Box>
                   </Card>
