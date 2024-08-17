@@ -343,7 +343,7 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                 Cancel
               </Button>
               <SubmitButton
-              // isLoading={isLoading} onClick={handleSubmit}
+              isLoading={false} onClick={handleSubmit}
               >
                 Submit
               </SubmitButton>
