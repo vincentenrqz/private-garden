@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import { Grid, useMediaQuery } from "@mui/material";
-import MediaControlCard from "../../page/Overview/MediaCard";
+import MediaControlCard from "../MediaCard";
 
 const Maps = () => {
   const mobile = useMediaQuery("(max-width:800px)");

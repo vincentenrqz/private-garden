@@ -17,19 +17,6 @@ export default function Sidebar() {
 
   const menuList = [
     {
-      name: "Overiew",
-      icon: (
-        <PieChartIcon
-          fontSize="large"
-          className={`${
-            location.hash === "#overview" ? "text-blue-500" : "text-gray-800"
-          }`}
-        />
-      ),
-      route: "/admin",
-      cardId: "overview",
-    },
-    {
       name: "Species",
       icon: (
         <FormatListBulletedIcon

@@ -24,7 +24,7 @@ export default function TypeCard() {
   );
 
   return (
-    <Card id="icons" sx={{ position: "relative", zIndex: 1 }} className="mt-10">
+    <Card id="types" sx={{ position: "relative", zIndex: 1 }} className="mt-10">
       <Box sx={{ flexGrow: 1 }}>
         <Grid container>
           <Grid item xs={7}>

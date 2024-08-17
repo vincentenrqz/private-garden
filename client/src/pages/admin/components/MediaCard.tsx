@@ -1,11 +1,11 @@
 import * as React from "react";
-import { useFetchData } from "../../utils/queries";
+import { useFetchData } from "../utils/queries";
 
-import SpeciesCard from "../../components/Card/SpeciesCard";
-import SettingsCard from "../../components/Card/SettingsCard";
+import SpeciesCard from "./Card/SpeciesCard";
+import SettingsCard from "./Card/SettingsCard";
 import { Skeleton } from "@mui/material";
-import MapCard from "../../components/Card/MapCard";
-import TypeCard from "../../components/Card/TypeCard";
+import MapCard from "./Card/MapCard";
+import TypeCard from "./Card/TypeCard";
 
 export default function MediaControlCard() {
   const { loading } = useFetchData();

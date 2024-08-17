@@ -19,7 +19,7 @@ export default function MapCard() {
           <Grid item xs={7}>
             <CardContent sx={{ flex: "1 0 auto" }}>
               <Typography component="div" variant="h5">
-                Map
+                Maps
               </Typography>
               <Typography
                 variant="subtitle1"
