@@ -16,28 +16,46 @@ export const useFetchData = () => {
 
   //Fetch species data
   const fetchSpecies = async () => {
-    const response = await speciesService.getSpecies();
-    const { data } = response;
-    setSpeciesData(data);
+    try {
+      const response = await speciesService.getSpecies();
+      const { data } = response;
+      setSpeciesData(data);
+    } catch (error: any) {
+      const { message, status } = error?.response?.data;
+      setMessage({
+        message,
+        status,
+        open: true,
+      });
+      console.error("Error fetching species", error);
+    }
   };
 
   //fetch types data
   const fetchTypes = async () => {
-    const response = await typesService.getType();
-    const { data } = response;
-    setTypesData(data?.types);
+    try {
+      const response = await typesService.getType();
+      const { data } = response;
+      setTypesData(data?.types);
+    } catch (error: any) {
+      const { message, status } = error?.response?.data;
+      setMessage({
+        message,
+        status,
+        open: true,
+      });
+      console.error("Error fetching types", error);
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        fetchSpecies();
-        fetchTypes();
+        await Promise.all([fetchSpecies(), fetchTypes()]);
       } catch (error: any) {
-        const { message, status } = error?.response?.data;
         setMessage({
-          message,
-          status,
+          message: "An error occurred while fetching data.",
+          status: false,
           open: true,
         });
 
