@@ -61,44 +61,44 @@ const getTypesDataById = async (req, res) => {
 //update types data
 const updateTypesData = async (req, res) => {
   try {
-    const newIcons = req.files.map((file) => ({
-      iconUrl: `${req.protocol}://${req.get("host")}/uploads/${file.filename}`,
-      iconSize: req.body.iconSize ? JSON.parse(req.body.iconSize) : null,
-      iconAnchor: req.body.iconAnchor ? JSON.parse(req.body.iconAnchor) : null,
-      popupAnchor: req.body.popupAnchor
-        ? JSON.parse(req.body.popupAnchor)
-        : null,
-      tooltipAnchor: req.body.tooltipAnchor
-        ? JSON.parse(req.body.tooltipAnchor)
-        : null,
-      shadowUrl: req.body.shadowUrl ?? null,
-      shadowSize: req.body.shadowSize ? JSON.parse(req.body.shadowSize) : null,
-    }));
+    const id = req.params.id;
+    const { name, icons } = req.body.data;
 
-    if (req.body.id) {
-      const existingType = await Types.findById(req.body.id);
-      if (!existingType) {
-        return res.status(404).json({ message: "Type not found" });
-      }
-
-      existingType.icons = [...existingType.icons, ...newIcons];
-      const updatedType = await existingType.save();
-
-      console.log("updatedType", updatedType);
-      res.status(200).json(updatedType);
-    } else {
-      const typeData = {
-        name: req.body.name,
-        icons: newIcons,
-      };
-      const newType = new Types(typeData);
-      await newType.save();
-
-      console.log("newType", newType);
-      res.status(201).json(newType);
+    if (!id) {
+      return res.status(400).json({ message: "ID is required" });
     }
+    if (!name || !icons) {
+      return res.status(400).json({ message: "No content/data is sent!" });
+    }
+
+    const updateTypesData = await Types.findByIdAndUpdate(
+      id,
+      {
+        name,
+        icons,
+      },
+      { new: true }
+    );
+
+    if (!updateTypesData) {
+      return res.status(404).json({ message: "Types not found" });
+    }
+
+    const types = await Types.findById(id);
+    console.log("types", types);
+
+    return res.json({
+      species: updateTypesData,
+      status: true,
+      message: "Successfully updated types",
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error Update Types Data", error);
+    return res.status(500).json({
+      message: "Internal Server error",
+      status: false,
+      message: "Error updating types",
+    });
   }
 };
 

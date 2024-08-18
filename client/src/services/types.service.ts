@@ -13,6 +13,10 @@ export const typesService = {
     return apiService.get(BASE_URL);
   },
 
+  async updateType(id: any, data: TypesDto) {
+    return apiService.put(`${BASE_URL}/${id}`, { data });
+  },
+
   async deleteType(id: string) {
     return apiService.delete(`${BASE_URL}/${id}`);
   },
