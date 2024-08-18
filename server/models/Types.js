@@ -1,20 +1,21 @@
 const { default: mongoose } = require("mongoose");
 const { Schema } = mongoose;
 
+const IconSchema = new Schema({
+  iconUrl: String,
+  iconUrl: String,
+  iconSize: [Number],
+  iconAnchor: [Number],
+  popupAnchor: [Number],
+  tooltipAnchor: [Number],
+  shadowUrl: String,
+  shadowSize: [Number],
+});
+
 const TypeSchema = new Schema(
   {
     name: { type: String, required: true },
-    icons: [
-      {
-        iconUrl: String,
-        iconSize: [Number],
-        iconAnchor: [Number],
-        popupAnchor: [Number],
-        tooltipAnchor: [Number],
-        shadowUrl: String,
-        shadowSize: [Number],
-      },
-    ],
+    icons: [IconSchema],
   },
   {
     timestamps: true,

@@ -6,38 +6,31 @@ const path = require("path");
 
 //create types data
 const createTypesData = async (req, res) => {
-  if (!req.files || req.files.length === 0) {
-    return res.status(400).json({ message: "No files selected!" });
+  const { data } = req.body;
+  const { name, icons } = data;
+
+  if (!data || !name || !icons) {
+    return res.status(400).json({ message: "No content/data is sent!" });
   }
 
   try {
-    const icons = req.files.map((file) => ({
-      iconUrl: `${req.protocol}://${req.get("host")}/uploads/${file.filename}`,
-      iconSize: req.body.iconSize ? JSON.parse(req.body.iconSize) : null,
-      iconAnchor: req.body.iconAnchor ? JSON.parse(req.body.iconAnchor) : null,
-      popupAnchor: req.body.popupAnchor
-        ? JSON.parse(req.body.popupAnchor)
-        : null,
-      tooltipAnchor: req.body.tooltipAnchor
-        ? JSON.parse(req.body.tooltipAnchor)
-        : null,
-      shadowUrl: req.body.shadowUrl ?? null,
-      shadowSize: req.body.shadowSize ? JSON.parse(req.body.shadowSize) : null,
-    }));
+    const types = await Types.create({
+      name,
+      icons,
+    });
 
-    console.log("icons", icons);
-    const typeData = {
-      name: req.body.name,
-      icons: icons,
-    };
-
-    const newType = new Types(typeData);
-    await newType.save();
-
-    console.log("newType", newType);
-    res.status(201).json(newType);
+    return res.status(201).json({
+      types,
+      status: true,
+      message: "Successfully created Types data",
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error saving types data");
+    return res.status(500).json({
+      error: "Internal Server Error",
+      status: false,
+      message: "Error creating types data",
+    });
   }
 };
 

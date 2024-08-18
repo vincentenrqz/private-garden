@@ -5,8 +5,8 @@ const BASE_URL = "types";
 const UPLOAD_URL = "types/resize-icon";
 
 export const typesService = {
-  async createType(types: TypesDto) {
-    return apiService.post(BASE_URL, { types });
+  async createType(data: TypesDto) {
+    return apiService.post(BASE_URL, { data });
   },
 
   async getType() {

@@ -33,11 +33,7 @@ app.put("/user/:id", UsersController.updateUsersData);
 app.delete("/user/:id", UsersController.deleteUsersData);
 
 //Types Routes
-app.post(
-  "/types",
-  upload.array("attachments", 10),
-  TypesController.createTypesData
-);
+app.post("/types", TypesController.createTypesData);
 app.get("/types", TypesController.getAllTypesData);
 app.get("/types/:id", TypesController.getTypesDataById);
 app.put("/types/:id", TypesController.updateTypesData);
