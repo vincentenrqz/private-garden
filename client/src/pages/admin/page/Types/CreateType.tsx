@@ -27,6 +27,12 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     icons: [],
   });
   const [customizeIcon, setCustomizeIcon] = useState<IconDto[]>([]);
+  const [message, setMessage] = useState({
+    message: "",
+    status: false,
+    open: false,
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const fileInputRef = useRef(null);
 
@@ -164,8 +170,47 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     }
   };
 
-  const handleSubmit = async () => {
-    //TODO: TRIGGER API CALL HERE WITH THE VALUES OF THE TYPES FROM SETTYPES
+  console.log("types", types);
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    if (!types?.name || !types?.icons) {
+      console.error("Please provide a name and icons for the type");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const result: any = await typesService.createType(types);
+      const { message, status } = result.data;
+
+      setOpen(false);
+      setMessage({
+        message,
+        status,
+        open: true,
+      });
+
+      setTypes({
+        name: "",
+        icons: [],
+      });
+      setCustomizeIcon([]);
+
+      forceUpdate();
+    } catch (error) {
+      const { message, status } = error?.response?.data;
+      setMessage({
+        message,
+        status,
+        open: true,
+      });
+      console.error("Error creating types data");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -197,7 +242,7 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
               variant="outlined"
               size="small"
               fullWidth
-              value={types.name}
+              value={types.name || ""}
               onChange={handleNameChange}
             />
           </Stack>
@@ -259,7 +304,7 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                               label="Width"
                               variant="outlined"
                               size="small"
-                              value={iconSize[0]} //Current width
+                              value={iconSize[0] || ""} //Current width
                               onChange={(e: any) =>
                                 handleChangeIconWidth(index, e)
                               }
@@ -270,7 +315,7 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                               label="Height"
                               variant="outlined"
                               size="small"
-                              value={iconSize[1]} //Current height
+                              value={iconSize[1] || ""} //Current height
                               onChange={(e: any) =>
                                 handleChangeIconHeight(index, e)
                               }
@@ -303,7 +348,7 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                       <CardContent
                         sx={{
                           display: "flex",
-                          flexDirection: "column", // Add flex-direction column
+                          flexDirection: "column",
                           alignItems: "center",
                           justifyContent: "center",
                           width: 200,
@@ -321,7 +366,6 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                             objectFit: "none",
                           }}
                         />
-                        //TODO: FIX CSS HERE, USE BUTTON
                         <Typography variant="body2" color="text.secondary">
                           Remove
                         </Typography>
@@ -342,9 +386,7 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
               <Button variant="outlined" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
-              <SubmitButton
-              isLoading={false} onClick={handleSubmit}
-              >
+              <SubmitButton isLoading={isLoading} onClick={handleSubmit}>
                 Submit
               </SubmitButton>
             </Stack>
