@@ -170,8 +170,6 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     }
   };
 
-  console.log("types", types);
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
