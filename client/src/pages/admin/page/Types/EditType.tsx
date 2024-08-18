@@ -1,7 +1,17 @@
-import React, { useState } from "react";
-import { TypesDto } from "../../../../types/types.interface";
+import React, { useRef, useState } from "react";
+import { IconDto, TypesDto } from "../../../../types/types.interface";
 import ModalButton from "../../components/ModalButton";
-import { Button, MenuItem, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  MenuItem,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import SubmitButton from "../../components/SubmitButton";
 import Toaster from "../../components/Toaster";
 
@@ -14,16 +24,37 @@ type Props = {
 
 //TODO: Create a edit modal for reference: Species.tsx
 const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
+  const [newTypes, setNewTypes] = useState<TypesDto>(data);
+  const [newCustomizeIcon, setNewCustomizeIcon] = useState<IconDto[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [form, setForm] = useState<TypesDto>(data);
-
   const [message, setMessage] = useState({
     message: "",
     status: false,
     open: false,
   });
 
-  const handleUpdate = () => {};
+  const fileInputRef = useRef(null);
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleNewNameChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setNewTypes((prevTypes) => ({
+      ...prevTypes,
+      name: e.target.value,
+    }));
+  };
+
+  //TODO: setNewCustomizedIcon functionality
+  //TODO: Resize functionality
+
+  const handleUpdate = (e: any) => {
+    e.preventDefault;
+  };
+
+  console.log("newTypes", newTypes);
 
   return (
     <>
@@ -44,6 +75,8 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                 label="Name"
                 variant="outlined"
                 size="small"
+                defaultValue={newTypes?.name}
+                onChange={(e) => handleNewNameChange(e)}
                 fullWidth
               />
             </Stack>
@@ -61,22 +94,23 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
               type="file"
               accept="image/*"
               style={{ display: "none", width: "100%" }}
-              // ref={fileInputRef}
+              ref={fileInputRef}
               // onChange={handleIconChange}
             />
             <Stack direction="column" spacing={2}>
               <Button
                 variant="outlined"
-                // onClick={() => triggerFileInput()}
+                onClick={() => triggerFileInput()}
                 fullWidth
               >
                 Attach Icon
               </Button>
-              {/* {customizeIcon.length > 0 &&
-                customizeIcon.map((item) => {
+              {newTypes?.icons.length > 0 &&
+                newTypes?.icons.map((item) => {
                   const { iconUrl, iconSize } = item;
                   return (
                     <Card
+                      key={item?._id}
                       sx={{
                         maxWidth: "100%",
                         display: "column",
@@ -104,8 +138,8 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                                 label="Width"
                                 variant="outlined"
                                 size="small"
-                                value={iconWidth}
-                                onChange={(e: any) => handleChangeIconWidth(e)}
+                                value={iconSize[0]}
+                                // onChange={(e: any) => handleChangeIconWidth(e)}
                                 fullWidth
                               />
                               <TextField
@@ -113,8 +147,8 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                                 label="Height"
                                 variant="outlined"
                                 size="small"
-                                value={iconHeight}
-                                onChange={(e: any) => handleChangeIconHeight(e)}
+                                value={iconSize[1]}
+                                // onChange={(e: any) => handleChangeIconHeight(e)}
                                 fullWidth
                               />
                             </Stack>
@@ -128,7 +162,7 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                             <Button
                               variant="outlined"
                               size="small"
-                              onClick={() => handleResize(iconUrl)}
+                              // onClick={() => handleResize(iconUrl)}
                             >
                               Resize
                             </Button>
@@ -158,7 +192,7 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                       </Box>
                     </Card>
                   );
-                })} */}
+                })}
             </Stack>
             <Stack
               direction="row"

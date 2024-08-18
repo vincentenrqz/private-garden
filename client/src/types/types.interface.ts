@@ -6,6 +6,7 @@ export class IconDto {
   tooltipAnchor?: any;
   shadowUrl?: string;
   shadowSize?: any;
+  _id: number;
 }
 
 export class TypesDto {
