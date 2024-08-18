@@ -15,7 +15,7 @@ const createAttachmentsData = async (req, res) => {
 //get all attachment data
 const getAllAttachmentsData = async (req, res) => {
   try {
-    const attachments = await Attachments.find();
+    const attachments = await Attachments.find().sort({ createdAt: -1 });
     return res.json({ attachments });
   } catch (error) {
     console.log("Error Fetching All Attachments Data", error);

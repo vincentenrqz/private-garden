@@ -47,7 +47,7 @@ const createSpeciesData = async (req, res) => {
 //get all species data
 const getAllSpeciesData = async (req, res) => {
   try {
-    const species = await Species.find();
+    const species = await Species.find().sort({ createdAt: -1 });
     return res.json(species);
   } catch (error) {
     console.log("Error fetching species data", error);

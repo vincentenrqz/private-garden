@@ -44,7 +44,7 @@ const createTypesData = async (req, res) => {
 //get all types data
 const getAllTypesData = async (req, res) => {
   try {
-    const types = await Types.find();
+    const types = await Types.find().sort({ createdAt: -1 });
     return res.json({ types });
   } catch (error) {
     console.log("Error Fetching All Types Data", error);

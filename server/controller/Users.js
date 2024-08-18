@@ -20,7 +20,7 @@ const createUsersData = async (req, res) => {
 //get all users data
 const getAllUsersData = async (req, res) => {
   try {
-    const users = await Users.find();
+    const users = await Users.find().sort({ createdAt: -1 });
     return res.json({ users });
   } catch (error) {
     console.log("Error Fetching All Users Data", error);
