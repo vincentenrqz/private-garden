@@ -13,6 +13,7 @@ import ModalButton from "../../components/ModalButton";
 import { IconDto, TypesDto } from "../../../../types/types.interface";
 import { typesService } from "../../../../services/types.service";
 import SubmitButton from "../../components/SubmitButton";
+import Toaster from "../../components/Toaster";
 
 type Props = {
   handleOpen: () => void;
@@ -391,6 +392,13 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
           </Stack>
         </form>
       </ModalButton>
+      {message.open && (
+        <Toaster
+          open={message.open}
+          status={message.status}
+          message={message.message}
+        />
+      )}
     </>
   );
 };
