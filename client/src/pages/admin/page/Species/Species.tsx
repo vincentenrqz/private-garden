@@ -79,7 +79,6 @@ const Species = () => {
         <TableCell component="th" scope="row">
           {row.name}
         </TableCell>
-        <TableCell>{row.type_id}</TableCell>
         <TableCell>
           {row?.updatedAt ? formatDate(row?.updatedAt) : ""}
         </TableCell>
