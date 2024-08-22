@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../components/Header/Header";
+import Header from "../../../components/Header/Header";
 import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
 import TableCell from "@mui/material/TableCell";
 import { speciesService } from "../../../../services/species.service";
 import { SpeciesDto } from "../../../../types/species.interface";
-import GenericTable from "../../components/GenericTable";
-import CustomMenuList from "../../components/CustomMenuList";
-import { formatDate } from "../../../../utils/utils";
-import Toaster from "../../components/Toaster";
+import GenericTable from "../../../components/GenericTable";
+import CustomMenuList from "../../../components/CustomMenuList";
+import { formatDate } from "../../../../utils/pageSize";
+import Toaster from "../../../components/Toaster";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-import Loader from "../../components/Loader";
+import Loader from "../../../components/Loader";
 import CreateType from "./CreateType";
 import EditType from "./EditType";
 import { typesService } from "../../../../services/types.service";
-import { useFetchData } from "../../utils/queries";
+import { useFetchData } from "../../../../utils/queries";
 
 const Types = () => {
   const [open, setOpen] = useState(false);

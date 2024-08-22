@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { speciesService } from "../../../services/species.service";
-import { typesService } from "../../../services/types.service";
-import { TypesDto } from "../../../types/types.interface";
-import { SpeciesDto } from "../../../types/species.interface";
+import { speciesService } from "../services/species.service";
+import { typesService } from "../services/types.service";
+import { TypesDto } from "../types/types.interface";
+import { SpeciesDto } from "../types/species.interface";
 
 export const useFetchData = () => {
   const [typesData, setTypesData] = useState<TypesDto[]>([]);

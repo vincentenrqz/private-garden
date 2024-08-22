@@ -3,9 +3,11 @@ import { TypesDto } from "../types/types.interface";
 
 const BASE_URL = "types";
 const UPLOAD_URL = "types/resize-icon";
+const UPLOAD_IMAGE = "types/upload-icons";
 
 export const typesService = {
   async createType(data: TypesDto) {
+    console.log("data", data);
     return apiService.post(BASE_URL, { data });
   },
 
@@ -23,6 +25,14 @@ export const typesService = {
 
   async resizeImage(formData: any) {
     return apiService.post(UPLOAD_URL, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
+
+  async uploadImage(file: any) {
+    return apiService.post(UPLOAD_IMAGE, file, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

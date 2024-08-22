@@ -9,11 +9,11 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useRef, useState } from "react";
-import ModalButton from "../../components/ModalButton";
+import ModalButton from "../../../components/ModalButton";
 import { IconDto, TypesDto } from "../../../../types/types.interface";
 import { typesService } from "../../../../services/types.service";
-import SubmitButton from "../../components/SubmitButton";
-import Toaster from "../../components/Toaster";
+import SubmitButton from "../../../components/SubmitButton";
+import Toaster from "../../../components/Toaster";
 
 type Props = {
   handleOpen: () => void;
@@ -71,7 +71,6 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
 
             setCustomizeIcon((prevIcons) => [...prevIcons, newIcon]);
 
-            //set the newly attached icon
             setTypes((prevTypes) => ({
               ...prevTypes,
               icons: [...customizeIcon, newIcon],
@@ -146,7 +145,9 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
               index === resizedIconIndex
                 ? {
                     ...icon,
-                    iconUrl: `http://localhost:3000${resizedImage}`,
+                    iconUrl: `${
+                      import.meta.env.VITE_API_URL
+                    }uploads/${resizedImage}`,
                     iconSize: [width, height],
                     iconAnchor: [],
                     popupAnchor: [],
@@ -159,7 +160,6 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
             )
           );
 
-          //set newly resized icon
           setTypes((prevTypes) => ({
             ...prevTypes,
             icons: customizeIcon,
@@ -171,18 +171,45 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     }
   };
 
+  const processIcons = async (icons: any[]) => {
+    return Promise.all(
+      icons.map(async (icon, index) => {
+        const fileName = `icon-${index}.png`;
+
+        const res = await fetch(icon.iconUrl);
+        const blob = await res.blob();
+        const file = new File([blob], fileName, { type: blob.type });
+
+        const formData = new FormData();
+        formData.append("image", file);
+
+        const response = await typesService.uploadImage(formData);
+
+        if (response) {
+          const { data } = response;
+
+          return {
+            ...icon,
+            iconUrl: data.filename,
+          };
+        }
+      })
+    );
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
 
-    if (!types?.name || !types?.icons) {
-      console.error("Please provide a name and icons for the type");
-      setIsLoading(false);
-      return;
-    }
+    const { name, icons } = types;
+    const processingIcons = await processIcons(icons);
 
+    const updatedTypes = {
+      name,
+      icons: processingIcons,
+    };
     try {
-      const result: any = await typesService.createType(types);
+      const result: any = await typesService.createType(updatedTypes);
       const { message, status } = result.data;
 
       setOpen(false);

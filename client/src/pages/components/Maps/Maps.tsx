@@ -1,7 +1,7 @@
 import React from "react";
+import { Grid, useMediaQuery } from "@mui/material";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
-import { Grid, useMediaQuery } from "@mui/material";
 import MediaControlCard from "../MediaCard";
 
 const Maps = () => {

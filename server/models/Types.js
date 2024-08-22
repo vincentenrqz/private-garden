@@ -3,7 +3,6 @@ const { Schema } = mongoose;
 
 const IconSchema = new Schema({
   iconUrl: String,
-  iconUrl: String,
   iconSize: [Number],
   iconAnchor: [Number],
   popupAnchor: [Number],

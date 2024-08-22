@@ -27,4 +27,8 @@ export const speciesService = {
   async updateSpecies(id: any, data: SpeciesDto) {
     return apiService.put(`${BASE_URL}/${id}`, { data });
   },
+
+  async getOneSpecies(id: string) {
+    return apiService.get(`${BASE_URL}/${id}`);
+  },
 };

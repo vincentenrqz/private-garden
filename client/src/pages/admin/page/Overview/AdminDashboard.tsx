@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "../../components/Header/Header";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Header from "../../../components/Header/Header";
+import Sidebar from "../../../components/Sidebar/Sidebar";
 import { Grid, useMediaQuery } from "@mui/material";
-import MediaCard from "../../components/MediaCard";
+import MediaCard from "../../../components/MediaCard";
 
 const AdminDashboard = () => {
   const mobile = useMediaQuery("(max-width:800px)");

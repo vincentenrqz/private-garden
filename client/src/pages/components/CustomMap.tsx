@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L, { LatLngBoundsExpression } from "leaflet";
-import { useScreenSize } from "../../../context/MediaContext";
-import { handleMapSize } from "../../../utils/utils";
+import { useScreenSize } from "../../context/MediaContext";
+import { handleMapSize } from "../../utils/pageSize";
 
 interface MarkerType {
   id: number;

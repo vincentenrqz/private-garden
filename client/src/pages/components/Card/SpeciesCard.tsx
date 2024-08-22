@@ -8,12 +8,12 @@ import Typography from "@mui/material/Typography";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
-import { useFetchData } from "../../utils/queries";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import { useFetchData } from "../../../utils/queries";
 import {
   findLatestUpdatedAt,
   formatReadableDate,
-} from "../../../../utils/utils";
+} from "../../../utils/pageSize";
 
 export default function SpeciesCard() {
   const { speciesData } = useFetchData();

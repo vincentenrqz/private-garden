@@ -9,7 +9,7 @@ import {
   Grid,
   Box,
 } from "@mui/material";
-import Header from "../../components/Header/Header";
+import Header from "../../../components/Header/Header";
 
 export default function UserSettings() {
   //TODO: FETCH DATA FROM THE SESSION

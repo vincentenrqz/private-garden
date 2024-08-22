@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, Paper } from "@mui/material";
 import { IoIosInformationCircle } from "react-icons/io";
-import { useScreenSize } from "../../../context/MediaContext";
+import { useScreenSize } from "../../context/MediaContext";
 
 interface Props {
   data: any;

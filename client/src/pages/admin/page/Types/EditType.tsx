@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { IconDto, TypesDto } from "../../../../types/types.interface";
-import ModalButton from "../../components/ModalButton";
+import ModalButton from "../../../components/ModalButton";
 import {
   Box,
   Button,
@@ -12,8 +12,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import SubmitButton from "../../components/SubmitButton";
-import Toaster from "../../components/Toaster";
+import SubmitButton from "../../../components/SubmitButton";
+import Toaster from "../../../components/Toaster";
 import { typesService } from "../../../../services/types.service";
 
 type Props = {
@@ -72,7 +72,6 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
 
             setNewCustomizeIcon((prevIcons) => [...prevIcons, newIcon]);
 
-            //set the newly attached icon
             setNewTypes((prevTypes) => ({
               ...prevTypes,
               icons: [...newCustomizeIcon, newIcon],
@@ -125,18 +124,33 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
   const handleResize = async ({ iconUrl, width, height }: any) => {
     try {
       const response = await fetch(iconUrl);
+      if (
+        !response.ok ||
+        !response.headers.get("Content-Type").startsWith("image/")
+      ) {
+        throw new Error(
+          "Failed to fetch image or the URL does not point to an image"
+        );
+      }
       const blob = await response.blob();
       const file = new File([blob], "image.png", { type: blob.type });
 
       const formData = new FormData();
-      formData.append("file", file, "image.png");
+      formData.append("file", file);
       formData.append("width", width.toString());
       formData.append("height", height.toString());
 
       const res: any = await typesService.resizeImage(formData);
       if (res.data) {
+        const blobUrl = iconUrl.startsWith("blob:");
+        let filename: string;
+        if (!blobUrl) {
+          filename = iconUrl.split("/").pop();
+        } else {
+          filename = iconUrl;
+        }
         const resizedIconIndex = newCustomizeIcon.findIndex(
-          (icon) => icon.iconUrl === iconUrl
+          (icon) => icon.iconUrl === filename
         );
 
         if (resizedIconIndex !== -1) {
@@ -147,7 +161,7 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
               index === resizedIconIndex
                 ? {
                     ...icon,
-                    iconUrl: `http://localhost:3000${resizedImage}`,
+                    iconUrl: resizedImage,
                     iconSize: [width, height],
                     iconAnchor: [],
                     popupAnchor: [],
@@ -160,7 +174,7 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
             )
           );
 
-          //set newly resized icon
+          console.log("newCustomizeIcon", newCustomizeIcon);
           setNewTypes((prevTypes) => ({
             ...prevTypes,
             icons: newCustomizeIcon,
@@ -172,8 +186,55 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
     }
   };
 
-  //TODO: SHOULD AUTOMATICALLY FETCH THE UPDATED DATA IN ADDING ATTACH ICON
-  //TODO: CUSTOM ICONS IS REMOVED AFTER REFRESHING PAGE.
+  console.log("newTypes", newTypes);
+  const processIcons = async (icons: any) => {
+    const blobIcons = icons.filter((icon: any, index: number) =>
+      icon.iconUrl.startsWith("blob:")
+    );
+    const blobIconIndexes = icons.reduce((indexes, icon, index) => {
+      if (icon.iconUrl.startsWith("blob:")) {
+        indexes.push(index);
+      }
+      return indexes;
+    }, []);
+
+    const processedBlobIcons = await Promise.all(
+      blobIcons.map(async (icon: any, index: number) => {
+        const fileName = `icon-${blobIconIndexes[index]}.png`;
+
+        try {
+          const res = await fetch(icon.iconUrl);
+          const blob = await res.blob();
+          const file = new File([blob], fileName, { type: blob.type });
+
+          const formData = new FormData();
+          formData.append("image", file);
+
+          const response = await typesService.uploadImage(formData);
+
+          if (response && response.data) {
+            return {
+              ...icon,
+              iconUrl: response.data.filename,
+            };
+          } else {
+            return null;
+          }
+        } catch (error) {
+          return null;
+        }
+      })
+    );
+
+    return icons.map((icon: any, index: number) => {
+      const blobIndex = blobIconIndexes.indexOf(index);
+      if (blobIndex !== -1 && processedBlobIcons[blobIndex]) {
+        return processedBlobIcons[blobIndex];
+      }
+      return icon;
+    });
+  };
+
   const handleUpdate = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
@@ -185,7 +246,13 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
     }
 
     try {
-      const result = await typesService.updateType(newTypes?._id, newTypes);
+      const processingIcons = await processIcons(newTypes?.icons);
+      const updatedTypes = {
+        ...newTypes,
+        icons: processingIcons,
+      };
+
+      const result = await typesService.updateType(newTypes?._id, updatedTypes);
       const { message, status, name, icons } = result.data;
 
       setOpenEdit(false);
@@ -260,6 +327,14 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
               {newCustomizeIcon.length > 0 &&
                 newCustomizeIcon.map((item, index) => {
                   const { iconUrl, iconSize } = item;
+
+                  const isBlobUrl = iconUrl.startsWith("blob:");
+
+                  const imageUrl = isBlobUrl
+                    ? iconUrl
+                    : `${import.meta.env.VITE_API_URL}uploads/${iconUrl}`;
+
+                  console.log("imageUrl", imageUrl);
                   return (
                     <Card
                       key={index}
@@ -320,7 +395,7 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                               size="small"
                               onClick={() =>
                                 handleResize({
-                                  iconUrl,
+                                  iconUrl: imageUrl,
                                   width: iconSize[0],
                                   height: iconSize[1],
                                 })
@@ -343,7 +418,7 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                           <CardMedia
                             component="img"
                             alt="green iguana"
-                            image={`${iconUrl}`}
+                            image={imageUrl}
                             sx={{
                               width: "100%",
                               height: "auto",

@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { MenuItem, Stack, TextField } from "@mui/material";
-import ModalButton from "../../components/ModalButton";
+import {
+  Box,
+  CardContent,
+  CardMedia,
+  MenuItem,
+  Stack,
+  TextField,
+} from "@mui/material";
+import ModalButton from "../../../components/ModalButton";
 import { speciesService } from "../../../../services/species.service";
 import { SpeciesDto } from "../../../../types/species.interface";
-import Toaster from "../../components/Toaster";
-import SubmitButton from "../../components/SubmitButton";
+import Toaster from "../../../components/Toaster";
+import SubmitButton from "../../../components/SubmitButton";
+import { useFetchData } from "../../../../utils/queries";
+import { IconDto } from "../../../../types/types.interface";
 
 type Props = {
   handleOpen: () => void;
@@ -18,7 +27,8 @@ type Props = {
 const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
   const [species, setSpecies] = useState<SpeciesDto>({
     name: "",
-    type_id: "",
+    icon: IconDto,
+    type: null,
     scientific_name: "",
     etymology: "",
     description: "",
@@ -28,7 +38,11 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     status: false,
     open: false,
   });
+  const [types, setTypes] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedIcon, setSelectedIcon] = useState(null);
+
+  const { typesData } = useFetchData();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -44,11 +58,20 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
   const handleTypes = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     setSpecies((prev) => ({
       ...prev,
-      [name]: Number(value),
+      type: value,
     }));
+    setTypes(typesData.find((item) => item._id === value)?.icons);
+  };
+
+  const handleSelectType = (data: any) => {
+    setSpecies((prev) => ({
+      ...prev,
+      icon: data,
+    }));
+    setSelectedIcon(data?.iconUrl);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -69,7 +92,8 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
 
       setSpecies({
         name: "",
-        type_id: "",
+        type: "",
+        icon: null,
         scientific_name: "",
         etymology: "",
         description: "",
@@ -138,28 +162,72 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
             >
               Type
             </Typography>
-            {/* TODO: FETCH DYNAMICALLY FROM THE CREATED TYPES NAME */}
             <Stack direction="row" spacing={2}>
               <TextField
-                name="type_id"
+                name="type"
                 select
                 label="Type"
                 helperText="Please select a type"
                 size="small"
                 fullWidth
-                value={species.type_id || ""}
+                value={species.type || ""}
                 onChange={handleTypes}
               >
-                <MenuItem key="1" value={1}>
-                  Tree
-                </MenuItem>
-                <MenuItem key="2" value={2}>
-                  Palm
-                </MenuItem>
-                <MenuItem key="3" value={3}>
-                  Shrubs
-                </MenuItem>
+                {typesData.map((item, index) => (
+                  <MenuItem key={index} value={item._id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
               </TextField>
+            </Stack>
+            <Stack direction="row" spacing={1}>
+              {types &&
+                types.map((item: any, index: number) => {
+                  const { iconUrl, iconSize } = item;
+                  const findSelect = selectedIcon === iconUrl;
+                  return (
+                    <CardContent
+                      key={index}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 80,
+                        height: 80,
+                        overflow: "hidden",
+                        position: "relative",
+                        transition: "all 0.3s ease",
+                        backgroundColor: findSelect ? "#e0e0e0" : "transparent",
+                        borderRadius: findSelect ? "8px" : "0",
+                        boxShadow: findSelect
+                          ? "0 4px 8px rgba(0,0,0,0.2)"
+                          : "none",
+                        transform: findSelect ? "scale(1.05)" : "none",
+                        "&:hover": {
+                          backgroundColor: "#f0f0f0",
+                          borderRadius: "8px",
+                          boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+                          transform: "scale(1.05)",
+                        },
+                      }}
+                      onClick={() => handleSelectType(item)}
+                    >
+                      <CardMedia
+                        component="img"
+                        alt=""
+                        src={`${
+                          import.meta.env.VITE_API_URL
+                        }uploads/${iconUrl}`}
+                        sx={{
+                          width: iconSize[0],
+                          height: iconSize[1],
+                          objectFit: "cover",
+                        }}
+                      />
+                    </CardContent>
+                  );
+                })}
             </Stack>
             <Typography
               gutterBottom

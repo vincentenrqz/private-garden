@@ -5,7 +5,8 @@ const SpeciesSchema = new Schema(
   {
     name: String,
     sub_name: String,
-    type_id: Number,
+    type: String,
+    icon: Object,
     species_id: Number,
     scientific_name: String,
     etymology: String,

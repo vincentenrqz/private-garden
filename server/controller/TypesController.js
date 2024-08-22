@@ -40,7 +40,6 @@ const getAllTypesData = async (req, res) => {
     const types = await Types.find().sort({ createdAt: -1 });
     return res.json({ types });
   } catch (error) {
-    console.log("Error Fetching All Types Data", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -53,7 +52,6 @@ const getTypesDataById = async (req, res) => {
 
     return res.json({ types });
   } catch (error) {
-    console.log("Error Fetching Types Data By Id", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -85,7 +83,6 @@ const updateTypesData = async (req, res) => {
     }
 
     const types = await Types.findById(id);
-    console.log("types", types);
 
     return res.json({
       species: updateTypesData,
@@ -102,12 +99,8 @@ const updateTypesData = async (req, res) => {
   }
 };
 
-const getImageDimensions = async (imagePath) => {
-  const metadata = await sharp(imagePath).metadata();
-  return { width: metadata.width, height: metadata.height };
-};
-
 const resizeImage = async (req, res) => {
+  console.log("req", req);
   if (!req.file) {
     return res.status(400).send("No file uploaded");
   }
@@ -139,9 +132,8 @@ const resizeImage = async (req, res) => {
     const { width: resizedWidth, height: resizedHeight } = await sharp(
       outputPath
     ).metadata();
-    console.log(`Resized image dimensions: ${resizedWidth}x${resizedHeight}`);
 
-    const fileUrl = `/uploads/${outputFilename}`;
+    const fileUrl = outputFilename;
     res.json({ resizedImage: fileUrl });
 
     fs.unlink(filePath, (err) => {
@@ -160,8 +152,28 @@ const deleteTypesData = async (req, res) => {
     await Types.findByIdAndDelete(id);
     return res.json({ success: "Successfully Deleted Types Data Id: ", id });
   } catch (error) {
-    console.log("Error Deleting Types Data: ", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const uploadImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const filename = req.file.filename;
+
+    return res.status(201).json({
+      message: "File uploaded successfully",
+      filename: filename,
+    });
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    return res.status(500).json({
+      message: "Error uploading file",
+      error: error.message,
+    });
   }
 };
 
@@ -172,4 +184,5 @@ module.exports = {
   updateTypesData,
   deleteTypesData,
   resizeImage,
+  uploadImage,
 };

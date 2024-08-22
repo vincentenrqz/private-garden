@@ -15,7 +15,7 @@ import {
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import EditIcon from "@mui/icons-material/Edit";
-import { SpeciesDto } from "../../../types/species.interface";
+import { SpeciesDto } from "../../types/species.interface";
 
 type Props = {
   data: SpeciesDto;

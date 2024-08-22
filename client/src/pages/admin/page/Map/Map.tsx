@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../components/Header/Header";
+import Header from "../../../components/Header/Header";
 import {
   Box,
   Button,
@@ -16,8 +16,8 @@ import {
 import axios, { Axios } from "axios";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-import CustomMap from "../../components/CustomMap";
-import Loader from "../../components/Loader";
+import CustomMap from "../../../components/CustomMap";
+import Loader from "../../../components/Loader";
 
 const Map = () => {
   const [icons, setIcons] = useState([]);

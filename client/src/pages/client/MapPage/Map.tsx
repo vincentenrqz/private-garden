@@ -3,11 +3,11 @@ import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Box } from "@mui/material";
 import L, { LatLngBoundsExpression } from "leaflet";
-import ButtonFilters from "../components/ButtonFilters";
-import CustomDrawer from "../components/CustomDrawer";
+import ButtonFilters from "../../components/ButtonFilters";
+import CustomDrawer from "../../components/CustomDrawer";
 import { useScreenSize } from "../../../context/MediaContext";
-import { handleFlexStyles, handleMapSize } from "../../../utils/utils";
-import CustomMap from "../../admin/components/CustomMap";
+import { handleFlexStyles, handleMapSize } from "../../../utils/pageSize";
+import CustomMap from "../../components/CustomMap";
 
 const MapPage = () => {
   const paperRef = useRef<HTMLDivElement>(null);

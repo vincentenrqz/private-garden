@@ -43,6 +43,11 @@ app.post(
   upload.single("file"),
   TypesController.resizeImage
 );
+app.post(
+  "/types/upload-icons",
+  upload.single("image"),
+  TypesController.uploadImage
+);
 
 //Species Routes
 app.post("/species", SpeciesController.createSpeciesData);
