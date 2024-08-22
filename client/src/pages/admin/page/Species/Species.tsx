@@ -144,7 +144,7 @@ const Species = () => {
             {speciesData.length > 0 ? (
               <GenericTable
                 data={speciesData}
-                headers={["ID", "Name", "Type", "Updated at", ""]}
+                headers={["ID", "Name", "Updated at", ""]}
                 renderRow={renderRow}
               />
             ) : (

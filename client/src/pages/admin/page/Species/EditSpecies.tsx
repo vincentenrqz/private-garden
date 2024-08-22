@@ -74,7 +74,6 @@ const EditSpecies = ({
   };
 
   const handleSelectIcon = (data: any) => {
-    console.log("data", data);
     setForm((prev) => ({
       ...prev,
       icon: data,
@@ -116,7 +115,6 @@ const EditSpecies = ({
     }
   };
 
-  console.log("species", species);
   return (
     <>
       <ModalButton
@@ -179,7 +177,11 @@ const EditSpecies = ({
               {icons &&
                 icons.map((item: any, index: number) => {
                   const { iconUrl, iconSize } = item;
-                  const findSelect = selectedType === iconUrl;
+                  const findSelectedType = selectedType === iconUrl;
+                  const defaultIconValue = species?.icon?.iconUrl === iconUrl;
+                  const icon = selectedType
+                    ? findSelectedType
+                    : defaultIconValue;
                   return (
                     <CardContent
                       key={index}
@@ -193,12 +195,10 @@ const EditSpecies = ({
                         overflow: "hidden",
                         position: "relative",
                         transition: "all 0.3s ease",
-                        backgroundColor: findSelect ? "#e0e0e0" : "transparent",
-                        borderRadius: findSelect ? "8px" : "0",
-                        boxShadow: findSelect
-                          ? "0 4px 8px rgba(0,0,0,0.2)"
-                          : "none",
-                        transform: findSelect ? "scale(1.05)" : "none",
+                        backgroundColor: icon ? "#e0e0e0" : "transparent",
+                        borderRadius: icon ? "8px" : "0",
+                        boxShadow: icon ? "0 4px 8px rgba(0,0,0,0.2)" : "none",
+                        transform: icon ? "scale(1.05)" : "none",
                         "&:hover": {
                           backgroundColor: "#f0f0f0",
                           borderRadius: "8px",
