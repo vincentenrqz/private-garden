@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Header from "../../../components/Header/Header";
 import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
 import TableCell from "@mui/material/TableCell";
-import { speciesService } from "../../../../services/species.service";
 import { SpeciesDto } from "../../../../types/species.interface";
 import GenericTable from "../../../components/GenericTable";
 import CustomMenuList from "../../../components/CustomMenuList";
-import { formatDate } from "../../../../utils/pageSize";
+import { formatReadableDate } from "../../../../utils/pageSize";
 import Toaster from "../../../components/Toaster";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
@@ -81,9 +80,8 @@ const Types = () => {
         <TableCell component="th" scope="row">
           {row.name}
         </TableCell>
-        <TableCell>{row.type_id}</TableCell>
         <TableCell>
-          {row?.updatedAt ? formatDate(row?.updatedAt) : ""}
+          {row?.updatedAt ? formatReadableDate(row?.updatedAt) : ""}
         </TableCell>
         <TableCell sx={{ textAlign: "right" }}>
           <CustomMenuList
@@ -146,7 +144,7 @@ const Types = () => {
             {typesData.length > 0 ? (
               <GenericTable
                 data={typesData}
-                headers={["ID", "Name", "Type", "Updated at", ""]}
+                headers={["ID", "Name", "Updated at", ""]}
                 renderRow={renderRow}
               />
             ) : (

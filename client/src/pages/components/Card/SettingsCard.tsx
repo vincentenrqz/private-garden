@@ -56,7 +56,7 @@ export default function SettingsCard() {
             }}
           >
             <IconButton
-              onClick={() => navigate("/admin/species")}
+              onClick={() => navigate("/admin/user-settings")}
               sx={{
                 position: "absolute",
                 right: 10,
