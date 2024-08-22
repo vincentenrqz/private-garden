@@ -98,8 +98,6 @@ const Species = () => {
     );
   };
 
-  console.log("speciesData", speciesData);
-
   return (
     <>
       <Header />
