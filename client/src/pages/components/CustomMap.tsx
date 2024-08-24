@@ -3,7 +3,7 @@ import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L, { LatLngBoundsExpression } from "leaflet";
 import { useScreenSize } from "../../context/MediaContext";
-import { handleMapSize } from "../../utils/pageSize";
+import { handleMapSize } from "../../utils";
 
 interface MarkerType {
   id: number;
@@ -13,17 +13,6 @@ interface MarkerType {
   type?: string;
   icon: any;
 }
-
-const markerIcon = L.icon({
-  iconUrl: `${window.location.origin}/resources/tree.svg`,
-  iconSize: [40, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-  shadowSize: [41, 41],
-});
 
 type Prop = {
   open?: boolean;
@@ -45,7 +34,9 @@ const CustomMap = ({
   selectedIcon,
 }: Prop) => {
   const paperRef = useRef<HTMLDivElement>(null);
-  const iconUrl = `${window.location.origin}/plants/${selectedIcon}`;
+  const iconUrl = `${import.meta.env.VITE_API_URL}uploads/${
+    selectedIcon?.icon?.iconUrl
+  }`;
   const [markers, setMarkers] = useState<MarkerType[]>([
     {
       id: 1,
@@ -235,12 +226,11 @@ const CustomMap = ({
       type: "tree",
       icon: L.icon({
         iconUrl,
-        iconSize: [40, 40],
+        iconSize: selectedIcon?.icon?.iconSize,
         iconAnchor: [10, 20],
         popupAnchor: [0, -20],
         tooltipAnchor: [10, -15],
-        shadowUrl:
-          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+        shadowUrl: selectedIcon?.icon?.shadowUrl,
         shadowSize: [41, 41],
       }),
     };
@@ -262,8 +252,6 @@ const CustomMap = ({
   const filteredMarkers = selectedType
     ? markers.filter((marker) => marker?.type === selectedType)
     : markers;
-
-  console.log("filteredMarkers", filteredMarkers);
 
   return (
     <>

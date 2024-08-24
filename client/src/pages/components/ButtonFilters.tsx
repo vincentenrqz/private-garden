@@ -2,8 +2,9 @@ import { Icon, IconButton } from "@mui/material";
 import React from "react";
 import { BsFlower1 } from "react-icons/bs";
 import { GiFlowers, GiFruitTree, GiGrass } from "react-icons/gi";
-import { handleIconSize } from "../../utils/pageSize";
+import { handleIconSize } from "../../utils";
 
+//TODO: SHOULD CHANGE THIS LOGIC TO A DYNAMIC ONE. MAYBE USE FROM ADMIN MAP BUTTON FILTERS REUSABLE
 export default function ButtonFilters({
   screenSize,
   setSelectedType,
