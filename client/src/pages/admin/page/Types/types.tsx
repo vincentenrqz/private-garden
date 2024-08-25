@@ -5,7 +5,7 @@ import TableCell from "@mui/material/TableCell";
 import { SpeciesDto } from "../../../../types/species.interface";
 import GenericTable from "../../../components/GenericTable";
 import CustomMenuList from "../../../components/CustomMenuList";
-import { formatReadableDate } from "../../../../utils/pageSize";
+import { formatReadableDate } from "../../../../utils";
 import Toaster from "../../../components/Toaster";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";

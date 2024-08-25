@@ -6,7 +6,7 @@ import L, { LatLngBoundsExpression } from "leaflet";
 import ButtonFilters from "../../components/ButtonFilters";
 import CustomDrawer from "../../components/CustomDrawer";
 import { useScreenSize } from "../../../context/MediaContext";
-import { handleFlexStyles, handleMapSize } from "../../../utils/pageSize";
+import { handleFlexStyles, handleMapSize } from "../../../utils";
 import CustomMap from "../../components/CustomMap";
 
 const MapPage = () => {

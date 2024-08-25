@@ -22,6 +22,7 @@ type Prop = {
   forAdmin: boolean;
   selectedType?: any;
   selectedIcon?: any;
+  buttonFilters: any;
 };
 
 const CustomMap = ({
@@ -32,6 +33,7 @@ const CustomMap = ({
   forAdmin,
   selectedType,
   selectedIcon,
+  buttonFilters,
 }: Prop) => {
   const paperRef = useRef<HTMLDivElement>(null);
   const iconUrl = `${import.meta.env.VITE_API_URL}uploads/${
@@ -226,7 +228,7 @@ const CustomMap = ({
       type: "tree",
       icon: L.icon({
         iconUrl,
-        iconSize: selectedIcon?.icon?.iconSize,
+        iconSize: [50, 50],
         iconAnchor: [10, 20],
         popupAnchor: [0, -20],
         tooltipAnchor: [10, -15],

@@ -10,10 +10,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
 import { useFetchData } from "../../../utils/queries";
-import {
-  findLatestUpdatedAt,
-  formatReadableDate,
-} from "../../../utils/pageSize";
+import { findLatestUpdatedAt, formatReadableDate } from "../../../utils";
 
 export default function TypeCard() {
   const { typesData } = useFetchData();

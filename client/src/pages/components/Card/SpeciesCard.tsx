@@ -10,10 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { useFetchData } from "../../../utils/queries";
-import {
-  findLatestUpdatedAt,
-  formatReadableDate,
-} from "../../../utils/pageSize";
+import { findLatestUpdatedAt, formatReadableDate } from "../../../utils";
 
 export default function SpeciesCard() {
   const { speciesData } = useFetchData();
