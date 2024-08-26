@@ -6,13 +6,14 @@ import Modal from "@mui/material/Modal";
 import { CardMedia } from "@mui/material";
 import { mapService } from "../../../../services/maps.service";
 import { useFetchData } from "../../../../utils/queries";
+import ConfirmationDelete from "./ConfirmationDelete";
 
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 600, // Increased width from 400 to 600
+  width: 600,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -33,10 +34,12 @@ export default function AdminMapModal({
   handleCloseModal: () => void;
 }) {
   const [loading, setLoading] = React.useState(false);
+  const [openConfirmation, setOpenConfirmation] = React.useState(false);
   const { fetchMaps } = useFetchData();
 
+  const openConfirmationHandler = () => setOpenConfirmation(true);
+
   const handleDeleteData = async (data: any) => {
-    //open confirmation
     setLoading(true);
     try {
       const result: any = await mapService.deleteMaps(data?._id);
@@ -102,15 +105,23 @@ export default function AdminMapModal({
           />
           <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
             <Button
-              variant="outlined"
+              variant="contained"
               color="error"
-              onClick={() => handleDeleteData(data)}
+              onClick={() => openConfirmationHandler()}
             >
               Delete
             </Button>
           </Box>
         </Box>
       </Modal>
+      {openConfirmation && (
+        <ConfirmationDelete
+          data={data}
+          open={openConfirmation}
+          handleClose={handleCloseModal}
+          handleDeleteData={handleDeleteData}
+        />
+      )}
     </>
   );
 }
