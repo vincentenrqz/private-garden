@@ -13,10 +13,10 @@ type Prop = {
   toggleDrawer?: (newOpen: boolean) => void;
   forAdmin: boolean;
   selectedType?: any;
-  selectedIcon?: any;
   buttonFilters: any;
   handleMapClick: any;
   markers: any;
+  openDrawerHandler: any;
 };
 
 const CustomMap = ({
@@ -26,19 +26,17 @@ const CustomMap = ({
   toggleDrawer,
   forAdmin,
   selectedType,
-  selectedIcon,
   buttonFilters,
   handleMapClick,
   markers,
+  openDrawerHandler,
 }: Prop) => {
   const paperRef = useRef<HTMLDivElement>(null);
-  const [data, setData] = useState<any>({});
   const [defaultZoom, setDefaultZoom] = useState(1);
   const [minZoom, setMinZoom] = useState(1);
   const screenSize = useScreenSize();
   const mapSize = handleMapSize(screenSize);
   const { mapsData } = useFetchData();
-  console.log("markers", markers);
 
   useEffect(() => {
     const handleZoom = () => {
@@ -90,17 +88,6 @@ const CustomMap = ({
     [-83.366776, 160.93596],
   ];
 
-  const matchPosition = (position: any) => {
-    const matchedPositionMarker = markers?.find((marker: any) => {
-      return (
-        marker.position.lat === position.lat &&
-        marker.position.lng === position.lng
-      );
-    });
-
-    setData(matchedPositionMarker);
-  };
-
   const filteredMarkers = selectedType
     ? markers.filter((marker) => marker?.type === selectedType)
     : markers;
@@ -141,10 +128,7 @@ const CustomMap = ({
                 icon={markerIconFunction(icon.options, icon.options.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
-                    if (toggleDrawer) {
-                      toggleDrawer(true);
-                    }
-                    matchPosition(e.latlng);
+                    openDrawerHandler(marker);
                   },
                 }}
               ></Marker>
@@ -161,15 +145,13 @@ const CustomMap = ({
                 icon={markerIconFunction(icon.options, icon.options.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
-                    if (toggleDrawer) {
-                      toggleDrawer(true);
-                    }
-                    matchPosition(e.latlng);
+                    openDrawerHandler(marker);
                   },
                 }}
               ></Marker>
             );
           })}
+        {/* ADMIN MAP */}
         {!selectedType &&
           forAdmin &&
           markers?.map((marker) => {
@@ -182,10 +164,7 @@ const CustomMap = ({
                 icon={markerIconFunction(icon.options, icon.options.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
-                    if (toggleDrawer) {
-                      toggleDrawer(true);
-                    }
-                    matchPosition(e.latlng);
+                    openDrawerHandler(marker);
                   },
                 }}
               ></Marker>
