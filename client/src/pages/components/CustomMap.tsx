@@ -10,7 +10,7 @@ type Prop = {
   open?: boolean;
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   setReadMore?: React.Dispatch<React.SetStateAction<boolean>>;
-  toggleDrawer?: (newOpen: boolean) => void;
+  toggleDrawer?: (newOpen: boolean, data: any) => void;
   forAdmin: boolean;
   selectedType?: any;
   buttonFilters: any;
@@ -128,7 +128,9 @@ const CustomMap = ({
                 icon={markerIconFunction(icon.options, icon.options.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
-                    forAdmin ? openDrawerHandler(marker) : toggleDrawer(true);
+                    forAdmin
+                      ? openDrawerHandler(marker)
+                      : toggleDrawer(true, marker);
                   },
                 }}
               ></Marker>
@@ -145,7 +147,9 @@ const CustomMap = ({
                 icon={markerIconFunction(icon.options, icon.options.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
-                    forAdmin ? openDrawerHandler(marker) : toggleDrawer(true);
+                    forAdmin
+                      ? openDrawerHandler(marker)
+                      : toggleDrawer(true, marker);
                   },
                 }}
               ></Marker>
@@ -164,7 +168,9 @@ const CustomMap = ({
                 icon={markerIconFunction(icon.options, icon.options.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
-                    forAdmin ? openDrawerHandler(marker) : toggleDrawer(true);
+                    forAdmin
+                      ? openDrawerHandler(marker)
+                      : toggleDrawer(true, marker);
                   },
                 }}
               ></Marker>

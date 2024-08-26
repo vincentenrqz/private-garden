@@ -42,6 +42,7 @@ interface MarkerType {
   description: string;
   type: string;
   createdAt: any;
+  attachments: string;
 }
 
 const Map = () => {
@@ -135,6 +136,7 @@ const Map = () => {
         type: filteredSpeciesData[0]?.name,
         _id: data?._id,
         createdAt: data?.createdAt,
+        attachments: data?.attachments,
       });
     }
   };
@@ -153,7 +155,7 @@ const Map = () => {
       sub_name: selectedIconMarker?.sub_name,
       icon: L.icon({
         iconUrl,
-        iconSize: [50, 50],
+        iconSize: [40, 40],
         iconAnchor: [10, 20],
         popupAnchor: [0, -20],
         tooltipAnchor: [10, -15],
@@ -165,6 +167,7 @@ const Map = () => {
       description: selectedIconMarker?.description,
       type: selectedIconMarker?.type,
       createdAt: selectedIconMarker?.createdAt,
+      attachments: selectedIconMarker?.attachments,
     };
 
     setMarkers([...markers, newMarker]);
@@ -243,7 +246,7 @@ const Map = () => {
                 Save
               </Button>
             </Box>
-            <Stack direction="row">
+            {/* <Stack direction="row">
               <FormGroup sx={{ paddingLeft: 4 }}>
                 <FormControlLabel
                   control={<Switch defaultChecked />}
@@ -254,9 +257,13 @@ const Map = () => {
                   }
                 />
               </FormGroup>
-            </Stack>
+            </Stack> */}
             <Divider />
-            <Box display="flex" justifyContent="center" paddingBottom={10}>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              paddingBottom={10}
+            >
               <Stack direction="column">
                 {typesData?.map((type) => (
                   <ButtonFilters

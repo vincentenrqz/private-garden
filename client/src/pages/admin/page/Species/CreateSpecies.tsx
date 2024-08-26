@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import {
@@ -16,6 +16,7 @@ import Toaster from "../../../components/Toaster";
 import SubmitButton from "../../../components/SubmitButton";
 import { useFetchData } from "../../../../utils/queries";
 import { IconDto } from "../../../../types/types.interface";
+import { typesService } from "../../../../services/types.service";
 
 type Props = {
   handleOpen: () => void;
@@ -32,6 +33,7 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     scientific_name: "",
     etymology: "",
     description: "",
+    attachments: "",
   });
   const [message, setMessage] = useState({
     message: "",
@@ -43,6 +45,12 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
   const [selectedIcon, setSelectedIcon] = useState(null);
 
   const { typesData } = useFetchData();
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -74,10 +82,35 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     setSelectedIcon(data?.iconUrl);
   };
 
+  const handleAttachments = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      try {
+        const response = await typesService.uploadImage(formData);
+
+        if (response) {
+          const { filename } = response.data;
+
+          setSpecies((prev) => ({
+            ...prev,
+            attachments: filename,
+          }));
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
+    console.log("species", species);
     try {
       const result: any = await speciesService.createSpecies(species);
       const { message, status } = result.data;
@@ -285,9 +318,27 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
               >
                 Attachments
               </Typography>
-              <Button variant="outlined" fullWidth>
+              <Button variant="outlined" fullWidth onClick={handleButtonClick}>
                 Attach images
               </Button>
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleAttachments}
+              />
+
+              {species.attachments != null && (
+                <img
+                  src={`${import.meta.env.VITE_API_URL}uploads/${
+                    species.attachments
+                  }`}
+                  alt=""
+                  height={100}
+                  width={100}
+                />
+              )}
             </Stack>
             <Stack
               direction="row"

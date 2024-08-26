@@ -24,7 +24,7 @@ export default function SpeciesCard() {
     <Card
       id="species"
       sx={{ position: "relative", zIndex: 1 }}
-      className="mt-10"
+      className="mt-7"
     >
       <Box sx={{ flexGrow: 1 }}>
         <Grid container>

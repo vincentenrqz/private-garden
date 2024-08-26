@@ -39,8 +39,9 @@ const MapPage = () => {
     };
   }, [open, setOpen]);
 
-  const toggleDrawer = (newOpen: boolean) => {
+  const toggleDrawer = (newOpen: boolean, data: any) => {
     setOpen(newOpen);
+    setData(data);
     if (paperRef.current) {
       if (screenSize?.screenSize === "xs") {
         paperRef.current.style.top = "80%";

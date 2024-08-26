@@ -7,5 +7,5 @@ export class SpeciesDto {
   scientific_name?: string;
   etymology?: string;
   description?: string;
-  attachments?: string[];
+  attachments?: string;
 }
