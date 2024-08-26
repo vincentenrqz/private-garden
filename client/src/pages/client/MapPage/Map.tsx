@@ -1,8 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import { useEffect, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
 import { Box } from "@mui/material";
-import L, { LatLngBoundsExpression } from "leaflet";
 import ButtonFilters from "../../components/ButtonFilters";
 import CustomDrawer from "../../components/CustomDrawer";
 import { useScreenSize } from "../../../context/MediaContext";
@@ -110,6 +108,9 @@ const MapPage = () => {
             toggleDrawer={toggleDrawer}
             forAdmin={false}
             selectedType={selectedType}
+            buttonFilters={undefined}
+            handleMapClick={undefined}
+            markers={undefined}
           />
         </div>
       </Box>
