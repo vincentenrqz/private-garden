@@ -3,23 +3,16 @@ import Header from "../../../components/Header/Header";
 import {
   Box,
   Button,
-  CardContent,
-  CardMedia,
   Container,
   Divider,
-  FormControl,
   FormControlLabel,
   FormGroup,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
   Stack,
   Switch,
-  Tooltip,
   Typography,
 } from "@mui/material";
-import axios, { Axios } from "axios";
+import L from "leaflet";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import CustomMap from "../../../components/CustomMap";
@@ -34,7 +27,19 @@ import {
 } from "../../../../utils";
 import ButtonFilters from "./ButtonFilters";
 import FilterSpeciesContent from "./FilterSpeciesContent";
-import { ckb } from "date-fns/locale";
+import { mapService } from "../../../../services/maps.service";
+interface MarkerType {
+  _id: number;
+  position: L.LatLngExpression;
+  name: string;
+  sub_name: string;
+  icon: any;
+  scientific_name: string;
+  etymology: string;
+  description: string;
+  type: string;
+  createdAt: any;
+}
 
 const Map = () => {
   const { speciesData = [], typesData = [] } = useFetchData();
@@ -43,6 +48,12 @@ const Map = () => {
   const [filteredData, setFilteredData] = useState(speciesData);
   const [selectedIconMarker, setSelectedIconMarker] = useState(null);
   const [buttonFilters, setButtonFilters] = useState(null); //Todo: Pass this in custom map to have a conditional logic
+  const [markers, setMarkers] = useState<MarkerType[]>([]);
+  const [message, setMessage] = useState({
+    message: "",
+    status: false,
+    open: false,
+  });
   const [selectedFilter] = useState("None");
 
   const screenSize = useScreenSize();
@@ -50,6 +61,7 @@ const Map = () => {
   const flexStyle = handleFlexStyles(screenSize);
 
   const navigate = useNavigate();
+  const { mapsData, fetchMaps } = useFetchData();
 
   useEffect(() => {
     if (selectedFilter === "None") {
@@ -107,11 +119,65 @@ const Map = () => {
     });
   };
 
-  const saveMapHandler = () => {
-    //TODO: TRIGGER SAVING OF MARKER DATA
-    console.log("TRIGGER SAVE");
+  const handleMapClick = (e: L.LeafletMouseEvent) => {
+    if (!selectedIconMarker) return;
+
+    const iconUrl = `${import.meta.env.VITE_API_URL}uploads/${
+      selectedIconMarker?.icon?.iconUrl
+    }`;
+
+    const newMarker: MarkerType = {
+      _id: selectedIconMarker?._id,
+      position: e.latlng,
+      name: selectedIconMarker?.name,
+      sub_name: selectedIconMarker?.sub_name,
+      icon: L.icon({
+        iconUrl,
+        iconSize: [50, 50],
+        iconAnchor: [10, 20],
+        popupAnchor: [0, -20],
+        tooltipAnchor: [10, -15],
+        shadowUrl: selectedIconMarker?.icon?.shadowUrl,
+        shadowSize: [41, 41],
+      }),
+      scientific_name: selectedIconMarker?.scientific_name,
+      etymology: selectedIconMarker?.etymology,
+      description: selectedIconMarker?.description,
+      type: selectedIconMarker?.type,
+      createdAt: selectedIconMarker?.createdAt,
+    };
+
+    setMarkers([...markers, newMarker]);
   };
-  console.log("filteredData", filteredData);
+
+  const saveMapHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      for (const marker of markers) {
+        const result: any = await mapService.createMaps(marker);
+        const { message, status } = result.data;
+        setMessage({
+          message,
+          status,
+          open: true,
+        });
+      }
+      fetchMaps();
+    } catch (error) {
+      const { message, status } = error?.response?.data;
+      setMessage({
+        message,
+        status,
+        open: true,
+      });
+      console.error("Error creating species:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -179,6 +245,8 @@ const Map = () => {
               <CustomMap
                 selectedIcon={selectedIconMarker}
                 buttonFilters={buttonFilters}
+                handleMapClick={handleMapClick}
+                markers={markers}
                 forAdmin={true}
               />
 

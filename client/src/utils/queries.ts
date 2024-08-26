@@ -3,10 +3,12 @@ import { speciesService } from "../services/species.service";
 import { typesService } from "../services/types.service";
 import { TypesDto } from "../types/types.interface";
 import { SpeciesDto } from "../types/species.interface";
+import { mapService } from "../services/maps.service";
 
 export const useFetchData = () => {
   const [typesData, setTypesData] = useState<TypesDto[]>([]);
   const [speciesData, setSpeciesData] = useState<SpeciesDto[]>([]);
+  const [mapsData, setMapsData] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState({
     message: "",
@@ -48,10 +50,23 @@ export const useFetchData = () => {
     }
   };
 
+  //fetch maps data
+  const fetchMaps = async () => {
+    try {
+      const response = await mapService.getMaps();
+      const { data } = response;
+      setMapsData(data);
+    } catch (error) {
+      const { message, status } = error?.response?.data;
+      setMessage({ message, status, open: true });
+      console.log("Error fetching maps", error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await Promise.all([fetchSpecies(), fetchTypes()]);
+        await Promise.all([fetchSpecies(), fetchTypes(), fetchMaps()]);
       } catch (error: any) {
         setMessage({
           message: "An error occurred while fetching data.",
@@ -69,5 +84,14 @@ export const useFetchData = () => {
     fetchData();
   }, []);
 
-  return { typesData, speciesData, loading, message, fetchSpecies, fetchTypes };
+  return {
+    typesData,
+    speciesData,
+    mapsData,
+    loading,
+    message,
+    fetchSpecies,
+    fetchTypes,
+    fetchMaps,
+  };
 };
