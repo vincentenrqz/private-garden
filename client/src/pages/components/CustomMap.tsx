@@ -38,6 +38,7 @@ const CustomMap = ({
   const screenSize = useScreenSize();
   const mapSize = handleMapSize(screenSize);
   const { mapsData } = useFetchData();
+  console.log("markers", markers);
 
   useEffect(() => {
     const handleZoom = () => {
@@ -169,6 +170,27 @@ const CustomMap = ({
               ></Marker>
             );
           })}
+        {!selectedType &&
+          forAdmin &&
+          markers?.map((marker) => {
+            const { _id, position, icon } = marker;
+
+            return (
+              <Marker
+                key={_id}
+                position={position}
+                icon={markerIconFunction(icon.options, icon.options.iconUrl)}
+                eventHandlers={{
+                  click: (e) => {
+                    if (toggleDrawer) {
+                      toggleDrawer(true);
+                    }
+                    matchPosition(e.latlng);
+                  },
+                }}
+              ></Marker>
+            );
+          })}{" "}
         {forAdmin && <MapClickHandler onClick={handleMapClick} />}
       </MapContainer>
     </>

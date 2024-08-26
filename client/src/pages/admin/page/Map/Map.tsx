@@ -28,6 +28,7 @@ import {
 import ButtonFilters from "./ButtonFilters";
 import FilterSpeciesContent from "./FilterSpeciesContent";
 import { mapService } from "../../../../services/maps.service";
+import ConfirmationSave from "./ConfirmationSave";
 interface MarkerType {
   _id: number;
   position: L.LatLngExpression;
@@ -42,7 +43,7 @@ interface MarkerType {
 }
 
 const Map = () => {
-  const { speciesData = [], typesData = [] } = useFetchData();
+  const { speciesData, typesData } = useFetchData();
 
   const [isLoading, setIsLoading] = useState(false);
   const [filteredData, setFilteredData] = useState(speciesData);
@@ -55,13 +56,14 @@ const Map = () => {
     open: false,
   });
   const [selectedFilter] = useState("None");
+  const [openSaveDialog, setOpenSaveDialog] = useState(false);
 
   const screenSize = useScreenSize();
   const mapSize = handleMapSize(screenSize);
   const flexStyle = handleFlexStyles(screenSize);
 
   const navigate = useNavigate();
-  const { mapsData, fetchMaps } = useFetchData();
+  const { fetchMaps } = useFetchData();
 
   useEffect(() => {
     if (selectedFilter === "None") {
@@ -73,6 +75,13 @@ const Map = () => {
       setFilteredData(filtered);
     }
   }, [selectedFilter, speciesData]);
+
+  const handleClickOpenDialog = () => {
+    setOpenSaveDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenSaveDialog(false);
+  };
 
   //TODO: MAKE A TOGGLE FUNCTION FOR THE MULTIPLE MARKER / SINGLE MARKER
   //TODO: MODAL TO POPUP THE DATA OF THE CONTENT - MAKE THIS REUSABLE, MAYBE USE THE FRONTEND MAP MODAL
@@ -105,11 +114,12 @@ const Map = () => {
       data: typesData,
       type: data?.type,
     });
+    const iconData = typesData?.find((type) => type?._id === data?.type);
 
     setSelectedIconMarker({
       description: data?.description,
       etymology: data?.etymology,
-      icon: data?.icon,
+      icon: iconData?.icons[0],
       name: data?.name,
       scientific_name: data?.scientific_name,
       sub_name: data?.sub_name,
@@ -175,6 +185,7 @@ const Map = () => {
       console.error("Error creating species:", error);
     } finally {
       setIsLoading(false);
+      setOpenSaveDialog(false);
     }
   };
 
@@ -210,7 +221,7 @@ const Map = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={saveMapHandler}
+                onClick={handleClickOpenDialog}
               >
                 Save
               </Button>
@@ -261,6 +272,14 @@ const Map = () => {
             </Box>
           </Stack>
         </Container>
+      )}
+      {openSaveDialog && (
+        <ConfirmationSave
+          data={markers}
+          open={open}
+          handleClose={handleCloseDialog}
+          handleSave={saveMapHandler}
+        />
       )}
     </>
   );

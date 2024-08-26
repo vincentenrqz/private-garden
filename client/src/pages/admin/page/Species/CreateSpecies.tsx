@@ -43,6 +43,7 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
   const [selectedIcon, setSelectedIcon] = useState(null);
 
   const { typesData } = useFetchData();
+  console.log("species", species);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -73,6 +74,8 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     }));
     setSelectedIcon(data?.iconUrl);
   };
+
+  console.log("species", species);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
