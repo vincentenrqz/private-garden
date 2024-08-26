@@ -38,6 +38,7 @@ export default function AdminMapModal({
   const { fetchMaps } = useFetchData();
 
   const openConfirmationHandler = () => setOpenConfirmation(true);
+  const closeConfirmationHandler = () => setOpenConfirmation(false);
 
   const handleDeleteData = async (data: any) => {
     setLoading(true);
@@ -104,10 +105,14 @@ export default function AdminMapModal({
             }}
           />
           <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
+            <Button variant="outlined" onClick={handleCloseModal}>
+              Close
+            </Button>
             <Button
               variant="contained"
               color="error"
               onClick={() => openConfirmationHandler()}
+              sx={{ ml: 1 }}
             >
               Delete
             </Button>
@@ -120,6 +125,8 @@ export default function AdminMapModal({
           open={openConfirmation}
           handleClose={handleCloseModal}
           handleDeleteData={handleDeleteData}
+          setOpenConfirmation={setOpenConfirmation}
+          closeConfirmationHandler={closeConfirmationHandler}
         />
       )}
     </>

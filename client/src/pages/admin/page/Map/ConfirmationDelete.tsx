@@ -25,6 +25,7 @@ export default function ConfirmationDelete({
   open,
   handleClose,
   handleDeleteData,
+  closeConfirmationHandler,
 }: any) {
   return (
     <React.Fragment>
@@ -54,7 +55,7 @@ export default function ConfirmationDelete({
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={closeConfirmationHandler}>Close</Button>
           <Button
             variant="contained"
             color="error"
