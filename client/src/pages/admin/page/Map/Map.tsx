@@ -28,6 +28,9 @@ import {
 import ButtonFilters from "./ButtonFilters";
 import FilterSpeciesContent from "./FilterSpeciesContent";
 import { mapService } from "../../../../services/maps.service";
+import ConfirmationSave from "./ConfirmationSave";
+import AdminMapModal from "./AdminDrawer";
+import Toaster from "../../../components/Toaster";
 interface MarkerType {
   _id: number;
   position: L.LatLngExpression;
@@ -42,7 +45,7 @@ interface MarkerType {
 }
 
 const Map = () => {
-  const { speciesData = [], typesData = [] } = useFetchData();
+  const { speciesData, typesData } = useFetchData();
 
   const [isLoading, setIsLoading] = useState(false);
   const [filteredData, setFilteredData] = useState(speciesData);
@@ -55,13 +58,19 @@ const Map = () => {
     open: false,
   });
   const [selectedFilter] = useState("None");
+  const [openSaveDialog, setOpenSaveDialog] = useState(false);
+
+  //Selected Data for the admin modal
+  const [selectedData, setSelectedData] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const handleCloseModal = () => setOpenModal(false);
 
   const screenSize = useScreenSize();
   const mapSize = handleMapSize(screenSize);
   const flexStyle = handleFlexStyles(screenSize);
 
   const navigate = useNavigate();
-  const { mapsData, fetchMaps } = useFetchData();
+  const { fetchMaps } = useFetchData();
 
   useEffect(() => {
     if (selectedFilter === "None") {
@@ -74,8 +83,14 @@ const Map = () => {
     }
   }, [selectedFilter, speciesData]);
 
+  const handleClickOpenDialog = () => {
+    setOpenSaveDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenSaveDialog(false);
+  };
+
   //TODO: MAKE A TOGGLE FUNCTION FOR THE MULTIPLE MARKER / SINGLE MARKER
-  //TODO: MODAL TO POPUP THE DATA OF THE CONTENT - MAKE THIS REUSABLE, MAYBE USE THE FRONTEND MAP MODAL
   const handleFilterSpecies = (e: any) => {
     const selectedTypeName = e.target.value;
 
@@ -101,22 +116,27 @@ const Map = () => {
   };
 
   const selectedMarkerData = (data) => {
-    const filteredSpeciesData = filterSpeciesDataByType({
-      data: typesData,
-      type: data?.type,
-    });
+    if (selectedIconMarker?._id === data._id) {
+      setSelectedIconMarker(null); // Deselect if the same item is clicked again
+    } else {
+      const filteredSpeciesData = filterSpeciesDataByType({
+        data: typesData,
+        type: data?.type,
+      });
+      const iconData = typesData?.find((type) => type?._id === data?.type);
 
-    setSelectedIconMarker({
-      description: data?.description,
-      etymology: data?.etymology,
-      icon: data?.icon,
-      name: data?.name,
-      scientific_name: data?.scientific_name,
-      sub_name: data?.sub_name,
-      type: filteredSpeciesData[0]?.name,
-      _id: data?._id,
-      createdAt: data?.createdAt,
-    });
+      setSelectedIconMarker({
+        description: data?.description,
+        etymology: data?.etymology,
+        icon: iconData?.icons[0],
+        name: data?.name,
+        scientific_name: data?.scientific_name,
+        sub_name: data?.sub_name,
+        type: filteredSpeciesData[0]?.name,
+        _id: data?._id,
+        createdAt: data?.createdAt,
+      });
+    }
   };
 
   const handleMapClick = (e: L.LeafletMouseEvent) => {
@@ -165,6 +185,7 @@ const Map = () => {
         });
       }
       fetchMaps();
+      setMarkers([]);
     } catch (error) {
       const { message, status } = error?.response?.data;
       setMessage({
@@ -175,7 +196,13 @@ const Map = () => {
       console.error("Error creating species:", error);
     } finally {
       setIsLoading(false);
+      setOpenSaveDialog(false);
     }
+  };
+
+  const openDrawerHandler = (data: any) => {
+    setSelectedData(data);
+    setOpenModal(true);
   };
 
   return (
@@ -210,7 +237,8 @@ const Map = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={saveMapHandler}
+                onClick={handleClickOpenDialog}
+                disabled={markers?.length <= 0}
               >
                 Save
               </Button>
@@ -243,10 +271,10 @@ const Map = () => {
 
               {/* MAP */}
               <CustomMap
-                selectedIcon={selectedIconMarker}
                 buttonFilters={buttonFilters}
                 handleMapClick={handleMapClick}
                 markers={markers}
+                openDrawerHandler={openDrawerHandler}
                 forAdmin={true}
               />
 
@@ -261,6 +289,30 @@ const Map = () => {
             </Box>
           </Stack>
         </Container>
+      )}
+      {openModal && (
+        <AdminMapModal
+          data={selectedData}
+          setMessage={setMessage}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          handleCloseModal={handleCloseModal}
+        />
+      )}
+      {message.open && (
+        <Toaster
+          open={message.open}
+          status={message.status}
+          message={message.message}
+        />
+      )}
+      {openSaveDialog && (
+        <ConfirmationSave
+          data={markers}
+          open={open}
+          handleClose={handleCloseDialog}
+          handleSave={saveMapHandler}
+        />
       )}
     </>
   );

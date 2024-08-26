@@ -53,6 +53,8 @@ export default function FilterSpeciesContent({
       ) : (
         filteredData?.map((data) => {
           const isSelected = data._id === selectedIconMarker?._id;
+          const iconData = typesData?.find((type) => type?._id === data?.type);
+
           return (
             <Stack
               key={data?._id}
@@ -79,7 +81,7 @@ export default function FilterSpeciesContent({
                   component="img"
                   alt={data?.name}
                   src={`${import.meta.env.VITE_API_URL}uploads/${
-                    data?.icon?.iconUrl
+                    iconData?.icons[0]?.iconUrl
                   }`}
                   sx={{ width: 50, height: 50, objectFit: "cover" }}
                 />
