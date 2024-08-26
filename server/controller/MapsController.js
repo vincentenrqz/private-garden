@@ -108,7 +108,7 @@ const updateMapsData = async (req, res) => {
     }
 
     return res.json({
-      map: maps,
+      map: updatedMaps,
       status: true,
       message: "Successfully updated maps data",
     });
