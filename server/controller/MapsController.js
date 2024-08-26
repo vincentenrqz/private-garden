@@ -7,7 +7,7 @@ const createMapData = async (req, res) => {
   try {
     const {
       position,
-      nae,
+      name,
       sub_namme,
       type,
       icon,
@@ -19,7 +19,7 @@ const createMapData = async (req, res) => {
 
     const maps = await Map.create({
       position,
-      nae,
+      name,
       sub_namme,
       type,
       icon,
