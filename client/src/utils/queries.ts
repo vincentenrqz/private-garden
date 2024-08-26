@@ -28,13 +28,15 @@ export const useFetchData = () => {
         setSpeciesData([]);
       }
     } catch (error: any) {
-      const { message, status } = error?.response?.data;
-      setMessage({
-        message,
-        status,
-        open: true,
-      });
-      console.error("Error fetching species", error);
+      if (error) {
+        const { message, status } = error?.response?.data;
+        setMessage({
+          message,
+          status,
+          open: true,
+        });
+        console.error("Error fetching species", error);
+      }
     }
   };
 
@@ -50,13 +52,15 @@ export const useFetchData = () => {
         setTypesData([]);
       }
     } catch (error: any) {
-      const { message, status } = error?.response?.data;
-      setMessage({
-        message,
-        status,
-        open: true,
-      });
-      console.error("Error fetching types", error);
+      if (error) {
+        const { message, status } = error?.response?.data;
+        setMessage({
+          message,
+          status,
+          open: true,
+        });
+        console.error("Error fetching types", error);
+      }
     }
   };
 
@@ -71,9 +75,11 @@ export const useFetchData = () => {
         setMapsData([]);
       }
     } catch (error) {
-      const { message, status } = error?.response?.data;
-      setMessage({ message, status, open: true });
-      console.log("Error fetching maps", error);
+      if (error) {
+        const { message, status } = error?.response?.data;
+        setMessage({ message, status, open: true });
+        console.log("Error fetching maps", error);
+      }
     }
   };
 
