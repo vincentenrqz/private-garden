@@ -111,6 +111,7 @@ const MapPage = () => {
             buttonFilters={undefined}
             handleMapClick={undefined}
             markers={undefined}
+            openDrawerHandler={undefined}
           />
         </div>
       </Box>

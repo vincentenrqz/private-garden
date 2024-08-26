@@ -128,7 +128,7 @@ const CustomMap = ({
                 icon={markerIconFunction(icon.options, icon.options.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
-                    openDrawerHandler(marker);
+                    forAdmin ? openDrawerHandler(marker) : toggleDrawer(true);
                   },
                 }}
               ></Marker>
@@ -145,7 +145,7 @@ const CustomMap = ({
                 icon={markerIconFunction(icon.options, icon.options.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
-                    openDrawerHandler(marker);
+                    forAdmin ? openDrawerHandler(marker) : toggleDrawer(true);
                   },
                 }}
               ></Marker>
@@ -164,7 +164,7 @@ const CustomMap = ({
                 icon={markerIconFunction(icon.options, icon.options.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
-                    openDrawerHandler(marker);
+                    forAdmin ? openDrawerHandler(marker) : toggleDrawer(true);
                   },
                 }}
               ></Marker>
