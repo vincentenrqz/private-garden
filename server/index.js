@@ -11,6 +11,7 @@ const path = require("path");
 const UsersController = require("./controller/Users");
 const TypesController = require("./controller/TypesController");
 const SpeciesController = require("./controller/SpeciesController");
+const MapsController = require("./controller/MapsController");
 const AttachmentsController = require("./controller/AttachmentsController");
 const upload = require("./utils/uploadService");
 
@@ -55,6 +56,13 @@ app.get("/species", SpeciesController.getAllSpeciesData);
 app.get("/species/:id", SpeciesController.getSpeciesDataById);
 app.put("/species/:id", SpeciesController.updateSpeciesData);
 app.delete("/species/:id", SpeciesController.deleteSpeciesData);
+
+//Maps Routes
+app.post("/maps", MapsController.createMapData);
+app.get("/maps", MapsController.getAllMapsData);
+app.get("/maps/:id", MapsController.getMapsDataById);
+app.put("/maps/:id", MapsController.updateMapsData);
+app.delete("/maps/:id", MapsController.deleteMapsData);
 
 //Attachments routes
 app.post("/attachments", AttachmentsController.createAttachmentsData);
