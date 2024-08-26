@@ -20,8 +20,13 @@ export const useFetchData = () => {
   const fetchSpecies = async () => {
     try {
       const response = await speciesService.getSpecies();
-      const { data } = response;
-      setSpeciesData(data);
+
+      if (response && response.data) {
+        const { data } = response;
+        setSpeciesData(data);
+      } else {
+        setSpeciesData([]);
+      }
     } catch (error: any) {
       const { message, status } = error?.response?.data;
       setMessage({
@@ -37,8 +42,13 @@ export const useFetchData = () => {
   const fetchTypes = async () => {
     try {
       const response = await typesService.getType();
-      const { data } = response;
-      setTypesData(data?.types);
+
+      if (response && response.data) {
+        const { data } = response;
+        setTypesData(data?.types);
+      } else {
+        setTypesData([]);
+      }
     } catch (error: any) {
       const { message, status } = error?.response?.data;
       setMessage({
@@ -54,8 +64,12 @@ export const useFetchData = () => {
   const fetchMaps = async () => {
     try {
       const response = await mapService.getMaps();
-      const { data } = response;
-      setMapsData(data);
+      if (response && response.data) {
+        const { data } = response;
+        setMapsData(data);
+      } else {
+        setMapsData([]);
+      }
     } catch (error) {
       const { message, status } = error?.response?.data;
       setMessage({ message, status, open: true });

@@ -26,8 +26,6 @@ export default function ConfirmationSave({
   handleClose,
   handleSave,
 }: any) {
-  console.log("data", data);
-
   return (
     <React.Fragment>
       <BootstrapDialog

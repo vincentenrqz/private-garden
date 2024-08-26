@@ -174,7 +174,6 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
             )
           );
 
-          console.log("newCustomizeIcon", newCustomizeIcon);
           setNewTypes((prevTypes) => ({
             ...prevTypes,
             icons: newCustomizeIcon,
@@ -186,7 +185,6 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
     }
   };
 
-  console.log("newTypes", newTypes);
   const processIcons = async (icons: any) => {
     const blobIcons = icons.filter((icon: any, index: number) =>
       icon.iconUrl.startsWith("blob:")

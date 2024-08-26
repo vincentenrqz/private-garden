@@ -23,8 +23,6 @@ const Main = () => {
   const screenSize = useScreenSize();
 
   const handleDragEnd = (event: any, info: any) => {
-    console.log("Drag event", event);
-    console.log("info", info);
     const offset = info.offset.x;
     const velocity = info.velocity.x;
 

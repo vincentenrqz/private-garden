@@ -7,7 +7,6 @@ const UPLOAD_IMAGE = "types/upload-icons";
 
 export const typesService = {
   async createType(data: TypesDto) {
-    console.log("data", data);
     return apiService.post(BASE_URL, { data });
   },
 
