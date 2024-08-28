@@ -64,6 +64,7 @@ const CustomMap = ({
         } else {
           paperRef.current.style.left = "-43%";
         }
+
         if (setOpen) {
           setOpen(false);
         }
@@ -119,13 +120,14 @@ const CustomMap = ({
         />
         {!selectedType &&
           mapsData?.map((marker) => {
-            const { _id, position, icon } = marker;
+            const { data, position } = marker;
+            const { options } = data.icon;
 
             return (
               <Marker
-                key={_id}
+                key={data?._id}
                 position={position}
-                icon={markerIconFunction(icon.options, icon.options.iconUrl)}
+                icon={markerIconFunction(options, options?.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
                     forAdmin
@@ -159,13 +161,14 @@ const CustomMap = ({
         {!selectedType &&
           forAdmin &&
           markers?.map((marker) => {
-            const { _id, position, icon } = marker;
+            const { data, position } = marker;
+            const { options } = data.icon;
 
             return (
               <Marker
-                key={_id}
+                key={data._id}
                 position={position}
-                icon={markerIconFunction(icon.options, icon.options.iconUrl)}
+                icon={markerIconFunction(options, options.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
                     forAdmin

@@ -5,7 +5,7 @@ const BASE_URL = "maps";
 //TODO: PASS IN A TYPES FOR SPECIFIC FOR MAPS DATA
 export const mapService = {
   async createMaps(data: any) {
-    return apiService.post(BASE_URL, { data });
+    return apiService.post(BASE_URL, data);
   },
 
   async getMaps() {

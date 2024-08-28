@@ -10,6 +10,8 @@ const SpeciesSchema = new Schema(
     species_id: Number,
     scientific_name: String,
     etymology: String,
+    cultural_maintenance: String,
+    fun_fact: String,
     description: String,
     attachments: String,
   },

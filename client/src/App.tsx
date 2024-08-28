@@ -10,7 +10,17 @@ import Map from "./pages/admin/page/Map/Map";
 import Types from "./pages/admin/page/Types/types";
 import { ThemeProvider, createTheme } from "@mui/material";
 
-const theme = createTheme({});
+const theme = createTheme({
+  typography: {
+    fontFamily: "Minion Bold Condensed Caption, sans-serif",
+    h6: {
+      fontFamily: "Minion Bold Condensed Caption, sans-serif",
+    },
+    caption: {
+      fontFamily: "Minion Bold Condensed Caption, sans-serif",
+    },
+  },
+});
 
 const App = () => {
   return (

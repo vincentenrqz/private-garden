@@ -58,7 +58,6 @@ export default function AdminMapModal({
         status,
         open: true,
       });
-      console.log("Error deleting map data", error);
     } finally {
       setLoading(false);
       setOpenModal(false);

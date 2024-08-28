@@ -108,7 +108,6 @@ export default function Sidebar() {
 
 function smoothScroll(targetId: string) {
   const element = document.getElementById(targetId);
-  console.log("element", element);
   if (element) {
     element.scrollIntoView({ behavior: "smooth" });
   }

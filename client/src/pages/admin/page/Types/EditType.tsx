@@ -332,7 +332,6 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                     ? iconUrl
                     : `${import.meta.env.VITE_API_URL}uploads/${iconUrl}`;
 
-                  console.log("imageUrl", imageUrl);
                   return (
                     <Card
                       key={index}

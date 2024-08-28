@@ -9,14 +9,19 @@ const PositionSchema = new Schema({
 const MapSchema = new Schema(
   {
     position: { type: PositionSchema },
-    name: String,
-    sub_name: String,
-    type: String,
-    icon: Object,
-    species_id: Number,
-    scientific_name: String,
-    etymology: String,
-    description: String,
+    data: {
+      name: { type: String },
+      sub_name: { type: String },
+      type: { type: String },
+      icon: { type: Object },
+      species_id: { type: Number },
+      scientific_name: { type: String },
+      etymology: { type: String },
+      cultural_maintenance: { type: String },
+      fun_fact: { type: String },
+      description: { type: String },
+      attachments: { type: String },
+    },
   },
   { timestamps: true }
 );

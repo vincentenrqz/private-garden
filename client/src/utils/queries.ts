@@ -78,7 +78,6 @@ export const useFetchData = () => {
       if (error) {
         const { message, status } = error?.response?.data;
         setMessage({ message, status, open: true });
-        console.log("Error fetching maps", error);
       }
     }
   };

@@ -22,9 +22,12 @@ const MapPage = () => {
       if (paperRef.current && !paperRef.current.contains(e.target as Node)) {
         if (screenSize?.screenSize === "xs") {
           paperRef.current.style.top = "95%";
+        } else if (screenSize?.screenSize === "xl") {
+          paperRef.current.style.left = "-32%";
         } else {
           paperRef.current.style.left = "-43%";
         }
+
         setOpen(false);
         setReadMore(false);
       }
@@ -41,7 +44,7 @@ const MapPage = () => {
 
   const toggleDrawer = (newOpen: boolean, data: any) => {
     setOpen(newOpen);
-    setData(data);
+    setData(data.data);
     if (paperRef.current) {
       if (screenSize?.screenSize === "xs") {
         paperRef.current.style.top = "80%";
@@ -68,6 +71,8 @@ const MapPage = () => {
     if (readMore && paperRef.current) {
       if (screenSize?.screenSize === "xs") {
         paperRef.current.style.top = "95%";
+      } else if (screenSize?.screenSize === "xl") {
+        paperRef.current.style.left = "-32%";
       } else {
         paperRef.current.style.left = "-43%";
       }

@@ -47,3 +47,11 @@ button:hover {
   width: 100vw;
   height: 100vh;
 }
+
+@font-face {
+  font-family: "Minion Bold Condensed Caption";
+  src: url("/path-to-font/Minion-Bold-Condensed-Caption.woff2") format("woff2"),
+    url("/path-to-font/Minion-Bold-Condensed-Caption.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}

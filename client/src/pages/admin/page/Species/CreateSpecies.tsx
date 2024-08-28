@@ -32,6 +32,8 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     type: null,
     scientific_name: "",
     etymology: "",
+    cultural_maintenance: "",
+    fun_fact: "",
     description: "",
     attachments: "",
   });
@@ -110,7 +112,6 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     e.preventDefault();
     setIsLoading(true);
 
-    console.log("species", species);
     try {
       const result: any = await speciesService.createSpecies(species);
       const { message, status } = result.data;
@@ -129,6 +130,8 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
         icon: null,
         scientific_name: "",
         etymology: "",
+        cultural_maintenance: "",
+        fun_fact: "",
         description: "",
       });
 
@@ -296,6 +299,26 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                 fullWidth
                 size="small"
                 value={species.etymology || ""}
+                onChange={handleChange}
+              />
+              <TextField
+                id="cultural_maintenance"
+                label="Cultural Maintenance"
+                multiline
+                rows={4}
+                fullWidth
+                size="small"
+                value={species.cultural_maintenance || ""}
+                onChange={handleChange}
+              />
+              <TextField
+                id="fun_fact"
+                label="Fun fact"
+                multiline
+                rows={4}
+                fullWidth
+                size="small"
+                value={species.fun_fact || ""}
                 onChange={handleChange}
               />
               <TextField

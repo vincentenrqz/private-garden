@@ -256,6 +256,26 @@ const EditSpecies = ({
                 onChange={handleChange}
               />
               <TextField
+                id="cultural_maintenance"
+                label="Cultural Maintenance"
+                multiline
+                rows={4}
+                fullWidth
+                size="small"
+                defaultValue={species?.cultural_maintenance || ""}
+                onChange={handleChange}
+              />
+              <TextField
+                id="fun_fact"
+                label="Fun fact"
+                multiline
+                rows={4}
+                fullWidth
+                size="small"
+                defaultValue={species?.fun_fact || ""}
+                onChange={handleChange}
+              />
+              <TextField
                 id="description"
                 label="Description"
                 multiline

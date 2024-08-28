@@ -2,31 +2,12 @@ const Map = require("../models/Maps");
 
 //create map data
 const createMapData = async (req, res) => {
-  const { data } = req.body;
+  const { data, position } = req.body;
 
   try {
-    const {
-      position,
-      name,
-      sub_namme,
-      type,
-      icon,
-      species_id,
-      scientific_name,
-      etymology,
-      description,
-    } = data;
-
     const maps = await Map.create({
+      data: { ...data },
       position,
-      name,
-      sub_namme,
-      type,
-      icon,
-      species_id,
-      scientific_name,
-      etymology,
-      description,
     });
 
     return res.status(201).json({
@@ -85,6 +66,7 @@ const updateMapsData = async (req, res) => {
       scientific_name,
       etymology,
       description,
+      attachments,
     } = req.body.data || {};
 
     if (!id) {
@@ -101,6 +83,7 @@ const updateMapsData = async (req, res) => {
       scientific_name,
       etymology,
       description,
+      attachments,
     });
 
     if (!updatedMaps) {

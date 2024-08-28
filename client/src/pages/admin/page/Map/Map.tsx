@@ -31,18 +31,10 @@ import { mapService } from "../../../../services/maps.service";
 import ConfirmationSave from "./ConfirmationSave";
 import AdminMapModal from "./AdminDrawer";
 import Toaster from "../../../components/Toaster";
+import { SpeciesDto } from "../../../../types/species.interface";
 interface MarkerType {
-  _id: number;
   position: L.LatLngExpression;
-  name: string;
-  sub_name: string;
-  icon: any;
-  scientific_name: string;
-  etymology: string;
-  description: string;
-  type: string;
-  createdAt: any;
-  attachments: string;
+  data: SpeciesDto;
 }
 
 const Map = () => {
@@ -126,18 +118,13 @@ const Map = () => {
       });
       const iconData = typesData?.find((type) => type?._id === data?.type);
 
-      setSelectedIconMarker({
-        description: data?.description,
-        etymology: data?.etymology,
+      const newData = {
+        ...data,
         icon: iconData?.icons[0],
-        name: data?.name,
-        scientific_name: data?.scientific_name,
-        sub_name: data?.sub_name,
         type: filteredSpeciesData[0]?.name,
-        _id: data?._id,
-        createdAt: data?.createdAt,
-        attachments: data?.attachments,
-      });
+      };
+
+      setSelectedIconMarker(newData);
     }
   };
 
@@ -149,25 +136,19 @@ const Map = () => {
     }`;
 
     const newMarker: MarkerType = {
-      _id: selectedIconMarker?._id,
+      data: {
+        ...selectedIconMarker,
+        icon: L.icon({
+          iconUrl,
+          iconSize: [40, 40],
+          iconAnchor: [10, 20],
+          popupAnchor: [0, -20],
+          tooltipAnchor: [10, -15],
+          shadowUrl: selectedIconMarker?.icon?.shadowUrl,
+          shadowSize: [41, 41],
+        }),
+      },
       position: e.latlng,
-      name: selectedIconMarker?.name,
-      sub_name: selectedIconMarker?.sub_name,
-      icon: L.icon({
-        iconUrl,
-        iconSize: [40, 40],
-        iconAnchor: [10, 20],
-        popupAnchor: [0, -20],
-        tooltipAnchor: [10, -15],
-        shadowUrl: selectedIconMarker?.icon?.shadowUrl,
-        shadowSize: [41, 41],
-      }),
-      scientific_name: selectedIconMarker?.scientific_name,
-      etymology: selectedIconMarker?.etymology,
-      description: selectedIconMarker?.description,
-      type: selectedIconMarker?.type,
-      createdAt: selectedIconMarker?.createdAt,
-      attachments: selectedIconMarker?.attachments,
     };
 
     setMarkers([...markers, newMarker]);

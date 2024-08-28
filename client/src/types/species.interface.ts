@@ -6,6 +6,8 @@ export class SpeciesDto {
   type?: any;
   scientific_name?: string;
   etymology?: string;
+  cultural_maintenance?: string;
+  fun_fact?: string;
   description?: string;
   attachments?: string;
 }

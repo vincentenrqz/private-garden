@@ -6,6 +6,12 @@ export default {
       backgroundImage: {
         "gradient-page": "linear-gradient(#695740, #695741, #695741, #69573f)",
       },
+      fontFamily: {
+        "minion-bold-condensed-caption": [
+          '"Minion Bold Condensed Caption"',
+          "sans-serif",
+        ],
+      },
     },
     gradients: {},
   },

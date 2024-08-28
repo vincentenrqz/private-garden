@@ -13,6 +13,8 @@ const createSpeciesData = async (req, res) => {
       scientific_name,
       description,
       etymology,
+      cultural_maintenance,
+      fun_fact,
       attachments,
     } = data;
 
@@ -28,6 +30,8 @@ const createSpeciesData = async (req, res) => {
       scientific_name,
       description,
       etymology,
+      cultural_maintenance,
+      fun_fact,
       attachments,
     });
 
@@ -82,13 +86,15 @@ const updateSpeciesData = async (req, res) => {
     const {
       name,
       sub_name,
-      scientific_name,
       type,
       icon,
+      scientific_name,
       description,
+      etymology,
+      cultural_maintenance,
+      fun_fact,
       attachments,
     } = req.body.data || {};
-    console.log("icon", icon);
 
     if (!id) {
       return res.status(400).json({ message: "ID is required" });
@@ -99,10 +105,13 @@ const updateSpeciesData = async (req, res) => {
       {
         name,
         sub_name,
-        scientific_name,
         type,
         icon,
+        scientific_name,
         description,
+        etymology,
+        cultural_maintenance,
+        fun_fact,
         attachments,
       },
       { new: true }
