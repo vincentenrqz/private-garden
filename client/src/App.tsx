@@ -5,9 +5,10 @@ import AdminDashboard from "./pages/admin/page/Overview/AdminDashboard";
 import UserSettings from "./pages/admin/page/UserSettings/user-settings";
 import Species from "./pages/admin/page/Species/Species";
 import { MediaContextProvider } from "./context/MediaContext";
-import Map from "./pages/admin/page/Map/Map";
+import Map from "./pages/client/MapPage/Map";
 import Types from "./pages/admin/page/Types/types";
 import { ThemeProvider, createTheme } from "@mui/material";
+import CustomMap from "./pages/components/CustomMap";
 
 // Global set styling
 const theme = createTheme({
@@ -23,6 +24,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/signin" element={<Signin />} />
+          <Route path="/maps" element={<Map />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/species" element={<Species />} />
           <Route path="/admin/maps" element={<Map />} />
