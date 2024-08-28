@@ -125,7 +125,7 @@ const CustomMap = ({
               <Marker
                 key={_id}
                 position={position}
-                icon={markerIconFunction(icon.options, icon.options.iconUrl)}
+                icon={markerIconFunction(icon?.options, icon?.options?.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
                     forAdmin
@@ -144,7 +144,7 @@ const CustomMap = ({
               <Marker
                 key={_id}
                 position={position}
-                icon={markerIconFunction(icon.options, icon.options.iconUrl)}
+                icon={markerIconFunction(icon?.options, icon?.options?.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
                     forAdmin
@@ -165,7 +165,7 @@ const CustomMap = ({
               <Marker
                 key={_id}
                 position={position}
-                icon={markerIconFunction(icon.options, icon.options.iconUrl)}
+                icon={markerIconFunction(icon?.options, icon?.options?.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
                     forAdmin
