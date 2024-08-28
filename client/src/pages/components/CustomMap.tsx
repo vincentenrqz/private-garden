@@ -119,13 +119,16 @@ const CustomMap = ({
           noWrap={true}
         />
         {!selectedType &&
-          mapsData?.map((marker) => {
-            const { data, position } = marker;
-            const { options } = data.icon;
+          mapsData?.map((marker: any) => {
+            const { _id, species, position } = marker;
+            const options = species?.icon;
+
+            console.log("marker", marker);
+            console.log("options", options);
 
             return (
               <Marker
-                key={data?._id}
+                key={_id}
                 position={position}
                 icon={markerIconFunction(options, options?.iconUrl)}
                 eventHandlers={{
@@ -139,14 +142,15 @@ const CustomMap = ({
             );
           })}
         {selectedType &&
-          filteredMarkers?.map((marker) => {
-            const { _id, position, icon } = marker;
+          filteredMarkers?.map((marker: any) => {
+            const { _id, species, position } = marker;
+            const options = species?.options;
 
             return (
               <Marker
                 key={_id}
                 position={position}
-                icon={markerIconFunction(icon?.options, icon?.options?.iconUrl)}
+                icon={markerIconFunction(options.icon, options?.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
                     forAdmin
@@ -160,15 +164,15 @@ const CustomMap = ({
         {/* ADMIN MAP */}
         {!selectedType &&
           forAdmin &&
-          markers?.map((marker) => {
-            const { data, position } = marker;
-            const { options } = data.icon;
+          markers?.map((marker: any) => {
+            const { _id, species, position } = marker;
+            const icon = species?.icon;
 
             return (
               <Marker
-                key={data._id}
+                key={_id}
                 position={position}
-                icon={markerIconFunction(options, options.iconUrl)}
+                icon={markerIconFunction(icon.options, icon?.options?.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
                     forAdmin
@@ -208,8 +212,13 @@ const MapClickHandler = ({
 };
 
 const markerIconFunction = (props: any, iconUrl: string) => {
+  const newUrl =
+    iconUrl && (iconUrl.startsWith("http://") || iconUrl.startsWith("https://"))
+      ? iconUrl
+      : `${import.meta.env.VITE_API_URL}uploads/${iconUrl}`;
+
   return L.icon({
-    iconUrl: iconUrl,
+    iconUrl: newUrl,
     iconSize: props?.iconSize,
     iconAnchor: props?.iconAnchor,
     popupAnchor: props?.popupAnchor,

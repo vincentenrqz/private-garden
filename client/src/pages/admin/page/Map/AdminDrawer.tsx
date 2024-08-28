@@ -33,6 +33,9 @@ export default function AdminMapModal({
   setOpenModal: any;
   handleCloseModal: () => void;
 }) {
+  const { species, position } = data;
+  const iconUrl = species.icon?.options?.iconUrl || species.icon?.iconUrl;
+
   const [loading, setLoading] = React.useState(false);
   const [openConfirmation, setOpenConfirmation] = React.useState(false);
   const { fetchMaps } = useFetchData();
@@ -64,6 +67,11 @@ export default function AdminMapModal({
     }
   };
 
+  const iconImg =
+    iconUrl && (iconUrl.startsWith("http://") || iconUrl.startsWith("https://"))
+      ? iconUrl
+      : `${import.meta.env.VITE_API_URL}uploads/${iconUrl}`;
+
   return (
     <>
       <Modal
@@ -74,31 +82,31 @@ export default function AdminMapModal({
       >
         <Box sx={style}>
           <Typography id="modal-modal-description">
-            <strong>Name:</strong> {data?.name || ""}
+            <strong>Name:</strong> {species?.name || ""}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 1 }}>
-            <strong>Type:</strong> {data?.type}
+            <strong>Type:</strong> {species?.type}
           </Typography>
           <Typography sx={{ mt: 1 }}>
-            <strong>Scientific Name:</strong> {data?.scientific_name}
+            <strong>Scientific Name:</strong> {species?.scientific_name}
           </Typography>
           <Typography sx={{ mt: 1 }}>
-            <strong>Etymology:</strong> {data?.etymology}
+            <strong>Etymology:</strong> {species?.etymology}
           </Typography>
           <Typography sx={{ mt: 1 }}>
-            <strong>Description:</strong> {data?.description}
+            <strong>Description:</strong> {species?.description}
           </Typography>
           <Typography sx={{ mt: 1 }}>
-            <strong>Position:</strong> Lat: {data?.position?.lat}, Lang:{" "}
-            {data?.position?.lng}
+            <strong>Position:</strong> Lat: {position?.lat}, Lang:{" "}
+            {position?.lng}
           </Typography>
           <CardMedia
             component="img"
             alt=""
-            src={`${data?.icon?.options?.iconUrl}`}
+            src={iconImg}
             sx={{
-              width: data?.icon?.options?.iconSize[0],
-              height: data?.icon?.options?.iconSize[1],
+              width: 100,
+              height: 100,
               objectFit: "cover",
               mt: 1,
             }}

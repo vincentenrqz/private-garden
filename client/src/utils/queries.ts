@@ -83,27 +83,27 @@ export const useFetchData = () => {
   };
 
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-      await fetchSpecies();
-      await fetchTypes();  
-      await fetchMaps();  
-    } catch (error: any) {
-      setMessage({
-        message: "An error occurred while fetching data.",
-        status: false,
-        open: true,
-      });
+    const fetchData = async () => {
+      try {
+        await fetchSpecies();
+        await fetchTypes();
+        await fetchMaps();
+      } catch (error: any) {
+        setMessage({
+          message: "An error occurred while fetching data.",
+          status: false,
+          open: true,
+        });
 
-      console.error("Error fetching data", error);
-      setMessage(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+        console.error("Error fetching data", error);
+        setMessage(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchData();
-}, []);
+    fetchData();
+  }, []);
 
   return {
     typesData,

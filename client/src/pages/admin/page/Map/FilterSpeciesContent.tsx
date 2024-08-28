@@ -22,7 +22,7 @@ export default function FilterSpeciesContent({
       <Stack direction="column" spacing={1}>
         <Box display="flex" justifyContent="space-between">
           {/* FILTER BY SPECIES BY TYES DATA */}
-          <FormControl sx={{ minWidth: 200 }} size="small">
+          <FormControl sx={{ minWidth: 250 }} size="small">
             <InputLabel id="demo-select-small-label">Filter by</InputLabel>
             <Select
               labelId="demo-select-small-label"

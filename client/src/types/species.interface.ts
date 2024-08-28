@@ -11,3 +11,7 @@ export class SpeciesDto {
   description?: string;
   attachments?: string;
 }
+
+export class SpeciesCoordinatesDto extends SpeciesDto {
+  position: L.LatLngExpression;
+}

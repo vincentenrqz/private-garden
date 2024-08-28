@@ -5,11 +5,8 @@ import {
   Button,
   Container,
   Divider,
-  FormControlLabel,
-  FormGroup,
   IconButton,
   Stack,
-  Switch,
   Typography,
 } from "@mui/material";
 import L from "leaflet";
@@ -18,13 +15,7 @@ import { useNavigate } from "react-router-dom";
 import CustomMap from "../../../components/CustomMap";
 import Loader from "../../../components/Loader";
 import { useFetchData } from "../../../../utils/queries";
-import { useScreenSize } from "../../../../context/MediaContext";
-import {
-  filterDataByType,
-  filterSpeciesDataByType,
-  handleFlexStyles,
-  handleMapSize,
-} from "../../../../utils";
+import { filterDataByType, filterSpeciesDataByType } from "../../../../utils";
 import ButtonFilters from "./ButtonFilters";
 import FilterSpeciesContent from "./FilterSpeciesContent";
 import { mapService } from "../../../../services/maps.service";
@@ -32,9 +23,10 @@ import ConfirmationSave from "./ConfirmationSave";
 import AdminMapModal from "./AdminDrawer";
 import Toaster from "../../../components/Toaster";
 import { SpeciesDto } from "../../../../types/species.interface";
+
 interface MarkerType {
+  species: SpeciesDto;
   position: L.LatLngExpression;
-  data: SpeciesDto;
 }
 
 const Map = () => {
@@ -57,10 +49,6 @@ const Map = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const handleCloseModal = () => setOpenModal(false);
-
-  const screenSize = useScreenSize();
-  const mapSize = handleMapSize(screenSize);
-  const flexStyle = handleFlexStyles(screenSize);
 
   const navigate = useNavigate();
   const { fetchMaps } = useFetchData();
@@ -136,16 +124,16 @@ const Map = () => {
     }`;
 
     const newMarker: MarkerType = {
-      data: {
+      species: {
         ...selectedIconMarker,
         icon: L.icon({
           iconUrl,
-          iconSize: [40, 40],
-          iconAnchor: [10, 20],
-          popupAnchor: [0, -20],
-          tooltipAnchor: [10, -15],
+          iconSize: selectedIconMarker?.icon?.iconSize,
+          iconAnchor: selectedIconMarker?.icon?.iconAnchor,
+          popupAnchor: selectedIconMarker?.icon?.popupAnchor,
+          tooltipAnchor: selectedIconMarker?.icon?.tooltipAnchor,
           shadowUrl: selectedIconMarker?.icon?.shadowUrl,
-          shadowSize: [41, 41],
+          shadowSize: selectedIconMarker?.icon?.shadowSize,
         }),
       },
       position: e.latlng,
@@ -160,7 +148,12 @@ const Map = () => {
 
     try {
       for (const marker of markers) {
-        const result: any = await mapService.createMaps(marker);
+        const mapObj = {
+          species: marker?.species?._id,
+          position: marker?.position,
+        };
+
+        const result: any = await mapService.createMaps(mapObj);
         const { message, status } = result.data;
         setMessage({
           message,

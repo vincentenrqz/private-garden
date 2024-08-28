@@ -2,11 +2,11 @@ const Map = require("../models/Maps");
 
 //create map data
 const createMapData = async (req, res) => {
-  const { data, position } = req.body;
+  const { species, position } = req.body;
 
   try {
     const maps = await Map.create({
-      data: { ...data },
+      species,
       position,
     });
 
@@ -28,7 +28,7 @@ const createMapData = async (req, res) => {
 //get all maps data
 const getAllMapsData = async (req, res) => {
   try {
-    const maps = await Map.find();
+    const maps = await Map.find().populate("species");
     return res.json(maps);
   } catch (error) {
     console.log("Error fetching maps data");
@@ -56,18 +56,7 @@ const getMapsDataById = async (req, res) => {
 const updateMapsData = async (req, res) => {
   try {
     const id = req.params.id;
-    const {
-      position,
-      name,
-      sub_namme,
-      type,
-      icon,
-      species_id,
-      scientific_name,
-      etymology,
-      description,
-      attachments,
-    } = req.body.data || {};
+    const { position, speciesId } = req.body.data || {};
 
     if (!id) {
       return res.status(400).json({ message: "Id is required!" });
@@ -75,15 +64,7 @@ const updateMapsData = async (req, res) => {
 
     const updatedMaps = await Map.findByIdAndUpdate(id, {
       position,
-      name,
-      sub_namme,
-      type,
-      icon,
-      species_id,
-      scientific_name,
-      etymology,
-      description,
-      attachments,
+      speciesId,
     });
 
     if (!updatedMaps) {

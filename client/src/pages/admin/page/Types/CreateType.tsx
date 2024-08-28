@@ -60,13 +60,13 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
 
             const newIcon: IconDto = {
               iconUrl: URL.createObjectURL(file),
-              iconSize: [width, height],
-              iconAnchor: [],
-              popupAnchor: [],
-              tooltipAnchor: [],
+              iconSize: [40, 40],
+              iconAnchor: [10, 20],
+              popupAnchor: [0, 20],
+              tooltipAnchor: [0, -15],
               shadowUrl:
                 "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-              shadowSize: [],
+              shadowSize: [41, 41],
             };
 
             setCustomizeIcon((prevIcons) => [...prevIcons, newIcon]);
