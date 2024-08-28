@@ -22,12 +22,9 @@ const MapPage = () => {
       if (paperRef.current && !paperRef.current.contains(e.target as Node)) {
         if (screenSize?.screenSize === "xs") {
           paperRef.current.style.top = "95%";
-        } else if (screenSize?.screenSize === "xl") {
-          paperRef.current.style.left = "-32%";
         } else {
           paperRef.current.style.left = "-43%";
         }
-
         setOpen(false);
         setReadMore(false);
       }
@@ -42,9 +39,8 @@ const MapPage = () => {
     };
   }, [open, setOpen]);
 
-  const toggleDrawer = (newOpen: boolean, data: any) => {
+  const toggleDrawer = (newOpen: boolean) => {
     setOpen(newOpen);
-    setData(data.data);
     if (paperRef.current) {
       if (screenSize?.screenSize === "xs") {
         paperRef.current.style.top = "80%";
@@ -71,8 +67,6 @@ const MapPage = () => {
     if (readMore && paperRef.current) {
       if (screenSize?.screenSize === "xs") {
         paperRef.current.style.top = "95%";
-      } else if (screenSize?.screenSize === "xl") {
-        paperRef.current.style.left = "-32%";
       } else {
         paperRef.current.style.left = "-43%";
       }
@@ -104,36 +98,44 @@ const MapPage = () => {
         };
 
   return (
-    <div className={`flex ${flexStyle?.parent} `}>
-      <Box style={mapStyle}>
-        <div className="flex flex-row items-end">
-          <CustomMap
-            open={open}
-            setOpen={setOpen}
-            setReadMore={setReadMore}
-            toggleDrawer={toggleDrawer}
-            forAdmin={false}
-            selectedType={selectedType}
-            buttonFilters={undefined}
-            handleMapClick={undefined}
-            markers={undefined}
-            openDrawerHandler={undefined}
-          />
-        </div>
-      </Box>
-      <ButtonFilters
-        flexStyle={flexStyle}
-        screenSize={screenSize}
-        setSelectedType={setSelectedType}
-        handleTypeClick={handleTypeClick}
-      />
-      <CustomDrawer
-        data={data}
-        paperRef={paperRef}
-        open={open}
-        readMore={readMore}
-        toggleReadMore={toggleReadMore}
-      />
+    <div
+      className={`bg-gradient-page ${
+        screenSize?.screenSize === "xs"
+          ? "min-w-full min-h-screen flex justify-center"
+          : "min-w-full min-h-screen flex justify-center pt-5 items-center"
+      }`}
+    >
+      <div className={`flex ${flexStyle?.parent} `}>
+        <Box style={mapStyle}>
+          <div className="flex flex-row items-end">
+            <CustomMap
+              open={open}
+              setOpen={setOpen}
+              setReadMore={setReadMore}
+              toggleDrawer={toggleDrawer}
+              forAdmin={false}
+              selectedType={selectedType}
+              buttonFilters={undefined}
+              handleMapClick={undefined}
+              markers={undefined}
+              openDrawerHandler={undefined}
+            />
+          </div>
+        </Box>
+        <ButtonFilters
+          flexStyle={flexStyle}
+          screenSize={screenSize}
+          setSelectedType={setSelectedType}
+          handleTypeClick={handleTypeClick}
+        />
+        <CustomDrawer
+          data={data}
+          paperRef={paperRef}
+          open={open}
+          readMore={readMore}
+          toggleReadMore={toggleReadMore}
+        />
+      </div>
     </div>
   );
 };
