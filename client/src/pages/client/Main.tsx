@@ -1,14 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
-import FlipbookPage from "./FlipbookPage";
-import {
-  MediaContextProvider,
-  useScreenSize,
-} from "../../context/MediaContext";
+import { MediaContextProvider } from "../../context/MediaContext";
 import LandingPage from "./LandingPage";
 import Flipbook from "./Flip";
-import { Stack, Tooltip, useMediaQuery } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "@mui/material";
+import FloatingButton from "../components/FloatingButton";
 
 const pages = [
   {
@@ -26,7 +22,14 @@ const pages = [
 const Main = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const controls = useAnimation();
-  const screenSize = useScreenSize();
+
+  useEffect(() => {
+    // Animate to the current page when currentPage changes
+    controls.start({
+      x: -window.innerWidth * currentPage,
+      transition: { duration: 0.5, ease: "easeInOut" },
+    });
+  }, [currentPage, controls]);
 
   const handleDragEnd = (event: any, info: any) => {
     const offset = info.offset.x;
@@ -57,7 +60,7 @@ const Main = () => {
   };
 
   const mobile = useMediaQuery("(max-width:900px)");
-  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -69,8 +72,8 @@ const Main = () => {
     >
       <motion.div
         className="container"
-        drag={currentPage !== 1 ? "x" : false}
-        // drag={"x"}
+        // drag={currentPage !== 1 ? "x" : false}
+        drag={"x"}
         dragConstraints={{
           left: -window.innerWidth * (pages.length - 1),
           right: 0,
@@ -106,35 +109,10 @@ const Main = () => {
         ))}
       </motion.div>
 
-      {/* Floating Button */}
-      <Tooltip title="Navigate to map page" placement="top">
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{
-            position: "fixed",
-            bottom: "40px",
-            right: "30px",
-            border: "none",
-            borderRadius: "50px",
-            cursor: "pointer",
-            width: "80px",
-            height: "80px",
-          }}
-          className="bg-gray-200 hover:bg-[#306d53] transition duration-300 ease-in-out"
-          onClick={() => navigate("/maps")}
-        >
-          <img
-            src="/resources/animated-earth.gif"
-            alt="Floating Button"
-            style={{
-              width: "100%",
-              height: "100%",
-              borderRadius: "50%",
-            }}
-          />
-        </Stack>
-      </Tooltip>
+      <FloatingButton
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };
