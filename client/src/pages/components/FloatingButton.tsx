@@ -2,10 +2,26 @@ import React from "react";
 import { IconButton, Stack, Tooltip } from "@mui/material";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import HomeIcon from "@mui/icons-material/Home";
-
+import { useLocation, useNavigate } from "react-router-dom";
 function FloatingButton({ currentPage, setCurrentPage }: any) {
-  const handlePageChange = (pageIndex: number) => {
-    setCurrentPage(pageIndex);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { pathname } = location;
+
+  const handleNavigatePage = (page: any) => {
+    if (pathname === "/maps") {
+      if (page === 0) {
+        navigate("/");
+        setCurrentPage(0);
+      } else if (page === 1) {
+        navigate("/");
+        setCurrentPage(1);
+      } else {
+        navigate("/maps");
+      }
+    } else {
+      handlePageChange(page);
+    }
   };
 
   return (
@@ -28,7 +44,7 @@ function FloatingButton({ currentPage, setCurrentPage }: any) {
             justifyContent: "center",
           }}
           className="bg-gray-200 hover:bg-[#306d53]  transition duration-300 ease-in-out"
-          onClick={() => handlePageChange(0)}
+          onClick={() => handleNavigatePage(0)}
         >
           <IconButton aria-label="glossary">
             <HomeIcon fontSize="large" color="inherit" />
@@ -54,7 +70,7 @@ function FloatingButton({ currentPage, setCurrentPage }: any) {
             justifyContent: "center",
           }}
           className="bg-gray-200 hover:bg-[#306d53]  transition duration-300 ease-in-out"
-          onClick={() => handlePageChange(1)}
+          onClick={() => handleNavigatePage(1)}
         >
           <IconButton aria-label="glossary">
             <MenuBookIcon fontSize="large" color="inherit" />
@@ -78,7 +94,7 @@ function FloatingButton({ currentPage, setCurrentPage }: any) {
             height: "80px",
           }}
           className="bg-gray-200 hover:bg-[#306d53] transition duration-300 ease-in-out"
-          //   onClick={() => navigate("/maps")}
+          onClick={() => navigate("/maps")}
         >
           <img
             src="/resources/animated-earth.gif"

@@ -6,6 +6,7 @@ import CustomDrawer from "../../components/CustomDrawer";
 import { useScreenSize } from "../../../context/MediaContext";
 import { handleFlexStyles, handleMapSize } from "../../../utils";
 import CustomMap from "../../components/CustomMap";
+import FloatingButton from "../../components/FloatingButton";
 
 const MapPage = () => {
   const paperRef = useRef<HTMLDivElement>(null);
@@ -135,6 +136,7 @@ const MapPage = () => {
           readMore={readMore}
           toggleReadMore={toggleReadMore}
         />
+        <FloatingButton />
       </div>
     </div>
   );
