@@ -9,9 +9,8 @@ import ClientMap from "./pages/client/MapPage/Map";
 import AdminMap from "./pages/admin/page/Map/Map";
 import Types from "./pages/admin/page/Types/types";
 import { ThemeProvider, createTheme } from "@mui/material";
-import CustomMap from "./pages/components/CustomMap";
+import FlipbookPage from "./pages/client/FlipbookPage";
 
-// Global set styling
 const theme = createTheme({
   typography: {
     fontFamily: "Minion Bold Condensed Caption, sans-serif",
@@ -26,6 +25,7 @@ const App = () => {
           <Route path="/" element={<Main />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/maps" element={<ClientMap />} />
+          <Route path="/flipbook" element={<FlipbookPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/species" element={<Species />} />
           <Route path="/admin/maps" element={<AdminMap />} />
