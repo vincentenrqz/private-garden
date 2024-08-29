@@ -11,7 +11,6 @@ const Pages = React.forwardRef((props: any, ref: any) => {
   return (
     <div ref={ref} style={{ padding: 0, margin: 0 }}>
       <p>{props.children}</p>
-      <p>Page number: {props.number}</p>
     </div>
   );
 });
@@ -50,8 +49,8 @@ function Flipbook() {
 
         {/* FlipBook in the middle */}
         <HTMLFlipBook
-          width={500}
-          height={700}
+          width={450}
+          height={600}
           style={{
             boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.5)",
             borderRadius: "10px",
