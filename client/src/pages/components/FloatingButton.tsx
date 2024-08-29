@@ -8,6 +8,10 @@ function FloatingButton({ currentPage, setCurrentPage }: any) {
   const location = useLocation();
   const { pathname } = location;
 
+  const handlePageChange = (pageIndex: number) => {
+    setCurrentPage(pageIndex);
+  };
+
   const handleNavigatePage = (page: any) => {
     if (pathname === "/maps") {
       if (page === 0) {
