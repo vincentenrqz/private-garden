@@ -13,7 +13,7 @@ import FlipbookPage from "./pages/client/FlipbookPage";
 
 const theme = createTheme({
   typography: {
-    fontFamily: "Minion Bold Condensed Caption, sans-serif",
+    fontFamily: "Sans serif",
   },
 });
 

@@ -65,7 +65,7 @@ const Main = () => {
     // </div>
     <div
       style={{
-        overflow: "hidden",
+        overflow: "auto",
         height: "100vh",
         width: "100vw",
         position: "relative",
