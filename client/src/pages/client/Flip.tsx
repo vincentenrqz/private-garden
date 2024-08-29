@@ -3,14 +3,14 @@ import HTMLFlipBook from "react-pageflip";
 import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import pdf from "./explore_with_me.pdf";
+import { Box, Typography } from "@mui/material";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const Pages = React.forwardRef((props: any, ref: any) => {
   return (
-    <div className="demoPage" ref={ref}>
+    <div ref={ref} style={{ padding: 0, margin: 0 }}>
       <p>{props.children}</p>
-      <p>Page number: {props.number}</p>
     </div>
   );
 });
@@ -18,33 +18,67 @@ const Pages = React.forwardRef((props: any, ref: any) => {
 Pages.displayName = "Pages";
 
 function Flipbook() {
-  const [numPages, setNumPages] = useState();
+  const [numPages, setNumPages] = useState<number>();
 
-  function onDocumentLoadSuccess({ numPages }) {
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
   }
+
   return (
     <>
-      <div className="h-screen w-screen flex flex-col gap-5 justify-center items-center bg-gray-900 overflow-hidden">
-        <h1 className="text-3xl text-white text-center font-bold">FlipBook-</h1>
-        <HTMLFlipBook width={600} height={700}>
+      <Box
+        sx={{
+          height: "100vh",
+          width: "100vw",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          bgcolor: "grey.900",
+          p: 2,
+        }}
+      >
+        {/* Text above the FlipBook */}
+        <Typography
+          variant="h4"
+          component="h1"
+          color="white"
+          sx={{ fontWeight: "medium", mb: 4 }}
+        >
+          Glossary
+        </Typography>
+
+        {/* FlipBook in the middle */}
+        <HTMLFlipBook
+          width={450}
+          height={600}
+          style={{
+            boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.5)",
+            borderRadius: "10px",
+          }}
+        >
           {[...Array(numPages).keys()].map((pNum) => (
             <Pages key={pNum} number={pNum + 1}>
               <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
                 <Page
-                  pageNumber={pNum}
-                  width={400}
+                  pageNumber={pNum + 1}
+                  width={450}
                   renderAnnotationLayer={false}
                   renderTextLayer={false}
                 />
               </Document>
-              <p>
-                Page {pNum} of {numPages}
-              </p>
             </Pages>
           ))}
         </HTMLFlipBook>
-      </div>
+
+        {/* Page number text below the FlipBook */}
+        <Typography
+          variant="body1"
+          color="white"
+          sx={{ textAlign: "center", mt: 2 }}
+        >
+          Page {Math.min(numPages, 1)} of {numPages}
+        </Typography>
+      </Box>
     </>
   );
 }
