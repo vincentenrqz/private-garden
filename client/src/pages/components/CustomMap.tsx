@@ -10,13 +10,14 @@ type Prop = {
   open?: boolean;
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   setReadMore?: React.Dispatch<React.SetStateAction<boolean>>;
-  toggleDrawer?: (newOpen: boolean, data: any) => void;
+  toggleDrawer?: (newOpen: boolean) => void;
   forAdmin: boolean;
   selectedType?: any;
   buttonFilters: any;
   handleMapClick: any;
   markers: any;
   openDrawerHandler: any;
+  setData?: React.Dispatch<React.SetStateAction<null>>;
 };
 
 const CustomMap = ({
@@ -30,6 +31,7 @@ const CustomMap = ({
   handleMapClick,
   markers,
   openDrawerHandler,
+  setData,
 }: Prop) => {
   const paperRef = useRef<HTMLDivElement>(null);
   const [defaultZoom, setDefaultZoom] = useState(1);
@@ -122,10 +124,6 @@ const CustomMap = ({
           mapsData?.map((marker: any) => {
             const { _id, species, position } = marker;
             const options = species?.icon;
-
-            console.log("marker", marker);
-            console.log("options", options);
-
             return (
               <Marker
                 key={_id}
@@ -133,9 +131,12 @@ const CustomMap = ({
                 icon={markerIconFunction(options, options?.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
-                    forAdmin
-                      ? openDrawerHandler(marker)
-                      : toggleDrawer(true, marker);
+                    if (forAdmin) {
+                      openDrawerHandler(marker);
+                    } else {
+                      setData(marker?.species);
+                      toggleDrawer(true);
+                    }
                   },
                 }}
               ></Marker>
@@ -153,9 +154,12 @@ const CustomMap = ({
                 icon={markerIconFunction(options.icon, options?.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
-                    forAdmin
-                      ? openDrawerHandler(marker)
-                      : toggleDrawer(true, marker);
+                    if (forAdmin) {
+                      openDrawerHandler(marker);
+                    } else {
+                      setData(marker?.species);
+                      toggleDrawer(true);
+                    }
                   },
                 }}
               ></Marker>
@@ -167,7 +171,6 @@ const CustomMap = ({
           markers?.map((marker: any) => {
             const { _id, species, position } = marker;
             const icon = species?.icon;
-
             return (
               <Marker
                 key={_id}
@@ -175,9 +178,12 @@ const CustomMap = ({
                 icon={markerIconFunction(icon.options, icon?.options?.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
-                    forAdmin
-                      ? openDrawerHandler(marker)
-                      : toggleDrawer(true, marker);
+                    if (forAdmin) {
+                      openDrawerHandler(marker);
+                    } else {
+                      setData(marker?.species);
+                      toggleDrawer(true);
+                    }
                   },
                 }}
               ></Marker>
@@ -212,13 +218,8 @@ const MapClickHandler = ({
 };
 
 const markerIconFunction = (props: any, iconUrl: string) => {
-  const newUrl =
-    iconUrl && (iconUrl.startsWith("http://") || iconUrl.startsWith("https://"))
-      ? iconUrl
-      : `${import.meta.env.VITE_API_URL}uploads/${iconUrl}`;
-
   return L.icon({
-    iconUrl: newUrl,
+    iconUrl: iconUrl,
     iconSize: props?.iconSize,
     iconAnchor: props?.iconAnchor,
     popupAnchor: props?.popupAnchor,

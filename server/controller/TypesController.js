@@ -3,13 +3,63 @@ const upload = require("../utils/uploadService");
 const sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
+const { S3 } = require("aws-sdk");
 
-//create types data
+const uploadToS3 = async (buffer, filename) => {
+  try {
+    const s3 = new S3({
+      region: process.env.AWS_REGION,
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    });
+
+    const uploadParams = {
+      Bucket: "ab1-upload-image",
+      Key: filename,
+      Body: buffer,
+      ContentType: "image/png",
+    };
+
+    const response = await s3.upload(uploadParams).promise();
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const generateUniqueFileName = (filename) => {
+  const ext = path.extname(filename);
+  const baseName = path.basename(filename, ext);
+
+  const randomNumber = Math.floor(Math.random() * 1000) + 1;
+
+  const uniqueName = `${baseName}-${randomNumber}${ext}`;
+
+  return uniqueName;
+};
+
+const fileUpload = async (req, res) => {
+  console.log("req.file", req.file);
+  try {
+    const { originalname, path } = req.file;
+    const uniqueFilename = generateUniqueFileName(originalname);
+    const fileBuffer = fs.readFileSync(path);
+    const response = await uploadToS3(fileBuffer, uniqueFilename);
+    fs.unlinkSync(path);
+    console.log("response", response);
+    return res.status(200).json({
+      message: "File uploaded successfully",
+      data: response,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const createTypesData = async (req, res) => {
-  const { data } = req.body;
-  const { name, icons } = data;
+  const { name, icons } = req.body;
 
-  if (!data || !name || !icons) {
+  if (!name || !icons) {
     return res.status(400).json({ message: "No content/data is sent!" });
   }
 
@@ -161,7 +211,6 @@ const uploadImage = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
-
     const filename = req.file.filename;
 
     return res.status(201).json({
@@ -185,4 +234,5 @@ module.exports = {
   deleteTypesData,
   resizeImage,
   uploadImage,
+  fileUpload,
 };

@@ -77,9 +77,7 @@ export default function FilterSpeciesContent({
                   <CardMedia
                     component="img"
                     alt={data?.name}
-                    src={`${import.meta.env.VITE_API_URL}uploads/${
-                      iconData?.icons[0]?.iconUrl
-                    }`}
+                    src={iconData?.icons[0]?.iconUrl}
                     sx={{ width: 50, height: 50, objectFit: "cover" }}
                   />
                   <Typography>{data?.name}</Typography>

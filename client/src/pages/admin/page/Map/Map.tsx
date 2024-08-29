@@ -119,21 +119,11 @@ const Map = () => {
   const handleMapClick = (e: L.LeafletMouseEvent) => {
     if (!selectedIconMarker) return;
 
-    const iconUrl = `${import.meta.env.VITE_API_URL}uploads/${
-      selectedIconMarker?.icon?.iconUrl
-    }`;
-
     const newMarker: MarkerType = {
       species: {
         ...selectedIconMarker,
         icon: L.icon({
-          iconUrl,
-          iconSize: selectedIconMarker?.icon?.iconSize,
-          iconAnchor: selectedIconMarker?.icon?.iconAnchor,
-          popupAnchor: selectedIconMarker?.icon?.popupAnchor,
-          tooltipAnchor: selectedIconMarker?.icon?.tooltipAnchor,
-          shadowUrl: selectedIconMarker?.icon?.shadowUrl,
-          shadowSize: selectedIconMarker?.icon?.shadowSize,
+          ...selectedIconMarker?.icon,
         }),
       },
       position: e.latlng,
