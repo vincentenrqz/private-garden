@@ -6,6 +6,8 @@ import {
   useScreenSize,
 } from "../../context/MediaContext";
 import LandingPage from "./LandingPage";
+import { Stack, Tooltip, useMediaQuery } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const pages = [
   {
@@ -53,19 +55,12 @@ const Main = () => {
     });
   };
 
+  const mobile = useMediaQuery("(max-width:900px)");
+  const navigate = useNavigate();
   return (
-    // <div
-    //   className={`bg-gradient-page ${
-    //     screenSize?.screenSize === "xs"
-    //       ? "min-w-full min-h-screen flex justify-center"
-    //       : "min-w-full min-h-screen flex justify-center pt-5 items-center"
-    //   }`}
-    // >
-    //   <Map />
-    // </div>
     <div
       style={{
-        overflow: "auto",
+        overflow: !mobile || currentPage === 1 ? "hidden " : "auto",
         height: "100vh",
         width: "100vw",
         position: "relative",
@@ -109,17 +104,36 @@ const Main = () => {
           </div>
         ))}
       </motion.div>
-      {/* <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-        {pages.map((_, index) => (
-          <div
-            key={index}
-            className={`h-4 w-4 mx-2 rounded-full cursor-pointer ${
-              index === currentPage ? "bg-gray-300" : "bg-gray-100"
-            }`}
-            onClick={() => handleIndicatorClick(index)}
-          ></div>
-        ))}
-      </div> */}
+
+      {/* Floating Button */}
+      <Tooltip title="Navigate to map page" placement="top">
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            position: "fixed",
+            bottom: "40px",
+            right: "30px",
+            border: "none",
+            borderRadius: "50px",
+            cursor: "pointer",
+            width: "80px",
+            height: "80px",
+          }}
+          className="bg-gray-200 hover:bg-[#306d53] transition duration-300 ease-in-out"
+          onClick={() => navigate("/maps")}
+        >
+          <img
+            src="/resources/animated-earth.gif"
+            alt="Floating Button"
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "50%",
+            }}
+          />
+        </Stack>
+      </Tooltip>
     </div>
   );
 };
