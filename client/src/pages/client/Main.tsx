@@ -73,7 +73,7 @@ const Main = () => {
       <motion.div
         className="container"
         // drag={currentPage !== 1 ? "x" : false}
-        drag={"x"}
+        drag={false}
         dragConstraints={{
           left: -window.innerWidth * (pages.length - 1),
           right: 0,
