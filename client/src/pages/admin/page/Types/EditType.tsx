@@ -53,31 +53,38 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
     if (file) {
       const reader = new FileReader();
 
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         if (reader.result) {
-          const img = new Image();
-          img.onload = () => {
-            const { width, height } = img;
+          try {
+            const formData = new FormData();
+            formData.append("imageType", file);
 
-            const newIcon: IconDto = {
-              iconUrl: URL.createObjectURL(file),
-              iconSize: [width, height],
-              iconAnchor: [],
-              popupAnchor: [],
-              tooltipAnchor: [],
-              shadowUrl:
-                "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-              shadowSize: [],
+            const response = await typesService.fileUpload(formData);
+            const { Location } = response.data.data;
+
+            const img = new Image();
+            img.onload = () => {
+              const newIcon: IconDto = {
+                iconUrl: Location,
+                iconSize: [40, 40],
+                iconAnchor: [10, 20],
+                popupAnchor: [0, 20],
+                tooltipAnchor: [0, -15],
+                shadowUrl:
+                  "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+                shadowSize: [41, 41],
+              };
+
+              setNewCustomizeIcon((prevIcons) => [...prevIcons, newIcon]);
+              setNewTypes((prevTypes) => ({
+                ...prevTypes,
+                icons: [...newCustomizeIcon, newIcon],
+              }));
             };
-
-            setNewCustomizeIcon((prevIcons) => [...prevIcons, newIcon]);
-
-            setNewTypes((prevTypes) => ({
-              ...prevTypes,
-              icons: [...newCustomizeIcon, newIcon],
-            }));
-          };
-          img.src = reader.result as string;
+            img.src = reader.result as string;
+          } catch (error) {
+            console.error("Error uploading file:", error);
+          }
         }
       };
 
@@ -86,7 +93,9 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
   };
 
   const triggerFileInput = () => {
-    fileInputRef.current?.click();
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
   };
 
   const handleChangeIconWidth = (
@@ -99,8 +108,8 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
     }
 
     setNewCustomizeIcon((prevIcons) => {
-      const updatedIcons = [...prevIcons]; // Copy the array
-      updatedIcons[index].iconSize[0] = newWidth; // Update width
+      const updatedIcons = [...prevIcons];
+      updatedIcons[index].iconSize[0] = newWidth;
       return updatedIcons;
     });
   };
@@ -260,6 +269,7 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
         open: true,
       });
 
+      const filename = "";
       setNewTypes({
         name,
         icons,
@@ -326,12 +336,6 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                 newCustomizeIcon.map((item, index) => {
                   const { iconUrl, iconSize } = item;
 
-                  const isBlobUrl = iconUrl.startsWith("blob:");
-
-                  const imageUrl = isBlobUrl
-                    ? iconUrl
-                    : `${import.meta.env.VITE_API_URL}uploads/${iconUrl}`;
-
                   return (
                     <Card
                       key={index}
@@ -392,7 +396,7 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                               size="small"
                               onClick={() =>
                                 handleResize({
-                                  iconUrl: imageUrl,
+                                  iconUrl: iconUrl,
                                   width: iconSize[0],
                                   height: iconSize[1],
                                 })
@@ -415,7 +419,7 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                           <CardMedia
                             component="img"
                             alt="green iguana"
-                            image={imageUrl}
+                            image={iconUrl}
                             sx={{
                               width: "100%",
                               height: "auto",

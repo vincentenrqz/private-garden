@@ -27,10 +27,29 @@ const CustomDrawer = ({
   toggleReadMore,
 }: Props) => {
   const screenSize = useScreenSize();
+  console.log("screenSize", screenSize);
   const informationStyle =
     screenSize?.screenSize === "xs"
       ? { borderTopLeftRadius: 10, borderTopRightRadius: 10, height: 40 }
       : { borderTopRightRadius: 10, borderBottomRightRadius: 10, height: 60 };
+
+  const drawerSize =
+    screenSize?.screenSize === "xs"
+      ? "98%"
+      : screenSize?.screenSize === "sm"
+      ? "-2%"
+      : screenSize?.screenSize === "xl"
+      ? "70%"
+      : "90%";
+
+  const leftPosition =
+    screenSize?.screenSize === "xs"
+      ? "50%"
+      : screenSize?.screenSize === "sm"
+      ? "-10%"
+      : screenSize?.screenSize === "xl"
+      ? "-32%"
+      : "-43%";
 
   return (
     <Paper
@@ -39,28 +58,16 @@ const CustomDrawer = ({
         position: "fixed",
         top: screenSize?.screenSize === "xs" ? "95%" : "10%",
         bottom: 0,
-        left:
-          screenSize?.screenSize === "xs"
-            ? "50%"
-            : screenSize?.screenSize === "xl"
-            ? "-32%"
-            : "-43%",
+        left: leftPosition,
         transform: "translateX(-50%)",
         zIndex: 1000,
-        height: "75vh",
-        width:
-          screenSize?.screenSize === "xs"
-            ? "98%"
-            : screenSize?.screenSize === "xl"
-            ? "70%"
-            : "90%",
+        height: "80vh",
+        width: drawerSize,
         transition: "all 0.3s ease",
         overflow: "visible",
-        // backgroundImage: `url(/resources/drawer-notebook.png)`,
-        // backgroundSize: "cover",
-        // backgroundPosition: "center",
-        // backgroundRepeat: "no-repeat",
+        borderRadius: "25px",
       }}
+      elevation={5}
     >
       <Box
         sx={{
@@ -81,13 +88,23 @@ const CustomDrawer = ({
         <Box
           sx={{
             flex: 1,
-            padding: 2,
-            marginLeft: 2,
+            paddingLeft: 3,
+            paddingRight: screenSize?.screenSize === "xl" ? 20 : 3,
+            paddingY: 2,
             alignItems: "center",
             justifyContent: "center",
+            position: "relative",
           }}
+          className="bg-drawer-left-page"
         >
-          <Grid container direction="column">
+          <div className="absolute inset-0 bg-grid-lines-vertical z-0 m-5"></div>
+          <div className="absolute inset-0 bg-grid-lines-horizontal z-0 m-5"></div>
+
+          <Grid
+            container
+            direction="column"
+            sx={{ position: "relative", zIndex: 10 }}
+          >
             <Grid item>
               <Typography variant="h6">Media</Typography>
             </Grid>
@@ -107,75 +124,99 @@ const CustomDrawer = ({
               </Box>
             </Grid>
             <Grid item mt={3}>
-              <Typography variant="subtitle1" className="uppercase italic">
+              <Typography variant="h6" className="uppercase">
                 Etymology:
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="caption">{data?.etymology}</Typography>
+              <Typography variant="subtitle1">{data?.etymology}</Typography>
             </Grid>
             <Grid item mt={1}>
-              <Typography variant="subtitle1" className="uppercase italic">
+              <Typography variant="h6" className="uppercase">
                 Notable Remarks
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="caption">{data?.description}</Typography>
+              <Typography variant="subtitle1">{data?.description}</Typography>
             </Grid>
             <Grid item mt={1}>
-              <Typography variant="subtitle1" className="uppercase italic">
+              <Typography variant="h6" className="uppercase">
                 Cultural Maintenance
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="caption" className="">
+              <Typography variant="subtitle1" className="">
                 {data?.cultural_maintenance}
               </Typography>
             </Grid>
           </Grid>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem />
-        <Box sx={{ flex: 1 }}></Box>
+        <Box sx={{ flex: 1 }} className="bg-drawer-right-page">
+          <div className="absolute inset-0 bg-grid-lines-vertical z-0 my-5"></div>
+          <div className="absolute inset-0 bg-grid-lines-horizontal z-0 my-5"></div>
+        </Box>
         <Box
           sx={{
             flex: 1,
             display: "flex",
             flexDirection: "column",
             backgroundColor: "#ffffff",
-            padding: 2,
+            paddingY: 2,
+            paddingRight: 3,
+            position: "relative",
           }}
+          className="bg-drawer-right-page"
         >
-          <Grid container direction="column" alignItems="center">
+          <div className="absolute inset-0 bg-grid-lines-vertical z-0 my-5"></div>
+          <div className="absolute inset-0 bg-grid-lines-horizontal z-0 my-5"></div>
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            sx={{ position: "relative", zIndex: 10 }}
+          >
             <Grid item>
-              <Typography variant="subtitle1">
+              <Typography variant="h5" fontWeight="bold">
                 {data?.name} '{data?.sub_name}'
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body1" className="italic">
+              <Typography variant="h6" className="italic">
                 {data?.scientific_name}
               </Typography>
             </Grid>
-            <Grid item mt={3}>
+            <Grid
+              item
+              mt={1}
+              height={400}
+              width={300}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
               <img
-                src={`${import.meta.env.VITE_API_URL}uploads/${
-                  data.attachments
-                }`}
+                src={data?.attachments}
                 alt=""
-                style={{ height: "100%", width: "100%", objectFit: "cover" }}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  objectFit: "none",
+                  borderRadius: "4px",
+                }}
               />
             </Grid>
             <Grid item mt={3}>
               <Box
                 display="flex"
                 flexDirection="column"
-                className="bg-orange-200"
+                className="bg-orange-200 bg-opacity-60"
                 p={2}
               >
-                <Typography variant="caption" sx={{ textAlign: "justify" }}>
+                <Typography variant="body2" sx={{ textAlign: "justify" }}>
                   Fun fact:
                 </Typography>
-                <Typography variant="caption" sx={{ textAlign: "justify" }}>
+                <Typography variant="body2" sx={{ textAlign: "justify" }}>
                   {data?.fun_fact}
                 </Typography>
               </Box>
@@ -183,13 +224,17 @@ const CustomDrawer = ({
           </Grid>
           <Box
             sx={{
+              position: "relative",
               marginTop: "auto",
               display: "flex",
               justifyContent: "end",
+              bottom: 30,
             }}
           >
             <Button onClick={() => toggleReadMore()} sx={{ color: "black" }}>
-              {open ? (readMore ? "Read less" : "Read more") : ""}
+              <Typography variant="caption">
+                {open ? (readMore ? "Read less" : "Read more") : ""}
+              </Typography>
             </Button>
           </Box>
         </Box>

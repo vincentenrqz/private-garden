@@ -22,6 +22,10 @@ const MapPage = () => {
       if (paperRef.current && !paperRef.current.contains(e.target as Node)) {
         if (screenSize?.screenSize === "xs") {
           paperRef.current.style.top = "95%";
+        } else if (screenSize?.screenSize === "sm") {
+          paperRef.current.style.left = "-67%";
+        } else if (screenSize?.screenSize === "xl") {
+          paperRef.current.style.left = "-32%";
         } else {
           paperRef.current.style.left = "-43%";
         }
@@ -44,6 +48,8 @@ const MapPage = () => {
     if (paperRef.current) {
       if (screenSize?.screenSize === "xs") {
         paperRef.current.style.top = "80%";
+      } else if (screenSize?.screenSize === "sm") {
+        paperRef.current.style.left = "-25%";
       } else {
         paperRef.current.style.left = "-15%";
       }
@@ -67,6 +73,8 @@ const MapPage = () => {
     if (readMore && paperRef.current) {
       if (screenSize?.screenSize === "xs") {
         paperRef.current.style.top = "95%";
+      } else if (screenSize?.screenSize === "xl") {
+        paperRef.current.style.left = "-32%";
       } else {
         paperRef.current.style.left = "-43%";
       }
@@ -119,6 +127,7 @@ const MapPage = () => {
               handleMapClick={undefined}
               markers={undefined}
               openDrawerHandler={undefined}
+              setData={setData}
             />
           </div>
         </Box>

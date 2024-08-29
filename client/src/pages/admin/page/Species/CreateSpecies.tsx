@@ -2,9 +2,9 @@ import React, { useRef, useState } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import {
-  Box,
   CardContent,
   CardMedia,
+  CircularProgress,
   MenuItem,
   Stack,
   TextField,
@@ -45,6 +45,7 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
   const [types, setTypes] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState(null);
+  const [isLoadingAttach, setIsLoadingAttach] = useState(false);
 
   const { typesData } = useFetchData();
 
@@ -88,22 +89,23 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     const file = e.target.files?.[0];
 
     if (file) {
+      setIsLoadingAttach(true);
       const formData = new FormData();
-      formData.append("image", file);
+      formData.append("imageType", file);
 
       try {
-        const response = await typesService.uploadImage(formData);
-
-        if (response) {
-          const { filename } = response.data;
-
+        const response = await typesService.fileUpload(formData);
+        if (response.status === 200) {
+          const { Location } = response.data.data;
           setSpecies((prev) => ({
             ...prev,
-            attachments: filename,
+            attachments: Location,
           }));
         }
       } catch (error) {
         console.error("Error uploading file:", error);
+      } finally {
+        setIsLoadingAttach(false);
       }
     }
   };
@@ -252,9 +254,7 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                       <CardMedia
                         component="img"
                         alt=""
-                        src={`${
-                          import.meta.env.VITE_API_URL
-                        }uploads/${iconUrl}`}
+                        src={iconUrl}
                         sx={{
                           width: iconSize[0],
                           height: iconSize[1],
@@ -341,8 +341,18 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
               >
                 Attachments
               </Typography>
-              <Button variant="outlined" fullWidth onClick={handleButtonClick}>
-                Attach images
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={handleButtonClick}
+                disabled={isLoadingAttach}
+                startIcon={
+                  isLoadingAttach ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : null
+                }
+              >
+                {isLoadingAttach ? "Please wait..." : "Attach Image"}
               </Button>
               <input
                 type="file"
@@ -352,11 +362,9 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                 onChange={handleAttachments}
               />
 
-              {species.attachments != null && (
+              {species.attachments !== "" && (
                 <img
-                  src={`${import.meta.env.VITE_API_URL}uploads/${
-                    species.attachments
-                  }`}
+                  src={species.attachments}
                   alt=""
                   height={100}
                   width={100}

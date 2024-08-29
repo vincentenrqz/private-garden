@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  CircularProgress,
   Stack,
   TextField,
   Typography,
@@ -34,6 +35,7 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     open: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingAttach, setIsLoadingAttach] = useState(false);
 
   const fileInputRef = useRef(null);
 
@@ -52,40 +54,54 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     if (file) {
       const reader = new FileReader();
 
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
+        setIsLoadingAttach(true);
+
         if (reader.result) {
-          const img = new Image();
-          img.onload = () => {
-            const { width, height } = img;
+          try {
+            const formData = new FormData();
+            formData.append("imageType", file);
 
-            const newIcon: IconDto = {
-              iconUrl: URL.createObjectURL(file),
-              iconSize: [40, 40],
-              iconAnchor: [10, 20],
-              popupAnchor: [0, 20],
-              tooltipAnchor: [0, -15],
-              shadowUrl:
-                "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-              shadowSize: [41, 41],
-            };
+            const response = await typesService.fileUpload(formData);
 
-            setCustomizeIcon((prevIcons) => [...prevIcons, newIcon]);
+            if (response.status === 200) {
+              const { Location } = response.data.data;
+              setIsLoadingAttach(false);
 
-            setTypes((prevTypes) => ({
-              ...prevTypes,
-              icons: [...customizeIcon, newIcon],
-            }));
-          };
-          img.src = reader.result as string;
+              const img = new Image();
+              img.onload = () => {
+                const newIcon: IconDto = {
+                  iconUrl: Location,
+                  iconSize: [40, 40],
+                  iconAnchor: [10, 20],
+                  popupAnchor: [0, 20],
+                  tooltipAnchor: [0, -15],
+                  shadowUrl:
+                    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+                  shadowSize: [41, 41],
+                };
+
+                setCustomizeIcon((prevIcons) => [...prevIcons, newIcon]);
+                setTypes((prevTypes) => ({
+                  ...prevTypes,
+                  icons: [...prevTypes.icons, newIcon],
+                }));
+              };
+              img.src = reader.result as string;
+            }
+          } catch (error) {
+            console.error("Error uploading file:", error);
+          }
         }
       };
-
       reader.readAsDataURL(file);
     }
   };
 
   const triggerFileInput = () => {
-    fileInputRef.current?.click();
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
   };
 
   const handleChangeIconWidth = (
@@ -98,8 +114,8 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     }
 
     setCustomizeIcon((prevIcons) => {
-      const updatedIcons = [...prevIcons]; // Copy the array
-      updatedIcons[index].iconSize[0] = newWidth; // Update width
+      const updatedIcons = [...prevIcons];
+      updatedIcons[index].iconSize[0] = newWidth;
       return updatedIcons;
     });
   };
@@ -171,45 +187,12 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     }
   };
 
-  const processIcons = async (icons: any[]) => {
-    return Promise.all(
-      icons.map(async (icon, index) => {
-        const fileName = `icon-${index}.png`;
-
-        const res = await fetch(icon.iconUrl);
-        const blob = await res.blob();
-        const file = new File([blob], fileName, { type: blob.type });
-
-        const formData = new FormData();
-        formData.append("image", file);
-
-        const response = await typesService.uploadImage(formData);
-
-        if (response) {
-          const { data } = response;
-
-          return {
-            ...icon,
-            iconUrl: data.filename,
-          };
-        }
-      })
-    );
-  };
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const { name, icons } = types;
-    const processingIcons = await processIcons(icons);
-
-    const updatedTypes = {
-      name,
-      icons: processingIcons,
-    };
     try {
-      const result: any = await typesService.createType(updatedTypes);
+      const result: any = await typesService.createType(types);
       const { message, status } = result.data;
 
       setOpen(false);
@@ -294,12 +277,19 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
               variant="outlined"
               onClick={() => triggerFileInput()}
               fullWidth
+              disabled={isLoadingAttach}
+              startIcon={
+                isLoadingAttach ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : null
+              }
             >
-              Attach Icon
+              {isLoadingAttach ? "Please wait..." : "Attach Icon"}
             </Button>
             {customizeIcon.length > 0 &&
               customizeIcon.map((item, index) => {
                 const { iconUrl, iconSize } = item;
+
                 return (
                   <Card
                     key={index}
@@ -334,6 +324,7 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                               onChange={(e: any) =>
                                 handleChangeIconWidth(index, e)
                               }
+                              disabled
                               fullWidth
                             />
                             <TextField
@@ -345,6 +336,7 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                               onChange={(e: any) =>
                                 handleChangeIconHeight(index, e)
                               }
+                              disabled
                               fullWidth
                             />
                           </Stack>
@@ -358,6 +350,7 @@ const CreateType = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                           <Button
                             variant="outlined"
                             size="small"
+                            disabled
                             onClick={() =>
                               handleResize({
                                 iconUrl,

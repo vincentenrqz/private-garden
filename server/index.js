@@ -1,4 +1,5 @@
 //ENV VARIABLES
+const s3 = require("./utils/s3");
 require("dotenv").config();
 
 //Import Dependencies
@@ -49,6 +50,11 @@ app.post(
   upload.single("image"),
   TypesController.uploadImage
 );
+app.post(
+  "/types/file_upload",
+  upload.single("imageType"),
+  TypesController.fileUpload
+);
 
 //Species Routes
 app.post("/species", SpeciesController.createSpeciesData);
@@ -70,6 +76,22 @@ app.get("/attachments", AttachmentsController.getAllAttachmentsData);
 app.get("/attachments/:id", AttachmentsController.getAttachmentsDataById);
 app.put("/attachments/:id", AttachmentsController.updateAttachmentsData);
 app.delete("/attachments/:id", AttachmentsController.deleteAttachmentData);
+
+app.get("/generate-presigned-url", (req, res) => {
+  const params = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: `icon-${Date.now()}.png`,
+    Expires: 60,
+    ContentType: "image/png",
+  };
+
+  s3.getSignedUrl("putObject", params, (err, url) => {
+    if (err) {
+      return res.status(500).json({ error: "Error generating pre-signed URL" });
+    }
+    res.json({ url });
+  });
+});
 
 app.listen(process.env.PORT, () => {
   console.log("SERVER RUNNING");

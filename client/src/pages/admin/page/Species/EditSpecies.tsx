@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Button,
   CardContent,
   CardMedia,
+  CircularProgress,
   MenuItem,
   Stack,
   TextField,
@@ -14,6 +15,7 @@ import Toaster from "../../../components/Toaster";
 import { SpeciesDto } from "../../../../types/species.interface";
 import { speciesService } from "../../../../services/species.service";
 import { useFetchData } from "../../../../utils/queries";
+import { typesService } from "../../../../services/types.service";
 
 type Props = {
   species: SpeciesDto;
@@ -37,6 +39,7 @@ const EditSpecies = ({
     open: false,
   });
   const [icons, setIcons] = useState(null);
+  const [isLoadingAttach, setIsLoadingAttach] = useState(false);
   const { typesData } = useFetchData();
 
   useEffect(() => {
@@ -48,6 +51,12 @@ const EditSpecies = ({
       setIcons(filterIcons);
     }
   }, [typesData]);
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -79,6 +88,31 @@ const EditSpecies = ({
       icon: data,
     }));
     setSelectedType(data?.iconUrl);
+  };
+
+  const handleAttachments = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      setIsLoadingAttach(true);
+      const formData = new FormData();
+      formData.append("imageType", file);
+
+      try {
+        const response = await typesService.fileUpload(formData);
+        if (response.status === 200) {
+          const { Location } = response.data.data;
+          setForm((prev) => ({
+            ...prev,
+            attachments: Location,
+          }));
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      } finally {
+        setIsLoadingAttach(false);
+      }
+    }
   };
 
   const handleUpdate = async (e: React.FormEvent) => {
@@ -211,9 +245,7 @@ const EditSpecies = ({
                       <CardMedia
                         component="img"
                         alt=""
-                        src={`${
-                          import.meta.env.VITE_API_URL
-                        }uploads/${iconUrl}`}
+                        src={iconUrl}
                         sx={{
                           width: iconSize[0],
                           height: iconSize[1],
@@ -290,9 +322,30 @@ const EditSpecies = ({
               <Typography gutterBottom variant="subtitle1" component="div">
                 Attachments
               </Typography>
-              <Button variant="outlined" fullWidth>
-                Attach images
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={handleButtonClick}
+                disabled={isLoadingAttach}
+                startIcon={
+                  isLoadingAttach ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : null
+                }
+              >
+                {isLoadingAttach ? "Please wait..." : "Attach Image"}
               </Button>
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleAttachments}
+              />
+
+              {form.attachments !== "" && (
+                <img src={form?.attachments} alt="" height={100} width={100} />
+              )}
             </Stack>
             <Stack
               direction="row"

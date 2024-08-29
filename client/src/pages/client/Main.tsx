@@ -6,6 +6,7 @@ import {
   useScreenSize,
 } from "../../context/MediaContext";
 import LandingPage from "./LandingPage";
+import Flipbook from "./Flip";
 import { Stack, Tooltip, useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +19,7 @@ const pages = [
   {
     id: 2,
     color: "#6a5841",
-    content: <FlipbookPage />,
+    content: <Flipbook />,
   },
 ];
 
@@ -68,8 +69,8 @@ const Main = () => {
     >
       <motion.div
         className="container"
-        // drag={currentPage !== 1 ? "x" : false}
-        drag={"x"}
+        drag={currentPage !== 1 ? "x" : false}
+        // drag={"x"}
         dragConstraints={{
           left: -window.innerWidth * (pages.length - 1),
           right: 0,
