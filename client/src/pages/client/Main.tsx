@@ -109,7 +109,7 @@ const Main = () => {
           </div>
         ))}
       </motion.div>
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+      {/* <div className="absolute bottom-4 left-0 right-0 flex justify-center">
         {pages.map((_, index) => (
           <div
             key={index}
@@ -119,7 +119,7 @@ const Main = () => {
             onClick={() => handleIndicatorClick(index)}
           ></div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
