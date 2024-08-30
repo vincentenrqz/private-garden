@@ -129,8 +129,8 @@ function Flipbook() {
       >
         {/* Text above the FlipBook */}
         <Typography
-          variant="h1"
-          component="h1"
+          variant="h3"
+          component="h3"
           sx={{ fontWeight: "medium", mb: 4, color: "#647c64" }}
         >
           Glossary
@@ -138,8 +138,8 @@ function Flipbook() {
 
         {/* FlipBook in the middle */}
         <FlipBookWrapper
-          width={400}
-          height={570}
+          width={600}
+          height={770}
           showCover={true}
           usePortrait={true}
           startPage={1}
@@ -168,7 +168,7 @@ function Flipbook() {
                 <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
                   <Page
                     pageNumber={pNum + 2}
-                    width={450}
+                    width={600}
                     renderAnnotationLayer={false}
                     renderTextLayer={false}
                   />

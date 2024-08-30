@@ -263,6 +263,26 @@ const EditSpecies = ({
                 component="div"
                 sx={{ fontWeight: "bold" }}
               >
+                Additional Info
+              </Typography>
+              <TextField
+                id="info"
+                label="Addtional info"
+                multiline
+                rows={4}
+                fullWidth
+                size="small"
+                defaultValue={species?.info || ""}
+                onChange={handleChange}
+              />
+            </Stack>
+            <Stack direction="column" spacing={2}>
+              <Typography
+                gutterBottom
+                variant="subtitle1"
+                component="div"
+                sx={{ fontWeight: "bold" }}
+              >
                 Video URL
               </Typography>
               <TextField

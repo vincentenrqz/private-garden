@@ -15,6 +15,7 @@ const SpeciesSchema = new Schema(
     description: String,
     attachments: String,
     video: String,
+    info: String,
   },
   { timestamps: true }
 );

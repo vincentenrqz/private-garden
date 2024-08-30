@@ -90,9 +90,9 @@ const CustomDrawer = ({
         <Box
           sx={{
             flex: 1,
-            paddingLeft: 3,
+            paddingLeft: 5,
             paddingRight: screenSize?.screenSize === "xl" ? 40 : 3,
-            paddingY: 2,
+            paddingY: 5,
             alignItems: "center",
             justifyContent: "center",
             position: "relative",
@@ -108,7 +108,7 @@ const CustomDrawer = ({
           <Grid
             container
             direction="column"
-            sx={{ position: "relative", zIndex: 10 }}
+            sx={{ position: "relative", zIndex: 10, padding: 0 }}
           >
             <Grid item>
               <Typography variant="h6">Media</Typography>
@@ -129,7 +129,7 @@ const CustomDrawer = ({
             <Grid item>
               <Typography variant="subtitle1">{data?.etymology}</Typography>
             </Grid>
-            <Grid item mt={1}>
+            <Grid item>
               <Typography variant="h6" className="uppercase">
                 Notable Remarks
               </Typography>
@@ -137,7 +137,7 @@ const CustomDrawer = ({
             <Grid item>
               <Typography variant="subtitle1">{data?.description}</Typography>
             </Grid>
-            <Grid item mt={1}>
+            <Grid item>
               <Typography variant="h6" className="uppercase">
                 Cultural Maintenance
               </Typography>
@@ -150,9 +150,16 @@ const CustomDrawer = ({
           </Grid>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem />
-        <Box sx={{ flex: 1 }} className="bg-drawer-right-page">
+        <Box
+          sx={{ flex: 1, position: "relative", paddingTop: 10, paddingX: 2 }}
+          className="bg-drawer-right-page"
+        >
           <div className="absolute inset-0 bg-grid-lines-vertical z-0 my-5"></div>
           <div className="absolute inset-0 bg-grid-lines-horizontal z-0 my-5"></div>
+
+          <Grid container sx={{ position: "relative", zIndex: 10 }}>
+            <Typography variant="subtitle2">{data?.info}</Typography>
+          </Grid>
         </Box>
         <Box
           sx={{
@@ -160,7 +167,7 @@ const CustomDrawer = ({
             display: "flex",
             flexDirection: "column",
             backgroundColor: "#ffffff",
-            paddingY: 2,
+            paddingY: 5,
             paddingRight: 3,
             position: "relative",
           }}

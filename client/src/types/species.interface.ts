@@ -11,6 +11,7 @@ export class SpeciesDto {
   description?: string;
   attachments?: string;
   video?: string;
+  info?: string;
 }
 
 export class SpeciesCoordinatesDto extends SpeciesDto {
