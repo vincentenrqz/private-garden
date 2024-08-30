@@ -25,8 +25,8 @@ function LandingPage() {
             <img
               src="/resources/welcome-logo.png"
               alt="test"
-              width={400}
-              height={400}
+              width={500}
+              height={500}
             />
             <Typography
               variant="subtitle1"

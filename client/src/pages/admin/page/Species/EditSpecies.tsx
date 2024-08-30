@@ -256,6 +256,25 @@ const EditSpecies = ({
                   );
                 })}
             </Stack>
+            <Stack direction="column" spacing={2}>
+              <Typography
+                gutterBottom
+                variant="subtitle1"
+                component="div"
+                sx={{ fontWeight: "bold" }}
+              >
+                Video URL
+              </Typography>
+              <TextField
+                id="video"
+                label="Video URL"
+                variant="outlined"
+                size="small"
+                fullWidth
+                defaultValue={species?.video || ""}
+                onChange={handleChange}
+              />
+            </Stack>
             <Typography gutterBottom variant="subtitle1" component="div">
               Information{" "}
               <Typography

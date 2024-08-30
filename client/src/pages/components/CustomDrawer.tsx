@@ -11,6 +11,7 @@ import {
 import { IoIosInformationCircle } from "react-icons/io";
 import { useScreenSize } from "../../context/MediaContext";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import ReactPlayer from "react-player";
 
 interface Props {
   data: any;
@@ -51,6 +52,7 @@ const CustomDrawer = ({
       ? "-32%"
       : "-43%";
 
+  console.log("data", data?.video);
   return (
     <Paper
       ref={paperRef}
@@ -109,7 +111,13 @@ const CustomDrawer = ({
               <Typography variant="h6">Media</Typography>
             </Grid>
             <Grid item mt={1} display="flex" justifyContent="center">
-              <Box
+              <ReactPlayer
+                url={data?.video}
+                controls
+                width={500}
+                height={300}
+              />
+              {/* <Box
                 width={500}
                 height={250}
                 className="bg-gray-300"
@@ -121,7 +129,7 @@ const CustomDrawer = ({
                   fontSize="large"
                   sx={{ height: 200, width: 200 }}
                 />
-              </Box>
+              </Box> */}
             </Grid>
             <Grid item mt={3}>
               <Typography variant="h6" className="uppercase">
@@ -229,6 +237,7 @@ const CustomDrawer = ({
               display: "flex",
               justifyContent: "end",
               bottom: 30,
+              zIndex: 999,
             }}
           >
             <Button onClick={() => toggleReadMore()} sx={{ color: "black" }}>

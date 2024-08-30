@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import ButtonFilters from "../../components/ButtonFilters";
 import CustomDrawer from "../../components/CustomDrawer";
 import { useScreenSize } from "../../../context/MediaContext";
@@ -108,12 +108,26 @@ const MapPage = () => {
 
   return (
     <div
-      className={`bg-gradient-page ${
+      style={{
+        backgroundImage: `url(resources/backgroundMap.jpg)`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+      className={`flex flex-col ${
         screenSize?.screenSize === "xs"
           ? "min-w-full min-h-screen flex justify-center"
-          : "min-w-full min-h-screen flex justify-center pt-5 items-center"
+          : "min-w-full min-h-screen flex justify-center items-center"
       }`}
     >
+      <Typography
+        variant="h3"
+        color="white"
+        sx={{
+          color: "#647c64",
+        }}
+      >
+        Explore with me
+      </Typography>
       <div className={`flex ${flexStyle?.parent} `}>
         <Box style={mapStyle}>
           <div className="flex flex-row items-end">

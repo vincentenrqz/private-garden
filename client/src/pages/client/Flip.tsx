@@ -119,16 +119,19 @@ function Flipbook() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          bgcolor: "grey.900",
           p: 2,
+        }}
+        style={{
+          backgroundImage: `url(resources/backgroundMap.jpg)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
         {/* Text above the FlipBook */}
         <Typography
-          variant="h4"
+          variant="h1"
           component="h1"
-          color="white"
-          sx={{ fontWeight: "medium", mb: 4 }}
+          sx={{ fontWeight: "medium", mb: 4, color: "#647c64" }}
         >
           Glossary
         </Typography>
@@ -159,28 +162,30 @@ function Flipbook() {
           showPageCorners={true}
           disableFlipByClick={false}
         >
-          {[...Array(numPages).keys()].map((pNum) => (
-            <Pages key={pNum} number={pNum + 1}>
-              <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
-                <Page
-                  pageNumber={pNum + 1}
-                  width={450}
-                  renderAnnotationLayer={false}
-                  renderTextLayer={false}
-                />
-              </Document>
-            </Pages>
-          ))}
+          {[...Array(numPages).keys()].map((pNum) => {
+            return (
+              <Pages key={pNum} number={pNum + 2}>
+                <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
+                  <Page
+                    pageNumber={pNum + 2}
+                    width={450}
+                    renderAnnotationLayer={false}
+                    renderTextLayer={false}
+                  />
+                </Document>
+              </Pages>
+            );
+          })}
         </FlipBookWrapper>
 
         {/* Page number text below the FlipBook */}
-        <Typography
+        {/* <Typography
           variant="body1"
           color="white"
           sx={{ textAlign: "center", mt: 2 }}
         >
           Page {Math.min(numPages, 1)} of {numPages}
-        </Typography>
+        </Typography> */}
       </Box>
     </>
   );

@@ -16,6 +16,7 @@ const createSpeciesData = async (req, res) => {
       cultural_maintenance,
       fun_fact,
       attachments,
+      video,
     } = data;
 
     if (!name) {
@@ -33,6 +34,7 @@ const createSpeciesData = async (req, res) => {
       cultural_maintenance,
       fun_fact,
       attachments,
+      video,
     });
 
     return res.status(201).json({
@@ -94,6 +96,7 @@ const updateSpeciesData = async (req, res) => {
       cultural_maintenance,
       fun_fact,
       attachments,
+      video,
     } = req.body.data || {};
 
     if (!id) {
@@ -113,6 +116,7 @@ const updateSpeciesData = async (req, res) => {
         cultural_maintenance,
         fun_fact,
         attachments,
+        video,
       },
       { new: true }
     );

@@ -36,6 +36,7 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     fun_fact: "",
     description: "",
     attachments: "",
+    video: "",
   });
   const [message, setMessage] = useState({
     message: "",
@@ -264,6 +265,25 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                     </CardContent>
                   );
                 })}
+            </Stack>
+            <Stack direction="column" spacing={2}>
+              <Typography
+                gutterBottom
+                variant="subtitle1"
+                component="div"
+                sx={{ fontWeight: "bold" }}
+              >
+                Video URL
+              </Typography>
+              <TextField
+                id="video"
+                label="Video URL"
+                variant="outlined"
+                size="small"
+                fullWidth
+                value={species.video}
+                onChange={handleChange}
+              />
             </Stack>
             <Typography
               gutterBottom

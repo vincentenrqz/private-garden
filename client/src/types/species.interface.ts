@@ -10,6 +10,7 @@ export class SpeciesDto {
   fun_fact?: string;
   description?: string;
   attachments?: string;
+  video?: string;
 }
 
 export class SpeciesCoordinatesDto extends SpeciesDto {

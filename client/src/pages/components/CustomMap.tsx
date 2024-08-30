@@ -92,8 +92,8 @@ const CustomMap = ({
   ];
 
   const filteredMarkers = selectedType
-    ? markers.filter((marker) => marker?.type === selectedType)
-    : markers;
+    ? mapsData.filter((marker) => marker?.name === selectedType)
+    : mapsData;
 
   return (
     <>
