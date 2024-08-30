@@ -122,8 +122,11 @@ const CustomMap = ({
         />
         {!selectedType &&
           mapsData?.map((marker: any) => {
+            console.log("markers", marker);
             const { _id, species, position } = marker;
+            console.log("species", species);
             const options = species?.icon;
+            console.log("options", options);
             return (
               <Marker
                 key={_id}

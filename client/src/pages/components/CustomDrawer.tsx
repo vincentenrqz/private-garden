@@ -91,11 +91,14 @@ const CustomDrawer = ({
           sx={{
             flex: 1,
             paddingLeft: 3,
-            paddingRight: screenSize?.screenSize === "xl" ? 20 : 3,
+            paddingRight: screenSize?.screenSize === "xl" ? 40 : 3,
             paddingY: 2,
             alignItems: "center",
             justifyContent: "center",
             position: "relative",
+            overflow: "auto",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
           }}
           className="bg-drawer-left-page"
         >
@@ -117,19 +120,6 @@ const CustomDrawer = ({
                 width={500}
                 height={300}
               />
-              {/* <Box
-                width={500}
-                height={250}
-                className="bg-gray-300"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <OndemandVideoIcon
-                  fontSize="large"
-                  sx={{ height: 200, width: 200 }}
-                />
-              </Box> */}
             </Grid>
             <Grid item mt={3}>
               <Typography variant="h6" className="uppercase">
