@@ -229,6 +229,7 @@ const CustomDrawer = ({
               display: "flex",
               justifyContent: "end",
               bottom: 30,
+              zIndex: 999,
             }}
           >
             <Button onClick={() => toggleReadMore()} sx={{ color: "black" }}>
