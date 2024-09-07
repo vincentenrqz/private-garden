@@ -5,38 +5,14 @@ const createSpeciesData = async (req, res) => {
   const { data } = req.body;
 
   try {
-    const {
-      name,
-      sub_name,
-      type,
-      icon,
-      scientific_name,
-      description,
-      etymology,
-      cultural_maintenance,
-      fun_fact,
-      attachments,
-      video,
-      info,
-    } = data;
+    const { name } = data;
 
     if (!name) {
       throw new Error("Error");
     }
 
     const species = await Species.create({
-      name,
-      sub_name,
-      type,
-      icon,
-      scientific_name,
-      description,
-      etymology,
-      cultural_maintenance,
-      fun_fact,
-      attachments,
-      video,
-      info,
+      ...data,
     });
 
     return res.status(201).json({
@@ -86,21 +62,7 @@ const getSpeciesDataById = async (req, res) => {
 const updateSpeciesData = async (req, res) => {
   try {
     const id = req.params.id;
-
-    const {
-      name,
-      sub_name,
-      type,
-      icon,
-      scientific_name,
-      description,
-      etymology,
-      cultural_maintenance,
-      fun_fact,
-      attachments,
-      video,
-      info,
-    } = req.body.data || {};
+    const data = req.body.data;
 
     if (!id) {
       return res.status(400).json({ message: "ID is required" });
@@ -109,18 +71,7 @@ const updateSpeciesData = async (req, res) => {
     const updatedSpecies = await Species.findByIdAndUpdate(
       id,
       {
-        name,
-        sub_name,
-        type,
-        icon,
-        scientific_name,
-        description,
-        etymology,
-        cultural_maintenance,
-        fun_fact,
-        attachments,
-        video,
-        info,
+        ...data,
       },
       { new: true }
     );

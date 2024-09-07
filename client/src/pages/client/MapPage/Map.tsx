@@ -21,17 +21,18 @@ const MapPage = () => {
   useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (paperRef.current && !paperRef.current.contains(e.target as Node)) {
-        if (screenSize?.screenSize === "xs") {
-          paperRef.current.style.top = "95%";
-        } else if (screenSize?.screenSize === "sm") {
-          paperRef.current.style.left = "-67%";
-        } else if (screenSize?.screenSize === "xl") {
-          paperRef.current.style.left = "-32%";
-        } else {
-          paperRef.current.style.left = "-43%";
-        }
         setOpen(false);
         setReadMore(false);
+        setData({});
+        switch (screenSize?.screenSize) {
+          case "xs":
+          case "sm":
+            return (paperRef.current.style.top = "95%");
+          case "xl":
+            return (paperRef.current.style.left = "-32%");
+          default:
+            return (paperRef.current.style.left = "-43%");
+        }
       }
     };
 
@@ -47,12 +48,19 @@ const MapPage = () => {
   const toggleDrawer = (newOpen: boolean) => {
     setOpen(newOpen);
     if (paperRef.current) {
-      if (screenSize?.screenSize === "xs") {
-        paperRef.current.style.top = "80%";
-      } else if (screenSize?.screenSize === "sm") {
-        paperRef.current.style.left = "-25%";
-      } else {
-        paperRef.current.style.left = "-15%";
+      switch (screenSize?.screenSize) {
+        case "xs":
+          return (paperRef.current.style.top = "50%");
+        case "sm":
+          return (paperRef.current.style.top = "68%");
+        case "md":
+          return (paperRef.current.style.left = "-21%");
+        case "lg":
+          return (paperRef.current.style.left = "-22%");
+        case "xl":
+          return (paperRef.current.style.left = "-17%");
+        default:
+          return (paperRef.current.style.left = "-15%");
       }
     }
   };
@@ -64,20 +72,42 @@ const MapPage = () => {
   const toggleReadMore = () => {
     setReadMore(!readMore);
     if (!readMore && paperRef.current) {
-      if (screenSize?.screenSize === "xs") {
-        paperRef.current.style.top = "40%";
+      if (screenSize?.screenSize === "xs" || screenSize?.screenSize === "sm") {
+        paperRef.current.style.top = "10%";
       } else {
         paperRef.current.style.left = "50%";
       }
     }
 
     if (readMore && paperRef.current) {
-      if (screenSize?.screenSize === "xs") {
+      if (screenSize?.screenSize === "xs" || screenSize?.screenSize === "sm") {
         paperRef.current.style.top = "95%";
       } else if (screenSize?.screenSize === "xl") {
         paperRef.current.style.left = "-32%";
       } else {
         paperRef.current.style.left = "-43%";
+      }
+
+      setData({});
+    }
+  };
+
+  const toggleInfo = () => {
+    setOpen(true);
+    if (paperRef.current) {
+      switch (screenSize?.screenSize) {
+        case "xs":
+          return (paperRef.current.style.top = "80%");
+        case "sm":
+          return (paperRef.current.style.top = "68%");
+        case "md":
+          return (paperRef.current.style.left = "-21%");
+        case "lg":
+          return (paperRef.current.style.left = "-22%");
+        case "xl":
+          return (paperRef.current.style.left = "-17%");
+        default:
+          return (paperRef.current.style.left = "-15%");
       }
     }
   };
@@ -158,6 +188,7 @@ const MapPage = () => {
           open={open}
           readMore={readMore}
           toggleReadMore={toggleReadMore}
+          toggleInfo={toggleInfo}
         />
         <FloatingButton />
       </div>
