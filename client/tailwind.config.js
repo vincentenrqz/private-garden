@@ -21,6 +21,15 @@ export default {
           "sans-serif",
         ],
       },
+      keyframes: {
+        "fade-in-out": {
+          "0%, 100%": { opacity: "0" },
+          "50%": { opacity: "1" },
+        },
+      },
+      animation: {
+        "fade-in-out": "fade-in-out 3s ease-in-out infinite",
+      },
     },
     gradients: {},
   },

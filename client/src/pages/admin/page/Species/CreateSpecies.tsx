@@ -4,7 +4,10 @@ import Typography from "@mui/material/Typography";
 import {
   CardContent,
   CardMedia,
+  Checkbox,
   CircularProgress,
+  FormControlLabel,
+  FormGroup,
   MenuItem,
   Stack,
   TextField,
@@ -38,6 +41,25 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     attachments: "",
     video: "",
     info: "",
+    family_name: "",
+    eco_class: "",
+    type_of_plant_growth: "",
+    native_distribution: "",
+    native_habitat: "",
+    preferred_climate_zone: "",
+    growth_form: "",
+    trunk: "",
+    foliage: "",
+    flower: "",
+    fruit: "",
+    plant_rootzone_tolerance: "",
+    light_preference: "",
+    water_preference: "",
+    pollination: "",
+    propagation: "",
+    ethnobotanical_uses: "",
+    landscape_uses: "",
+    thematic_landscaping: "",
   });
   const [message, setMessage] = useState({
     message: "",
@@ -48,6 +70,7 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [isLoadingAttach, setIsLoadingAttach] = useState(false);
+  const [showAdditionalFields, setShowAddtionalFields] = useState(false);
 
   const { typesData } = useFetchData();
 
@@ -151,6 +174,10 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const toggleAddtionalField = () => {
+    setShowAddtionalFields(!showAdditionalFields);
   };
 
   return (
@@ -266,26 +293,6 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                     </CardContent>
                   );
                 })}
-            </Stack>
-            <Stack direction="column" spacing={2}>
-              <Typography
-                gutterBottom
-                variant="subtitle1"
-                component="div"
-                sx={{ fontWeight: "bold" }}
-              >
-                Additional Info
-              </Typography>
-              <TextField
-                id="info"
-                label="Addtional info"
-                multiline
-                rows={4}
-                fullWidth
-                size="small"
-                value={species.info || ""}
-                onChange={handleChange}
-              />
             </Stack>
             <Stack direction="column" spacing={2}>
               <Typography
@@ -412,6 +419,200 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                 />
               )}
             </Stack>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={showAdditionalFields}
+                    onChange={toggleAddtionalField}
+                  />
+                }
+                label="Enable addtional fields"
+              />
+            </FormGroup>
+            {showAdditionalFields && (
+              <Stack direction="column" spacing={2}>
+                <Typography
+                  gutterBottom
+                  variant="subtitle1"
+                  component="div"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  Additional Info
+                </Typography>
+                <TextField
+                  id="family_name"
+                  label="Family name"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.family_name}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="eco_class"
+                  label="Eco class"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.eco_class}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="type_of_plant_growth"
+                  label="Typo of plant growth"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.type_of_plant_growth}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="native_distribution"
+                  label="Native distribution"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.native_distribution}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="native_habitat"
+                  label="Native habitat"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.native_habitat}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="preferred_climate_zone"
+                  label="Preferred climate zone"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.preferred_climate_zone}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="growth_form"
+                  label="Growth form"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.growth_form}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="trunk"
+                  label="Trunk"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.trunk}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="foliage"
+                  label="Foliage"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.foliage}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="flower"
+                  label="Flower"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.flower}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="fruit"
+                  label="Fruit"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.fruit}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="plant_rootzone_tolerance"
+                  label="Plant rootzone tolerance"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.plant_rootzone_tolerance}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="light_preference"
+                  label="Light preference"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.light_preference}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="water_preference"
+                  label="Water preference"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.water_preference}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="pollination"
+                  label="Pollination"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.pollination}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="propagation"
+                  label="Propagation"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.propagation}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="ethnobotanical_uses"
+                  label="Ethnobotanical uses"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.ethnobotanical_uses}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="landscape_uses"
+                  label="Landscape uses"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.landscape_uses}
+                  onChange={handleChange}
+                />
+                <TextField
+                  id="thematic_landscaping"
+                  label="Thematic landscaping"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={species.thematic_landscaping}
+                  onChange={handleChange}
+                />
+              </Stack>
+            )}
             <Stack
               direction="row"
               sx={{
