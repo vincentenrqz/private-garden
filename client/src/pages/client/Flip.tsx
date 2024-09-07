@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
-import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import pdf from "./explore_with_me.pdf";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -32,66 +31,70 @@ interface FlipBookProps {
   showPageCorners?: boolean;
   disableFlipByClick?: boolean;
   children: React.ReactNode;
+  ref?: any;
 }
 
-const FlipBookWrapper: React.FC<FlipBookProps> = (props) => {
-  const {
-    width,
-    height,
-    showCover = false,
-    usePortrait = false,
-    startPage = 1,
-    className,
-    style,
-    size = "fixed",
-    minWidth,
-    maxWidth,
-    minHeight,
-    maxHeight,
-    drawShadow,
-    flippingTime,
-    startZIndex,
-    autoSize,
-    maxShadowOpacity,
-    mobileScrollSupport,
-    clickEventForward,
-    useMouseEvents,
-    swipeDistance,
-    showPageCorners,
-    disableFlipByClick,
-    children,
-  } = props;
+const FlipBookWrapper: React.FC<FlipBookProps> = React.forwardRef(
+  (props, ref) => {
+    const {
+      width,
+      height,
+      showCover = false,
+      usePortrait = false,
+      startPage = 1,
+      className,
+      style,
+      size = "fixed",
+      minWidth,
+      maxWidth,
+      minHeight,
+      maxHeight,
+      drawShadow,
+      flippingTime,
+      startZIndex,
+      autoSize,
+      maxShadowOpacity,
+      mobileScrollSupport,
+      clickEventForward,
+      useMouseEvents,
+      swipeDistance,
+      showPageCorners,
+      disableFlipByClick,
+      children,
+    } = props;
 
-  return (
-    <HTMLFlipBook
-      width={width}
-      height={height}
-      showCover={showCover}
-      usePortrait={usePortrait}
-      startPage={startPage}
-      className={className}
-      style={style}
-      size={size}
-      minWidth={minWidth}
-      maxWidth={maxWidth}
-      minHeight={minHeight}
-      maxHeight={maxHeight}
-      drawShadow={drawShadow}
-      flippingTime={flippingTime}
-      startZIndex={startZIndex}
-      autoSize={autoSize}
-      maxShadowOpacity={maxShadowOpacity}
-      mobileScrollSupport={mobileScrollSupport}
-      clickEventForward={clickEventForward}
-      useMouseEvents={useMouseEvents}
-      swipeDistance={swipeDistance}
-      showPageCorners={showPageCorners}
-      disableFlipByClick={disableFlipByClick}
-    >
-      {children}
-    </HTMLFlipBook>
-  );
-};
+    return (
+      <HTMLFlipBook
+        width={width}
+        height={height}
+        showCover={showCover}
+        usePortrait={usePortrait}
+        startPage={startPage}
+        className={className}
+        style={style}
+        size={size}
+        minWidth={minWidth}
+        maxWidth={maxWidth}
+        minHeight={minHeight}
+        maxHeight={maxHeight}
+        drawShadow={drawShadow}
+        flippingTime={flippingTime}
+        startZIndex={startZIndex}
+        autoSize={autoSize}
+        maxShadowOpacity={maxShadowOpacity}
+        mobileScrollSupport={mobileScrollSupport}
+        clickEventForward={clickEventForward}
+        useMouseEvents={useMouseEvents}
+        swipeDistance={swipeDistance}
+        showPageCorners={showPageCorners}
+        disableFlipByClick={disableFlipByClick}
+        ref={ref}
+      >
+        {children}
+      </HTMLFlipBook>
+    );
+  }
+);
 
 const Pages = React.forwardRef((props: any, ref: any) => {
   return (
@@ -105,10 +108,28 @@ Pages.displayName = "Pages";
 
 function Flipbook() {
   const [numPages, setNumPages] = useState<number>();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const flipbookRef = useRef<any>(null);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
   }
+
+  // Go to the previous page
+  const goToPreviousPage = () => {
+    if (flipbookRef.current && currentPage > 1) {
+      flipbookRef.current.pageFlip().flipPrev();
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  // Go to the next page
+  const goToNextPage = () => {
+    if (flipbookRef.current && currentPage < numPages!) {
+      flipbookRef.current.pageFlip().flipNext();
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
 
   return (
     <>
@@ -120,6 +141,7 @@ function Flipbook() {
           flexDirection: "column",
           alignItems: "center",
           p: 2,
+          overflowY: "auto",
         }}
         style={{
           backgroundImage: `url(resources/backgroundMap.jpg)`,
@@ -161,6 +183,7 @@ function Flipbook() {
           swipeDistance={50}
           showPageCorners={true}
           disableFlipByClick={false}
+          ref={flipbookRef}
         >
           {[...Array(numPages).keys()].map((pNum) => {
             return (
@@ -178,14 +201,37 @@ function Flipbook() {
           })}
         </FlipBookWrapper>
 
-        {/* Page number text below the FlipBook */}
-        {/* <Typography
-          variant="body1"
-          color="white"
-          sx={{ textAlign: "center", mt: 2 }}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          gap={2}
+          mt={2}
         >
-          Page {Math.min(numPages, 1)} of {numPages}
-        </Typography> */}
+          <Button
+            variant="contained"
+            onClick={goToPreviousPage}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </Button>
+          {/* Page number text */}
+          <Typography
+            variant="body1"
+            color="black"
+            alignItems="center"
+            sx={{ textAlign: "center" }}
+          >
+            Page {currentPage} of {numPages}
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={goToNextPage}
+            disabled={currentPage === numPages}
+          >
+            Next
+          </Button>
+        </Box>
       </Box>
     </>
   );
