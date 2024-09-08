@@ -39,7 +39,7 @@ function FloatingButton({ currentPage, setCurrentPage }: any) {
           sx={{
             position: "fixed",
             bottom: { xs: "180px", md: "220px" },
-            right: { xs: "5px", md: "30px" },
+            right: { xs: "15px", md: "30px" },
             border: "none",
             borderRadius: "50px",
             cursor: "pointer",
@@ -66,7 +66,7 @@ function FloatingButton({ currentPage, setCurrentPage }: any) {
           sx={{
             position: "fixed",
             bottom: { xs: "110px", md: "130px" },
-            right: { xs: "5px", md: "30px" },
+            right: { xs: "15px", md: "30px" },
             border: "none",
             borderRadius: "50px",
             cursor: "pointer",
@@ -96,7 +96,7 @@ function FloatingButton({ currentPage, setCurrentPage }: any) {
           sx={{
             position: "fixed",
             bottom: "40px",
-            right: { xs: "5px", md: "30px" },
+            right: { xs: "15px", md: "30px" },
             border: "none",
             borderRadius: "50px",
             cursor: "pointer",
