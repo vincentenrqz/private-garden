@@ -124,7 +124,7 @@ const CustomDrawer = ({
           bottom: 0,
           transform: "translateX(-50%)",
           zIndex: 1000,
-          height: "80vh",
+          height: screenType === "xs" || screenType === "sm" ? "auto" : "80vh",
           display: "flex",
           flexDirection: {
             xs: "column",

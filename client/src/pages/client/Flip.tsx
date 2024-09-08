@@ -3,6 +3,7 @@ import HTMLFlipBook from "react-pageflip";
 import { Document, Page, pdfjs } from "react-pdf";
 import pdf from "./explore_with_me.pdf";
 import { Box, Button, Typography, useMediaQuery } from "@mui/material";
+import FloatingButton from "../components/FloatingButton";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -260,6 +261,12 @@ function Flipbook() {
           variant="contained"
           onClick={goToPreviousPage}
           disabled={currentPage <= 2}
+          sx={{
+            backgroundColor: "#647c64 !important",
+            "&:hover": {
+              backgroundColor: "#647c64 !important",
+            },
+          }}
         >
           Prev
         </Button>
@@ -277,10 +284,17 @@ function Flipbook() {
           variant="contained"
           onClick={goToNextPage}
           disabled={currentPage === numPages}
+          sx={{
+            backgroundColor: "#647c64 !important",
+            "&:hover": {
+              backgroundColor: "#647c64 !important",
+            },
+          }}
         >
           Next
         </Button>
       </Box>
+      <FloatingButton />
     </Box>
   );
 }

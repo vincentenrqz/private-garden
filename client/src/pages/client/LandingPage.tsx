@@ -1,17 +1,11 @@
 import React from "react";
-import { Box, Container, Typography } from "@mui/material";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { useScreenSize } from "../../context/MediaContext";
+import FloatingButton from "../components/FloatingButton";
 
 function LandingPage() {
   const screenSize = useScreenSize();
-
-  const direction =
-    screenSize?.screenSize === "md" ||
-    screenSize?.screenSize === "lg" ||
-    screenSize?.screenSize === "xl"
-      ? "row"
-      : "column";
+  const screenType = screenSize?.screenSize;
 
   const height =
     screenSize?.screenSize === "md" ||
@@ -20,106 +14,270 @@ function LandingPage() {
       ? "unset"
       : "90vh";
 
-  const marginTop =
-    screenSize?.screenSize === "md" ||
-    screenSize?.screenSize === "lg" ||
-    screenSize?.screenSize === "xl"
-      ? 5
-      : 0;
+  const flexBoxes =
+    screenType === "xs" || screenType === "sm" || screenType === "md"
+      ? "column"
+      : "row";
+
+  const infoVariation =
+    screenType === "xs" || screenType === "sm" ? "subtitle1" : "h5";
 
   return (
-    <Box component="section" sx={{ py: 5, bgcolor: "white" }}>
-      <Container>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          flexDirection={direction}
+    <>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        {screenType !== "xs" && screenType !== "sm" && screenType !== "md" && (
+          <>
+            {/* LEFT SIDE */}
+            <img
+              src="/resources/leaf4.png"
+              alt="Leaf"
+              width={100}
+              height={100}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: -20,
+                margin: 10,
+              }}
+            />
+            <img
+              src="/resources/leaf3.png"
+              alt="Leaf"
+              width={100}
+              height={100}
+              style={{
+                position: "absolute",
+                top: 200,
+                left: 30,
+                margin: 10,
+                transform: "scaleX(-1)",
+              }}
+            />
+            <img
+              src="/resources/leaf2.png"
+              alt="Leaf"
+              width={100}
+              height={100}
+              style={{
+                position: "absolute",
+                top: 400,
+                left: -30,
+                margin: 10,
+                transform: "scaleX(-1)",
+              }}
+            />
+            <img
+              src="/resources/leaf5.png"
+              alt="Leaf"
+              width={100}
+              height={100}
+              style={{
+                position: "absolute",
+                bottom: 250,
+                left: 50,
+                margin: 10,
+                transform: "scaleX(-1)",
+              }}
+            />
+            <img
+              src="/resources/leaf7.png"
+              alt="Leaf"
+              width={100}
+              height={100}
+              style={{
+                position: "absolute",
+                bottom: 50,
+                left: 10,
+                margin: 10,
+                transform: "scaleX(-1)",
+              }}
+            />
+
+            {/* RIGHT SIDE */}
+            <img
+              src="/resources/leaf4.png"
+              alt="Leaf"
+              width={100}
+              height={100}
+              style={{
+                position: "absolute",
+                top: 100,
+                right: -20,
+                margin: 10,
+                transform: "scaleX(-1)",
+              }}
+            />
+            <img
+              src="/resources/leaf8.png"
+              alt="Leaf"
+              width={100}
+              height={100}
+              style={{
+                position: "absolute",
+                top: 300,
+                right: 50,
+                margin: 10,
+                transform: "scaleX(-1)",
+              }}
+            />
+            <img
+              src="/resources/leaf10.png"
+              alt="Leaf"
+              width={100}
+              height={100}
+              style={{
+                position: "absolute",
+                bottom: 300,
+                right: -10,
+                margin: 10,
+                transform: "scaleX(-1)",
+              }}
+            />
+            <img
+              src="/resources/leaf2.png"
+              alt="Leaf"
+              width={100}
+              height={100}
+              style={{
+                position: "absolute",
+                bottom: 100,
+                right: 60,
+                margin: 10,
+              }}
+            />
+          </>
+        )}
+        <Container
+          maxWidth="xl"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+            position: "relative",
+            margin: 2,
+            overflow: "auto",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
         >
-          {/* Text Section */}
           <Box
             sx={{
-              flexBasis: "50%",
-              textAlign: "left",
-              mx: "auto",
+              display: "flex",
+              flexDirection: flexBoxes ? "row" : "column",
+              width: "100%",
+              height: "90%",
             }}
           >
-            <img
-              src="/resources/welcome-logo.png"
-              alt="test"
-              width={500}
-              height={500}
-            />
-            <Typography
-              variant="subtitle1"
-              sx={{ color: "#647c64" }}
-              component="p"
-            >
-              Come and explore my garden, a vibrant and ever-evolving landscape
-              where technology and creativity blossom together !
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{ color: "#647c64", my: 2 }}
-              component="p"
-            >
-              As you step into this unique space, discover the breathtaking
-              diversity of trees, crawlers, grass and shrubs, and a charming
-              selection of colorful and beautiful flowers.
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{ color: "#647c64" }}
-              component="p"
-            >
-              The book features visually stunning photographs and videos that
-              will amuse and entertain.
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{ color: "#647c64" }}
-              component="p"
-            >
-              As you navigate through the different sections of the garden, go
-              ahead and click the icons. each specie has an interesting trivia
-              and back story you will surely enjoy.
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{ color: "#647c64", my: 2 }}
-              component="p"
-            >
-              Just like the physical garden, this digital space is designed to
-              inspire curiosity and exploration, carefully curated to offer
-              fresh perspectives and spark new insights.
-            </Typography>
-          </Box>
-
-          {/* Image Section */}
-          <Box display="flex" justifyContent="center" mt={marginTop}>
-            <Box
+            <Grid
+              container
+              spacing={2}
               sx={{
-                position: "relative",
-                maxWidth: "sm",
-                width: "100%",
-                height: "100vh",
+                display: "flex",
+                flexDirection: flexBoxes ? "row" : "column",
               }}
             >
-              <img
-                src={"/resources/cover-explore.jpg"}
-                alt="Welcome Image"
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  maxHeight: height,
-                  objectFit: "cover",
+              <Grid
+                item
+                xs={12}
+                md={12}
+                lg={6}
+                sx={{
+                  width: flexBoxes ? "50%" : "100%",
+                  padding: 2,
+                  boxSizing: "border-box",
                 }}
-              />
-            </Box>
+              >
+                <img
+                  src="/resources/welcome-logo-bg.png"
+                  alt="test"
+                  width={500}
+                  height={500}
+                />
+                <Typography
+                  variant={infoVariation}
+                  sx={{ color: "#647c64", textAlign: "justify" }}
+                  component="p"
+                >
+                  Come and explore my garden, a vibrant and ever-evolving
+                  landscape where technology and creativity blossom together !
+                </Typography>
+                <Typography
+                  variant={infoVariation}
+                  sx={{ color: "#647c64", my: 2, textAlign: "justify" }}
+                  component="p"
+                >
+                  As you step into this unique space, discover the breathtaking
+                  diversity of trees, crawlers, grass and shrubs, and a charming
+                  selection of colorful and beautiful flowers.
+                </Typography>
+                <Typography
+                  variant={infoVariation}
+                  sx={{ color: "#647c64", textAlign: "justify" }}
+                  component="p"
+                >
+                  The book features visually stunning photographs and videos
+                  that will amuse and entertain.
+                </Typography>
+                <Typography
+                  variant={infoVariation}
+                  sx={{ color: "#647c64", textAlign: "justify" }}
+                  component="p"
+                >
+                  As you navigate through the different sections of the garden,
+                  go ahead and click the icons. each specie has an interesting
+                  trivia and back story you will surely enjoy.
+                </Typography>
+                <Typography
+                  variant={infoVariation}
+                  sx={{ color: "#647c64", my: 2, textAlign: "justify" }}
+                  component="p"
+                >
+                  Just like the physical garden, this digital space is designed
+                  to inspire curiosity and exploration, carefully curated to
+                  offer fresh perspectives and spark new insights.
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                md={12}
+                lg={6}
+                sx={{
+                  width: flexBoxes ? "50%" : "100%",
+                  padding: 2,
+                  boxSizing: "border-box",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "relative",
+                    maxWidth: "sm",
+                    width: "100%",
+                  }}
+                >
+                  <img
+                    src={"/resources/cover-explore.jpg"}
+                    alt="Welcome Image"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      maxHeight: height,
+                      objectFit: "cover",
+                    }}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
           </Box>
-        </Box>
-      </Container>
-    </Box>
+        </Container>
+      </div>
+
+      <FloatingButton />
+    </>
   );
 }
 

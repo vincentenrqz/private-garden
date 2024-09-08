@@ -5,6 +5,7 @@ import ParkIcon from "@mui/icons-material/Park";
 import FilterVintageIcon from "@mui/icons-material/FilterVintage";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import SpaIcon from "@mui/icons-material/Spa";
+import { useScreenSize } from "../../context/MediaContext";
 
 export default function ButtonFilters({
   typeData,
@@ -13,7 +14,8 @@ export default function ButtonFilters({
   setButtonFilters,
 }) {
   const { name } = typeData;
-  console.log("buttonFilters", buttonFilters);
+  const screenSize = useScreenSize();
+  const screenType = screenSize?.screenSize;
 
   const filteredData = (types) => {
     const data = filterDataByType({ items: speciesData, id: types?._id });
@@ -56,7 +58,15 @@ export default function ButtonFilters({
 
   return (
     <Stack display="flex">
-      <Tooltip title={`Filter by ${name}`} placement="top-end" arrow>
+      <Tooltip
+        title={`Filter by ${name}`}
+        placement={
+          screenType === "xs" || screenType === "sm" || screenType === "md"
+            ? "bottom"
+            : "right"
+        }
+        arrow
+      >
         <IconButton onClick={() => filteredData(typeData)} style={buttonStyle}>
           {handleDataIcon()}
         </IconButton>

@@ -19,7 +19,6 @@ const MapPage = () => {
   const mapSize = handleMapSize(screenSize);
   const flexStyle = handleFlexStyles(screenSize);
   const [buttonFilters, setButtonFilters] = useState(null); //Todo: Pass this in custom map to have a conditional logic
-
   const { speciesData, typesData } = useFetchData();
 
   useEffect(() => {
@@ -181,8 +180,16 @@ const MapPage = () => {
           </div>
         </Box>
         <Stack
-          direction={screenSize?.screenSize === "md" ? "row" : "column"}
-          width={100}
+          direction={
+            screenSize?.screenSize === "xs"
+              ? "row"
+              : screenSize?.screenSize === "sm"
+              ? "row"
+              : screenSize?.screenSize === "md"
+              ? "row"
+              : "column-reverse"
+          }
+          width={50}
         >
           {typesData?.map((type) => (
             <ButtonFilters

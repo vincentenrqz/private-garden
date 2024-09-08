@@ -116,7 +116,7 @@ const CustomMap = ({
       >
         <TileLayer
           attribution="Private Garden"
-          url="/anning/{z}/{x}/{y}.jpg"
+          url="/anning_clean/{z}/{x}/{y}.jpg"
           bounds={maxBounds}
           noWrap={true}
         />

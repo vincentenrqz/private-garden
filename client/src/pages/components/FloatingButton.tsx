@@ -4,35 +4,29 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import HomeIcon from "@mui/icons-material/Home";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function FloatingButton({ currentPage, setCurrentPage }: any) {
+function FloatingButton() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { pathname } = location;
 
-  const handlePageChange = (pageIndex: number) => {
-    setCurrentPage(pageIndex);
-  };
+  const handleClick = () => {
+    const currentPath = location.pathname;
 
-  const handleNavigatePage = (page: any) => {
-    if (pathname === "/maps") {
-      if (page === 0) {
-        navigate("/");
-        setCurrentPage(0);
-      } else if (page === 1) {
-        navigate("/");
-        setCurrentPage(1);
-      } else {
-        navigate("/maps");
-      }
-    } else {
-      handlePageChange(page);
+    if (currentPath === "/") {
+      navigate("/flipbook");
+    } else if (currentPath === "/flipbook") {
+      navigate("/");
+    } else if (currentPath === "/maps") {
+      navigate("/maps");
     }
   };
-
   return (
     <React.Fragment>
       {/* FLOATING HOME BTN */}
-      <Tooltip title="Navigate to landing page" placement="top">
+      <Tooltip
+        title="Navigate to landing page"
+        placement="left"
+        sx={{ zIndex: 3001 }}
+      >
         <Stack
           direction="row"
           spacing={1}
@@ -47,19 +41,37 @@ function FloatingButton({ currentPage, setCurrentPage }: any) {
             height: { xs: "60px", md: "80px" },
             alignItems: "center",
             justifyContent: "center",
-            zIndex: 9999,
+            zIndex: 3000,
           }}
-          className="bg-gray-200 hover:bg-[#306d53]  transition duration-300 ease-in-out"
-          onClick={() => handleNavigatePage(0)}
+          className={`${
+            location.pathname === "/" ? "bg-[#306d53]" : "bg-gray-200"
+          } hover:bg-[#306d53] transition duration-300 ease-in-out`}
+          onClick={() => {
+            handleClick;
+            navigate("/");
+          }}
         >
-          <IconButton aria-label="home">
+          <img
+            src="/resources/house.gif"
+            alt="House Button"
+            style={{
+              width: "70%",
+              height: "70%",
+              borderRadius: "50%",
+            }}
+          />
+          {/* <IconButton aria-label="home">
             <HomeIcon fontSize="large" sx={{ fontSize: { xs: 30, md: 40 } }} />
-          </IconButton>
+          </IconButton> */}
         </Stack>
       </Tooltip>
 
       {/* FLOATING GLOSSARY BTN */}
-      <Tooltip title="Navigate to glossary page" placement="top">
+      <Tooltip
+        title="Navigate to glossary page"
+        placement="left"
+        sx={{ zIndex: 3001 }}
+      >
         <Stack
           direction="row"
           spacing={1}
@@ -74,22 +86,34 @@ function FloatingButton({ currentPage, setCurrentPage }: any) {
             height: { xs: "60px", md: "80px" },
             alignItems: "center",
             justifyContent: "center",
-            zIndex: 9999,
+            zIndex: 3000,
           }}
-          className="bg-gray-200 hover:bg-[#306d53]  transition duration-300 ease-in-out"
-          onClick={() => handleNavigatePage(1)}
+          className={`${
+            location.pathname === "/flipbook" ? "bg-[#306d53]" : "bg-gray-200"
+          } hover:bg-[#306d53] transition duration-300 ease-in-out`}
+          onClick={() => {
+            handleClick;
+            navigate("/flipbook");
+          }}
         >
-          <IconButton aria-label="glossary">
-            <MenuBookIcon
-              fontSize="large"
-              sx={{ fontSize: { xs: 30, md: 40 } }}
-            />
-          </IconButton>
+          <img
+            src="/resources/book.gif"
+            alt="Glossary Button"
+            style={{
+              width: "50%",
+              height: "50%",
+              borderRadius: "50%",
+            }}
+          />
         </Stack>
       </Tooltip>
 
       {/* FLOATING MAP BTN */}
-      <Tooltip title="Navigate to map page" placement="top">
+      <Tooltip
+        title="Navigate to map page"
+        placement="left"
+        sx={{ zIndex: 3001 }}
+      >
         <Stack
           direction="row"
           spacing={1}
@@ -102,10 +126,15 @@ function FloatingButton({ currentPage, setCurrentPage }: any) {
             cursor: "pointer",
             width: { xs: "60px", md: "80px" },
             height: { xs: "60px", md: "80px" },
-            zIndex: 9999,
+            zIndex: 3000,
           }}
-          className="bg-gray-200 hover:bg-[#306d53] transition duration-300 ease-in-out"
-          onClick={() => navigate("/maps")}
+          className={`${
+            location.pathname === "/maps" ? "bg-[#306d53]" : "bg-gray-200"
+          } hover:bg-[#306d53] transition duration-300 ease-in-out`}
+          onClick={() => {
+            handleClick;
+            navigate("/maps");
+          }}
         >
           <img
             src="/resources/animated-earth.gif"
