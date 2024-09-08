@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
-import { Box, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import ButtonFilters from "../../components/ButtonFilters";
 import CustomDrawer from "../../components/CustomDrawer";
 import { useScreenSize } from "../../../context/MediaContext";
 import { handleFlexStyles, handleMapSize } from "../../../utils";
 import CustomMap from "../../components/CustomMap";
 import FloatingButton from "../../components/FloatingButton";
+import { useFetchData } from "../../../utils/queries";
 
 const MapPage = () => {
   const paperRef = useRef<HTMLDivElement>(null);
@@ -17,6 +18,9 @@ const MapPage = () => {
   const screenSize = useScreenSize();
   const mapSize = handleMapSize(screenSize);
   const flexStyle = handleFlexStyles(screenSize);
+  const [buttonFilters, setButtonFilters] = useState(null); //Todo: Pass this in custom map to have a conditional logic
+
+  const { speciesData, typesData } = useFetchData();
 
   useEffect(() => {
     const handleClickOutside = (e: any) => {
@@ -138,7 +142,7 @@ const MapPage = () => {
               toggleDrawer={toggleDrawer}
               forAdmin={false}
               selectedType={selectedType}
-              buttonFilters={undefined}
+              buttonFilters={buttonFilters}
               handleMapClick={undefined}
               markers={undefined}
               openDrawerHandler={undefined}
@@ -146,12 +150,20 @@ const MapPage = () => {
             />
           </div>
         </Box>
-        <ButtonFilters
-          flexStyle={flexStyle}
-          screenSize={screenSize}
-          setSelectedType={setSelectedType}
-          handleTypeClick={handleTypeClick}
-        />
+        <Stack
+          direction={screenSize?.screenSize === "md" ? "row" : "column"}
+          width={100}
+        >
+          {typesData?.map((type) => (
+            <ButtonFilters
+              key={type?._id}
+              typeData={type}
+              speciesData={speciesData}
+              buttonFilters={buttonFilters}
+              setButtonFilters={setButtonFilters}
+            />
+          ))}
+        </Stack>
         <CustomDrawer
           data={data}
           paperRef={paperRef}

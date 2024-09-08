@@ -1,78 +1,66 @@
-import { Icon, IconButton } from "@mui/material";
-import React from "react";
-import { BsFlower1 } from "react-icons/bs";
-import { GiFlowers, GiFruitTree, GiGrass } from "react-icons/gi";
-import { handleIconSize } from "../../utils";
-import { useFetchData } from "../../utils/queries";
+import { IconButton, Stack, Tooltip } from "@mui/material";
+import { filterDataByType } from "../../utils";
+import GrassIcon from "@mui/icons-material/Grass";
+import ParkIcon from "@mui/icons-material/Park";
+import FilterVintageIcon from "@mui/icons-material/FilterVintage";
+import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
+import SpaIcon from "@mui/icons-material/Spa";
 
-//TODO: SHOULD CHANGE THIS LOGIC TO A DYNAMIC ONE. MAYBE USE FROM ADMIN MAP BUTTON FILTERS REUSABLE
 export default function ButtonFilters({
-  screenSize,
-  setSelectedType,
-  handleTypeClick,
-  flexStyle,
-}: any) {
-  const { typesData } = useFetchData();
+  typeData,
+  speciesData,
+  buttonFilters,
+  setButtonFilters,
+}) {
+  const { name } = typeData;
+  console.log("buttonFilters", buttonFilters);
 
-  const filteredNames = typesData.map((item) => {
-    return {
-      name: item?.name,
-      icon: item?.icons[0]?.iconUrl,
-    };
-  });
+  const filteredData = (types) => {
+    const data = filterDataByType({ items: speciesData, id: types?._id });
+    setButtonFilters(data);
+  };
+
+  const buttonStyle = {
+    backgroundColor:
+      typeData.name === "Trees"
+        ? "green"
+        : typeData.name === "Shrubs"
+        ? "blue"
+        : typeData.name === "Climbers"
+        ? "red"
+        : typeData.name === "Creepers"
+        ? "purple"
+        : typeData.name === "Herbs"
+        ? "orange"
+        : "gray",
+    color: "white",
+    borderRadius: 0,
+  };
+
+  const handleDataIcon = () => {
+    switch (typeData.name) {
+      case "Trees":
+        return <ParkIcon />;
+      case "Shrubs":
+        return <SpaIcon />;
+      case "Climbers":
+        return <LocalFloristIcon />;
+      case "Creepers":
+        return <FilterVintageIcon />;
+      case "Herbs":
+        return <GrassIcon />;
+      default:
+        return <ParkIcon />;
+    }
+  };
 
   return (
-    <div className={`text-black flex ${flexStyle.child}`}>
-      {/* {filteredNames.map((item) => {
-        const randomColors = ["yellow", "lime", "blue", "rose", "red"];
-        const shades = [300, 400, 500, 600];
-        const randomColor =
-          randomColors[Math.floor(Math.random() * randomColors.length)];
-
-        const randomShade = shades[Math.floor(Math.random() * shades.length)];
-        const backgroundColor = `${randomColor}-${randomShade}`;
-        return (
-          <div style={{ backgroundColor: `var(--${backgroundColor})` }}>
-            <IconButton onClick={() => setSelectedType(item.name)}>
-              <Icon fontSize={handleIconSize(screenSize)}>
-                <img src={item.icon} alt="" height={40} width={40} />
-              </Icon>
-            </IconButton>
-          </div>
-        );
-      })} */}
-
-      <div className="bg-lime-600">
-        <IconButton onClick={() => setSelectedType(null)}>
-          <Icon fontSize={handleIconSize(screenSize)}>
-            <BsFlower1 />
-          </Icon>
+    <Stack display="flex">
+      <Tooltip title={`Filter by ${name}`} placement="top-end" arrow>
+        <IconButton onClick={() => filteredData(typeData)} style={buttonStyle}>
+          {handleDataIcon()}
         </IconButton>
-      </div>
-
-      <div className="bg-cyan-200">
-        <IconButton onClick={() => handleTypeClick("flower")}>
-          <Icon fontSize={handleIconSize(screenSize)}>
-            <GiFlowers />
-          </Icon>
-        </IconButton>
-      </div>
-
-      <div className="bg-rose-400">
-        <IconButton onClick={() => handleTypeClick("grass")}>
-          <Icon fontSize={handleIconSize(screenSize)}>
-            <GiGrass />
-          </Icon>
-        </IconButton>
-      </div>
-
-      <div className="bg-yellow-200">
-        <IconButton onClick={() => handleTypeClick("tree")}>
-          <Icon fontSize={handleIconSize(screenSize)}>
-            <GiFruitTree />
-          </Icon>
-        </IconButton>
-      </div>
-    </div>
+      </Tooltip>
+    </Stack>
   );
 }

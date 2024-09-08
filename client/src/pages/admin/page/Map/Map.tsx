@@ -16,7 +16,7 @@ import CustomMap from "../../../components/CustomMap";
 import Loader from "../../../components/Loader";
 import { useFetchData } from "../../../../utils/queries";
 import { filterDataByType, filterSpeciesDataByType } from "../../../../utils";
-import ButtonFilters from "./ButtonFilters";
+import ButtonFilters from "../../../components/ButtonFilters";
 import FilterSpeciesContent from "./FilterSpeciesContent";
 import { mapService } from "../../../../services/maps.service";
 import ConfirmationSave from "./ConfirmationSave";
@@ -30,12 +30,12 @@ interface MarkerType {
 }
 
 const Map = () => {
-  const { speciesData, typesData } = useFetchData();
+  const { speciesData, typesData, fetchMaps } = useFetchData();
 
   const [isLoading, setIsLoading] = useState(false);
   const [filteredData, setFilteredData] = useState(speciesData);
   const [selectedIconMarker, setSelectedIconMarker] = useState(null);
-  const [buttonFilters, setButtonFilters] = useState(null); //Todo: Pass this in custom map to have a conditional logic
+  const [buttonFilters, setButtonFilters] = useState(null);
   const [markers, setMarkers] = useState<MarkerType[]>([]);
   const [message, setMessage] = useState({
     message: "",
@@ -51,7 +51,6 @@ const Map = () => {
   const handleCloseModal = () => setOpenModal(false);
 
   const navigate = useNavigate();
-  const { fetchMaps } = useFetchData();
 
   useEffect(() => {
     if (selectedFilter === "None") {
