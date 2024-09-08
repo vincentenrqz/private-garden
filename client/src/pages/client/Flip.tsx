@@ -184,40 +184,6 @@ function Flipbook() {
         Glossary
       </Typography>
 
-      {/* Pagination and buttons */}
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        gap={2}
-        mb={2}
-      >
-        <Button
-          variant="contained"
-          onClick={goToPreviousPage}
-          disabled={currentPage <= 2}
-        >
-          Prev
-        </Button>
-
-        <Typography
-          variant="body1"
-          color="black"
-          alignItems="center"
-          sx={{ textAlign: "center" }}
-        >
-          Page {currentPage} of {numPages}
-        </Typography>
-
-        <Button
-          variant="contained"
-          onClick={goToNextPage}
-          disabled={currentPage === numPages}
-        >
-          Next
-        </Button>
-      </Box>
-
       {/* FlipBook */}
       <Box
         sx={{
@@ -273,6 +239,40 @@ function Flipbook() {
             </Pages>
           ))}
         </FlipBookWrapper>
+      </Box>
+
+      {/* Pagination and buttons */}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        gap={2}
+        mt={2}
+      >
+        <Button
+          variant="contained"
+          onClick={goToPreviousPage}
+          disabled={currentPage <= 2}
+        >
+          Prev
+        </Button>
+
+        <Typography
+          variant="body1"
+          color="black"
+          alignItems="center"
+          sx={{ textAlign: "center" }}
+        >
+          Page {currentPage} of {numPages}
+        </Typography>
+
+        <Button
+          variant="contained"
+          onClick={goToNextPage}
+          disabled={currentPage === numPages}
+        >
+          Next
+        </Button>
       </Box>
     </Box>
   );
