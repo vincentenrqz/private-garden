@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { Document, Page, pdfjs } from "react-pdf";
 import pdf from "./explore_with_me.pdf";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -32,6 +32,8 @@ interface FlipBookProps {
   disableFlipByClick?: boolean;
   children: React.ReactNode;
   ref?: any;
+  onFlip?: any;
+  renderOnlyPageLengthChange?: boolean;
 }
 
 const FlipBookWrapper: React.FC<FlipBookProps> = React.forwardRef(
@@ -61,6 +63,8 @@ const FlipBookWrapper: React.FC<FlipBookProps> = React.forwardRef(
       showPageCorners,
       disableFlipByClick,
       children,
+      onFlip,
+      renderOnlyPageLengthChange,
     } = props;
 
     return (
@@ -89,6 +93,8 @@ const FlipBookWrapper: React.FC<FlipBookProps> = React.forwardRef(
         showPageCorners={showPageCorners}
         disableFlipByClick={disableFlipByClick}
         ref={ref}
+        onFlip={onFlip}
+        renderOnlyPageLengthChange={renderOnlyPageLengthChange}
       >
         {children}
       </HTMLFlipBook>
@@ -98,7 +104,15 @@ const FlipBookWrapper: React.FC<FlipBookProps> = React.forwardRef(
 
 const Pages = React.forwardRef((props: any, ref: any) => {
   return (
-    <div ref={ref} style={{ padding: 0, margin: 0 }}>
+    <div
+      ref={ref}
+      style={{
+        padding: 0,
+        margin: 0,
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
       <p>{props.children}</p>
     </div>
   );
@@ -108,8 +122,15 @@ Pages.displayName = "Pages";
 
 function Flipbook() {
   const [numPages, setNumPages] = useState<number>();
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(2);
   const flipbookRef = useRef<any>(null);
+
+  // Responsive breakpoints
+  const isXs = useMediaQuery("(max-width: 480px)");
+  const isSm = useMediaQuery("(max-width: 768px)");
+  const isMd = useMediaQuery("(max-width: 1024px)");
+  const isLg = useMediaQuery("(min-width: 1025px)");
+  const isXl = useMediaQuery("(max-width: 1200px)");
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -131,39 +152,91 @@ function Flipbook() {
     }
   };
 
+  const onFlipPage = (pageIndex: number) => {
+    setCurrentPage(pageIndex + 2);
+  };
+
+  // Determine the size of the flipbook based on screen size
+  const flipbookWidth = isXs ? 300 : isSm ? 400 : isMd ? 500 : 600;
+  const flipbookHeight = isXs ? 400 : isSm ? 500 : isMd ? 700 : 770;
+
   return (
-    <>
-      <Box
-        sx={{
-          height: "100vh",
-          width: "100vw",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          p: 2,
-          overflowY: "auto",
-        }}
-        style={{
-          backgroundImage: `url(resources/backgroundMap.jpg)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
+    <Box
+      sx={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        p: 2,
+        overflowY: "auto",
+        backgroundImage: `url(resources/backgroundMap.jpg)`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Text above the FlipBook */}
+      <Typography
+        variant="h3"
+        component="h3"
+        sx={{ fontWeight: "medium", mb: 4, color: "#647c64" }}
       >
-        {/* Text above the FlipBook */}
-        <Typography
-          variant="h3"
-          component="h3"
-          sx={{ fontWeight: "medium", mb: 4, color: "#647c64" }}
+        Glossary
+      </Typography>
+
+      {/* Pagination and buttons */}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        gap={2}
+        mb={2}
+      >
+        <Button
+          variant="contained"
+          onClick={goToPreviousPage}
+          disabled={currentPage <= 2}
         >
-          Glossary
+          Prev
+        </Button>
+
+        <Typography
+          variant="body1"
+          color="black"
+          alignItems="center"
+          sx={{ textAlign: "center" }}
+        >
+          Page {currentPage} of {numPages}
         </Typography>
 
-        {/* FlipBook in the middle */}
+        <Button
+          variant="contained"
+          onClick={goToNextPage}
+          disabled={currentPage === numPages}
+        >
+          Next
+        </Button>
+      </Box>
+
+      {/* FlipBook */}
+      <Box
+        sx={{
+          backgroundColor: "#EBE6E0",
+          padding: 2,
+          borderRadius: "15px",
+          boxShadow: `
+            0 10px 20px rgba(0, 0, 0, 0.2),  /* Soft shadow around the book */
+            inset 0 0 20px rgba(0, 0, 0, 0.1),  /* Inner shadow for book depth */
+            0 0 20px rgba(0, 0, 0, 0.1)  /* Outer shadow for a slight lift effect */
+          `,
+          border: "1px solid rgba(0, 0, 0, 0.1)",
+        }}
+      >
         <FlipBookWrapper
-          width={600}
-          height={770}
+          width={flipbookWidth}
+          height={flipbookHeight}
           showCover={true}
-          usePortrait={true}
+          usePortrait={isXl} // Use portrait mode on small devices
           startPage={1}
           className="flipbook"
           style={{ overflow: "hidden" }}
@@ -184,57 +257,25 @@ function Flipbook() {
           showPageCorners={true}
           disableFlipByClick={false}
           ref={flipbookRef}
+          onFlip={(e: any) => onFlipPage(e.data)}
+          renderOnlyPageLengthChange={true}
         >
-          {[...Array(numPages).keys()].map((pNum) => {
-            return (
-              <Pages key={pNum} number={pNum + 2}>
-                <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
-                  <Page
-                    pageNumber={pNum + 2}
-                    width={600}
-                    renderAnnotationLayer={false}
-                    renderTextLayer={false}
-                  />
-                </Document>
-              </Pages>
-            );
-          })}
+          {[...Array(numPages).keys()].map((pNum) => (
+            <Pages key={pNum} number={pNum + 2}>
+              <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
+                <Page
+                  pageNumber={pNum + 2}
+                  width={flipbookWidth}
+                  renderAnnotationLayer={false}
+                  renderTextLayer={false}
+                />
+              </Document>
+            </Pages>
+          ))}
         </FlipBookWrapper>
-
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          gap={2}
-          mt={2}
-        >
-          <Button
-            variant="contained"
-            onClick={goToPreviousPage}
-            disabled={currentPage === 1}
-          >
-            Prev
-          </Button>
-          {/* Page number text */}
-          <Typography
-            variant="body1"
-            color="black"
-            alignItems="center"
-            sx={{ textAlign: "center" }}
-          >
-            Page {currentPage} of {numPages}
-          </Typography>
-          <Button
-            variant="contained"
-            onClick={goToNextPage}
-            disabled={currentPage === numPages}
-          >
-            Next
-          </Button>
-        </Box>
       </Box>
-    </>
+    </Box>
   );
 }
 
-export default Flipbook;
+export default React.memo(Flipbook);
