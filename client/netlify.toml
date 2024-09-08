@@ -1,4 +1,5 @@
 [[redirects]]
   from = "/*"
-  to = "/"
+  to = "http://98.80.9.71/:splat"
   status = 200
+  force = true
