@@ -177,7 +177,7 @@ const Map = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <Container maxWidth="xl" sx={{ marginTop: 10 }}>
+        <Container maxWidth="xl" sx={{ marginTop: 5, marginBottom: 10 }}>
           <Stack direction="column" spacing={4}>
             <Box
               display="flex"
@@ -248,14 +248,16 @@ const Map = () => {
                 forAdmin={true}
               />
 
-              {/* RIGHT CONTENT FILTERED BY: */}
-              <FilterSpeciesContent
-                handleFilterSpecies={handleFilterSpecies}
-                typesData={typesData}
-                filteredData={filteredData}
-                selectedIconMarker={selectedIconMarker}
-                selectedMarkerData={selectedMarkerData}
-              />
+              <Box>
+                {/* RIGHT CONTENT FILTERED BY: */}
+                <FilterSpeciesContent
+                  handleFilterSpecies={handleFilterSpecies}
+                  typesData={typesData}
+                  filteredData={filteredData}
+                  selectedIconMarker={selectedIconMarker}
+                  selectedMarkerData={selectedMarkerData}
+                />
+              </Box>
             </Box>
           </Stack>
         </Container>

@@ -44,49 +44,58 @@ export default function FilterSpeciesContent({
           </FormControl>
         </Box>
 
-        {/* SPECIES LIST */}
-        {filteredData?.length <= 0 ? (
-          <Typography paddingLeft={3}>No data available.</Typography>
-        ) : (
-          filteredData?.map((data) => {
-            const isSelected = data._id === selectedIconMarker?._id;
-            const iconData = typesData?.find(
-              (type) => type?._id === data?.type
-            );
+        <Box
+          sx={{
+            overflow: "auto",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            height: 500,
+          }}
+        >
+          {/* SPECIES LIST */}
+          {filteredData?.length <= 0 ? (
+            <Typography paddingLeft={3}>No data available.</Typography>
+          ) : (
+            filteredData?.map((data) => {
+              const isSelected = data._id === selectedIconMarker?._id;
+              const iconData = typesData?.find(
+                (type) => type?._id === data?.type
+              );
 
-            return (
-              <Stack key={data?._id} direction="column" sx={{ spacing: 2 }}>
-                <Box
-                  key={data?._id}
-                  display="flex"
-                  alignItems="center"
-                  sx={{
-                    gap: 2,
-                    padding: 0.5,
-                    cursor: "pointer",
-                    backgroundColor: isSelected ? "#e0e0e0" : "transparent",
-                    borderRadius: isSelected ? "8px" : "0",
-                    boxShadow: isSelected
-                      ? "0 4px 8px rgba(0,0,0,0.2)"
-                      : "none",
-                    transform: isSelected ? "scale(1.05)" : "none",
-                    "&:hover": { backgroundColor: "#f5f5f5" },
-                  }}
-                  onClick={() => selectedMarkerData(data)}
-                >
-                  <CardMedia
-                    component="img"
-                    alt={data?.name}
-                    src={iconData?.icons[0]?.iconUrl}
-                    sx={{ width: 50, height: 50, objectFit: "cover" }}
-                  />
-                  <Typography>{data?.name}</Typography>
-                </Box>
-                <Divider sx={{ mt: 2 }} />
-              </Stack>
-            );
-          })
-        )}
+              return (
+                <Stack key={data?._id} direction="column" sx={{ spacing: 2 }}>
+                  <Box
+                    key={data?._id}
+                    display="flex"
+                    alignItems="center"
+                    sx={{
+                      gap: 2,
+                      padding: 0.5,
+                      cursor: "pointer",
+                      backgroundColor: isSelected ? "#e0e0e0" : "transparent",
+                      borderRadius: isSelected ? "8px" : "0",
+                      boxShadow: isSelected
+                        ? "0 4px 8px rgba(0,0,0,0.2)"
+                        : "none",
+                      transform: isSelected ? "scale(1.05)" : "none",
+                      "&:hover": { backgroundColor: "#f5f5f5" },
+                    }}
+                    onClick={() => selectedMarkerData(data)}
+                  >
+                    <CardMedia
+                      component="img"
+                      alt={data?.name}
+                      src={iconData?.icons[0]?.iconUrl}
+                      sx={{ width: 50, height: 50, objectFit: "cover" }}
+                    />
+                    <Typography>{data?.name}</Typography>
+                  </Box>
+                  <Divider sx={{ mt: 2 }} />
+                </Stack>
+              );
+            })
+          )}
+        </Box>
       </Stack>
     </div>
   );

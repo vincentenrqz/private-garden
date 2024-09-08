@@ -1,4 +1,5 @@
 import {
+  Box,
   Paper,
   Table,
   TableBody,
@@ -32,8 +33,16 @@ const GenericTable = ({ headers, data, renderRow }: DataProps) => {
   };
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer
+      component={Paper}
+      sx={{
+        height: "80vh",
+        overflowY: "auto",
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+      }}
+    >
+      <Table sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>
         <TableHead>
           <TableRow>
             {headers.map((item, index) => (
@@ -51,15 +60,27 @@ const GenericTable = ({ headers, data, renderRow }: DataProps) => {
             ))}
         </TableBody>
       </Table>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      <Box
+        sx={{
+          position: "sticky",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1,
+          backgroundColor: "white",
+          borderTop: "1px solid #ddd",
+        }}
+      >
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Box>
     </TableContainer>
   );
 };

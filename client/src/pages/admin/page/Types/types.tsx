@@ -106,7 +106,7 @@ const Types = () => {
         <Loader />
       ) : (
         <>
-          <Container maxWidth="xl" sx={{ marginTop: 10 }}>
+          <Container maxWidth="xl" sx={{ marginTop: 5 }}>
             <Box
               sx={{
                 display: "flex",
