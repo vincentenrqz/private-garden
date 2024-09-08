@@ -247,7 +247,6 @@ const Map = () => {
                 markers={markers}
                 openDrawerHandler={openDrawerHandler}
                 forAdmin={true}
-                setMarkers={setMarkers}
               />
 
               {/* RIGHT CONTENT FILTERED BY: */}
