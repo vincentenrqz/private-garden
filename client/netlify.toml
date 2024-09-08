@@ -1,5 +1,4 @@
 [[redirects]]
-  from = "/api/*"
-  to = "http://98.80.9.71:3000/:splat"
+  from = "/*"
+  to = "/"
   status = 200
-  force = true
