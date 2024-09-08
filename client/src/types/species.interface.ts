@@ -3,7 +3,7 @@ export class SpeciesDto {
   name: string;
   sub_name?: string;
   icon?: any;
-  type?: any;
+  type: any;
   scientific_name?: string;
   etymology?: string;
   cultural_maintenance?: string;

@@ -5,10 +5,20 @@ const createSpeciesData = async (req, res) => {
   const { data } = req.body;
 
   try {
-    const { name } = data;
+    const { name, type } = data;
+
+    if (!type) {
+      return res.status(400).json({
+        status: false,
+        message: "Type is required",
+      });
+    }
 
     if (!name) {
-      throw new Error("Error");
+      return res.status(400).json({
+        status: false,
+        message: "Name is required",
+      });
     }
 
     const species = await Species.create({

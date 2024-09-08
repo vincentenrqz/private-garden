@@ -71,6 +71,7 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [isLoadingAttach, setIsLoadingAttach] = useState(false);
   const [showAdditionalFields, setShowAddtionalFields] = useState(false);
+  const [error, setError] = useState(false);
 
   const { typesData } = useFetchData();
 
@@ -100,6 +101,12 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
       type: value,
     }));
     setTypes(typesData.find((item) => item._id === value)?.icons);
+
+    if (!value) {
+      setError(true);
+    } else {
+      setError(false);
+    }
   };
 
   const handleSelectType = (data: any) => {
@@ -140,6 +147,11 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
     setIsLoading(true);
 
     try {
+      if (!species.type) {
+        setError(true);
+        return;
+      }
+
       const result: any = await speciesService.createSpecies(species);
       const { message, status } = result.data;
 
@@ -229,7 +241,7 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
             >
               Type
             </Typography>
-            <Stack direction="row" spacing={2}>
+            <Stack direction="column" spacing={2}>
               <TextField
                 name="type"
                 select
@@ -239,6 +251,7 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
                 fullWidth
                 value={species.type || ""}
                 onChange={handleTypes}
+                error={error}
               >
                 {typesData.map((item, index) => (
                   <MenuItem key={index} value={item._id}>

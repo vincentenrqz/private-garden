@@ -117,7 +117,7 @@ const Map = () => {
   };
 
   const handleMapClick = (e: L.LeafletMouseEvent) => {
-    if (!selectedIconMarker) return;
+    if (!selectedIconMarker || !selectedIconMarker?.icon) return;
 
     const newMarker: MarkerType = {
       species: {
@@ -247,6 +247,7 @@ const Map = () => {
                 markers={markers}
                 openDrawerHandler={openDrawerHandler}
                 forAdmin={true}
+                setMarkers={setMarkers}
               />
 
               {/* RIGHT CONTENT FILTERED BY: */}
