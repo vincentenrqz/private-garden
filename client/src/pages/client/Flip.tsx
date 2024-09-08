@@ -185,61 +185,68 @@ function Flipbook() {
       </Typography>
 
       {/* FlipBook */}
-      <Box
-        sx={{
-          backgroundColor: "#EBE6E0",
-          padding: 2,
-          borderRadius: "15px",
-          boxShadow: `
+
+      <BookLayer3>
+        <BookLayer2>
+          <BookLayer1>
+            <Box
+              sx={{
+                backgroundColor: "white",
+                padding: 2,
+                borderRadius: "15px",
+                boxShadow: `
             0 10px 20px rgba(0, 0, 0, 0.2),  /* Soft shadow around the book */
             inset 0 0 20px rgba(0, 0, 0, 0.1),  /* Inner shadow for book depth */
             0 0 20px rgba(0, 0, 0, 0.1)  /* Outer shadow for a slight lift effect */
           `,
-          border: "1px solid rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <FlipBookWrapper
-          width={flipbookWidth}
-          height={flipbookHeight}
-          showCover={true}
-          usePortrait={isXl} // Use portrait mode on small devices
-          startPage={1}
-          className="flipbook"
-          style={{ overflow: "hidden" }}
-          size="fixed"
-          minWidth={200}
-          maxWidth={600}
-          minHeight={300}
-          maxHeight={800}
-          drawShadow={true}
-          flippingTime={500}
-          startZIndex={10}
-          autoSize={true}
-          maxShadowOpacity={0.5}
-          mobileScrollSupport={true}
-          clickEventForward={true}
-          useMouseEvents={true}
-          swipeDistance={50}
-          showPageCorners={true}
-          disableFlipByClick={false}
-          ref={flipbookRef}
-          onFlip={(e: any) => onFlipPage(e.data)}
-          renderOnlyPageLengthChange={true}
-        >
-          {[...Array(numPages).keys()].map((pNum) => (
-            <Pages key={pNum} number={pNum + 2}>
-              <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
-                <Page
-                  pageNumber={pNum + 2}
-                  width={flipbookWidth}
-                  renderAnnotationLayer={false}
-                  renderTextLayer={false}
-                />
-              </Document>
-            </Pages>
-          ))}
-        </FlipBookWrapper>
-      </Box>
+                border: "1px solid rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <FlipBookWrapper
+                width={flipbookWidth}
+                height={flipbookHeight}
+                showCover={true}
+                usePortrait={isXl}
+                startPage={1}
+                className="flipbook"
+                style={{ overflow: "hidden" }}
+                size="fixed"
+                minWidth={200}
+                maxWidth={600}
+                minHeight={300}
+                maxHeight={800}
+                drawShadow={true}
+                flippingTime={500}
+                startZIndex={10}
+                autoSize={true}
+                maxShadowOpacity={0.5}
+                mobileScrollSupport={true}
+                clickEventForward={true}
+                useMouseEvents={true}
+                swipeDistance={50}
+                showPageCorners={true}
+                disableFlipByClick={false}
+                ref={flipbookRef}
+                onFlip={(e: any) => onFlipPage(e.data)}
+                renderOnlyPageLengthChange={true}
+              >
+                {[...Array(numPages).keys()].map((pNum) => (
+                  <Pages key={pNum} number={pNum + 2}>
+                    <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
+                      <Page
+                        pageNumber={pNum + 2}
+                        width={flipbookWidth}
+                        renderAnnotationLayer={false}
+                        renderTextLayer={false}
+                      />
+                    </Document>
+                  </Pages>
+                ))}
+              </FlipBookWrapper>
+            </Box>
+          </BookLayer1>
+        </BookLayer2>
+      </BookLayer3>
 
       {/* Pagination and buttons */}
       <Box
@@ -279,3 +286,63 @@ function Flipbook() {
 }
 
 export default React.memo(Flipbook);
+
+function BookLayer1({ children }: { children: React.ReactNode }) {
+  return (
+    <Box
+      sx={{
+        backgroundColor: "white",
+        padding: 1,
+        borderRadius: "15px",
+        boxShadow: `
+            0 10px 20px rgba(0, 0, 0, 0.2),  /* Soft shadow around the book */
+            inset 0 0 20px rgba(0, 0, 0, 0.1),  /* Inner shadow for book depth */
+            0 0 20px rgba(0, 0, 0, 0.1)  /* Outer shadow for a slight lift effect */
+          `,
+        border: "1px solid rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      {children}
+    </Box>
+  );
+}
+
+function BookLayer2({ children }: { children: React.ReactNode }) {
+  return (
+    <Box
+      sx={{
+        backgroundColor: "white",
+        padding: 1,
+        borderRadius: "15px",
+        boxShadow: `
+            0 10px 20px rgba(0, 0, 0, 0.2),  /* Soft shadow around the book */
+            inset 0 0 20px rgba(0, 0, 0, 0.1),  /* Inner shadow for book depth */
+            0 0 20px rgba(0, 0, 0, 0.1)  /* Outer shadow for a slight lift effect */
+          `,
+        border: "1px solid rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      {children}
+    </Box>
+  );
+}
+
+function BookLayer3({ children }: { children: React.ReactNode }) {
+  return (
+    <Box
+      sx={{
+        backgroundColor: "#647c64",
+        padding: 1,
+        borderRadius: "15px",
+        boxShadow: `
+            0 10px 20px rgba(0, 0, 0, 0.2),  /* Soft shadow around the book */
+            inset 0 0 20px rgba(0, 0, 0, 0.1),  /* Inner shadow for book depth */
+            0 0 20px rgba(0, 0, 0, 0.1)  /* Outer shadow for a slight lift effect */
+          `,
+        border: "1px solid rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      {children}
+    </Box>
+  );
+}
