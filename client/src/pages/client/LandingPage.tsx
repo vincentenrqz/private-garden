@@ -1,9 +1,31 @@
 import React from "react";
 import { Box, Container, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useScreenSize } from "../../context/MediaContext";
 
 function LandingPage() {
-  const mobile = useMediaQuery("(max-width:900px)");
+  const screenSize = useScreenSize();
+
+  const direction =
+    screenSize?.screenSize === "md" ||
+    screenSize?.screenSize === "lg" ||
+    screenSize?.screenSize === "xl"
+      ? "row"
+      : "column";
+
+  const height =
+    screenSize?.screenSize === "md" ||
+    screenSize?.screenSize === "lg" ||
+    screenSize?.screenSize === "xl"
+      ? "unset"
+      : "90vh";
+
+  const marginTop =
+    screenSize?.screenSize === "md" ||
+    screenSize?.screenSize === "lg" ||
+    screenSize?.screenSize === "xl"
+      ? 5
+      : 0;
 
   return (
     <Box component="section" sx={{ py: 5, bgcolor: "white" }}>
@@ -12,7 +34,7 @@ function LandingPage() {
           display="flex"
           alignItems="center"
           justifyContent="space-between"
-          flexDirection={mobile ? "column" : "row"}
+          flexDirection={direction}
         >
           {/* Text Section */}
           <Box
@@ -74,7 +96,7 @@ function LandingPage() {
           </Box>
 
           {/* Image Section */}
-          <Box display="flex" justifyContent="center" mt={mobile ? 5 : 0}>
+          <Box display="flex" justifyContent="center" mt={marginTop}>
             <Box
               sx={{
                 position: "relative",
@@ -89,7 +111,7 @@ function LandingPage() {
                 style={{
                   width: "100%",
                   height: "auto",
-                  maxHeight: mobile ? "unset" : "90vh",
+                  maxHeight: height,
                   objectFit: "cover",
                 }}
               />
