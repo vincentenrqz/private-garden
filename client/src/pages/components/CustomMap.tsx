@@ -91,9 +91,9 @@ const CustomMap = ({
     [-83.366776, 160.93596],
   ];
 
-  const filteredMarkers = selectedType
-    ? mapsData.filter((marker) => marker?.name === selectedType)
-    : mapsData;
+  const filteredMapData = mapsData?.filter((marker) =>
+    buttonFilters?.some((filter) => marker?.species?._id === filter?._id)
+  );
 
   return (
     <>
@@ -120,13 +120,12 @@ const CustomMap = ({
           bounds={maxBounds}
           noWrap={true}
         />
-        {!selectedType &&
+        {/* CLIENT MAP */}
+        {!buttonFilters &&
+          !forAdmin &&
           mapsData?.map((marker: any) => {
-            console.log("markers", marker);
             const { _id, species, position } = marker;
-            console.log("species", species);
             const options = species?.icon;
-            console.log("options", options);
             return (
               <Marker
                 key={_id}
@@ -145,16 +144,17 @@ const CustomMap = ({
               ></Marker>
             );
           })}
-        {selectedType &&
-          filteredMarkers?.map((marker: any) => {
+        {buttonFilters &&
+          !forAdmin &&
+          filteredMapData?.map((marker: any) => {
             const { _id, species, position } = marker;
-            const options = species?.options;
+            const icon = species?.icon;
 
             return (
               <Marker
                 key={_id}
                 position={position}
-                icon={markerIconFunction(options.icon, options?.iconUrl)}
+                icon={markerIconFunction(icon, icon?.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
                     if (forAdmin) {
@@ -169,16 +169,40 @@ const CustomMap = ({
             );
           })}
         {/* ADMIN MAP */}
-        {!selectedType &&
+        {!buttonFilters &&
           forAdmin &&
-          markers?.map((marker: any) => {
+          mapsData?.map((marker: any) => {
             const { _id, species, position } = marker;
             const icon = species?.icon;
             return (
               <Marker
                 key={_id}
                 position={position}
-                icon={markerIconFunction(icon.options, icon?.options?.iconUrl)}
+                icon={markerIconFunction(icon, icon?.iconUrl)}
+                eventHandlers={{
+                  click: (e) => {
+                    if (forAdmin) {
+                      openDrawerHandler(marker);
+                    } else {
+                      setData(marker?.species);
+                      toggleDrawer(true);
+                    }
+                  },
+                }}
+              ></Marker>
+            );
+          })}{" "}
+        {buttonFilters !== null &&
+          forAdmin &&
+          filteredMapData?.map((marker: any) => {
+            const { _id, species, position } = marker;
+            const icon = species?.icon;
+
+            return (
+              <Marker
+                key={_id}
+                position={position}
+                icon={markerIconFunction(icon, icon?.iconUrl)}
                 eventHandlers={{
                   click: (e) => {
                     if (forAdmin) {

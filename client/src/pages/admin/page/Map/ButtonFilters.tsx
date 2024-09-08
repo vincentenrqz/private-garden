@@ -6,7 +6,6 @@ import FilterVintageIcon from "@mui/icons-material/FilterVintage";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import SpaIcon from "@mui/icons-material/Spa";
 
-//Call a state here
 export default function ButtonFilters({
   typeData,
   speciesData,
