@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { Document, Page, pdfjs } from "react-pdf";
-import pdf from "./explore_with_me.pdf";
+// import pdf from "./explore_with_me.pdf";
+import pdf from "./explore_with_me2.pdf";
 import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import FloatingButton from "../components/FloatingButton";
 
@@ -232,10 +233,10 @@ function Flipbook() {
                 renderOnlyPageLengthChange={true}
               >
                 {[...Array(numPages).keys()].map((pNum) => (
-                  <Pages key={pNum} number={pNum + 2}>
+                  <Pages key={pNum} number={pNum + 1}>
                     <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
                       <Page
-                        pageNumber={pNum + 2}
+                        pageNumber={pNum + 1}
                         width={flipbookWidth}
                         renderAnnotationLayer={false}
                         renderTextLayer={false}
