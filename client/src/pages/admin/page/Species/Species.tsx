@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Header from "../../../components/Header/Header";
 import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
 import TableCell from "@mui/material/TableCell";
 import CreateSpecies from "./CreateSpecies";
 import { speciesService } from "../../../../services/species.service";
+import { mapService } from "../../../../services/maps.service";
 import { SpeciesDto } from "../../../../types/species.interface";
 import GenericTable from "../../../components/GenericTable";
 import CustomMenuList from "../../../components/CustomMenuList";
@@ -26,7 +27,7 @@ const Species = () => {
     status: false,
     open: false,
   });
-  const { fetchSpecies, speciesData, loading } = useFetchData();
+  const { fetchSpecies, speciesData, mapsData, loading } = useFetchData();
   const navigate = useNavigate();
 
   const handleOpen = () => {
@@ -49,9 +50,18 @@ const Species = () => {
     }
   };
 
+  const filterMapData = mapsData?.filter(
+    (data) => data?.species?._id === selectedRow?._id
+  );
+
   const handleDeleteSpecies = async () => {
     try {
       const response = await speciesService.deleteSpecies(selectedRow?._id);
+
+      //loop deleting of map data
+      for (const data of filterMapData) {
+        await mapService.deleteMaps(data?._id);
+      }
       const { status, message } = response.data;
 
       setMessage({
