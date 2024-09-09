@@ -85,7 +85,7 @@ export default function FilterSpeciesContent({
                     <CardMedia
                       component="img"
                       alt={data?.name}
-                      src={iconData?.icon?.iconUrl}
+                      src={data?.icon?.iconUrl}
                       sx={{ width: 50, height: 50, objectFit: "cover" }}
                     />
                     <Typography>{data?.name}</Typography>
