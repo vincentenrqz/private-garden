@@ -56,21 +56,21 @@ export default function Sidebar() {
       route: "/admin/maps",
       cardId: "maps",
     },
-    {
-      name: "Settings",
-      icon: (
-        <SettingsIcon
-          fontSize="medium"
-          className={`${
-            location.hash === "#user-settings"
-              ? "text-blue-500"
-              : "text-blue-800"
-          }`}
-        />
-      ),
-      route: "/admin/user-settings",
-      cardId: "user-settings",
-    },
+    // {
+    //   name: "Settings",
+    //   icon: (
+    //     <SettingsIcon
+    //       fontSize="medium"
+    //       className={`${
+    //         location.hash === "#user-settings"
+    //           ? "text-blue-500"
+    //           : "text-blue-800"
+    //       }`}
+    //     />
+    //   ),
+    //   route: "/admin/user-settings",
+    //   cardId: "user-settings",
+    // },
   ];
 
   //Menu list should be in # anchor target and not in pages since pages will be listed in the header

@@ -19,10 +19,10 @@ export default function Header() {
         >
           <Typography variant="h6">Anning Private Garden</Typography>
         </div>
-        <div className="flex items-center gap-3 pl-4 my-auto max-md:flex-wrap">
+        {/* <div className="flex items-center gap-3 pl-4 my-auto max-md:flex-wrap">
           <UserIcon />
           {mobile && <BurgerMenuList />}
-        </div>
+        </div> */}
       </div>
     </Container>
   );
