@@ -65,7 +65,7 @@ const DashboardCustomCard = ({
               </Typography>
             </Box>
           </Grid>
-          <Grid item display="flex" alignItems="center" xs={2}>
+          <Grid item display="flex" alignItems="center" xs={2} marginX={2}>
             <TocIcon fontSize="medium" className="text-blue-500" />
             <Typography variant="h6"> {data?.length}</Typography>
           </Grid>

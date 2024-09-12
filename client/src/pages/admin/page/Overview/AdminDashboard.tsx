@@ -18,7 +18,7 @@ const AdminDashboard = () => {
                 <Sidebar />
               </Grid>
               <Grid item xs={12}>
-                <div className="my-10 mr-6">
+                <div className="my-10">
                   <MediaCard />
                 </div>
               </Grid>
