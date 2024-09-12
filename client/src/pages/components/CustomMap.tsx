@@ -6,6 +6,8 @@ import { useScreenSize } from "../../context/MediaContext";
 import { handleMapSize } from "../../utils";
 import { useFetchData } from "../../utils/queries";
 
+import sound from "../../../public/resources/click_sound.mp3";
+
 type Prop = {
   open?: boolean;
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -95,6 +97,10 @@ const CustomMap = ({
     buttonFilters?.some((filter) => marker?.species?._id === filter?._id)
   );
 
+  function playSound() {
+    new Audio(sound).play();
+  }
+
   const renderMarkers = (data) =>
     data?.map((marker: any) => {
       const { _id, species, position } = marker;
@@ -111,6 +117,7 @@ const CustomMap = ({
                 openDrawerHandler(marker);
               } else {
                 setData(marker?.species);
+                playSound();
                 toggleDrawer(true);
               }
             },
