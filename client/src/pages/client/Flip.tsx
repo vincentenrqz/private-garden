@@ -6,6 +6,17 @@ import pdf from "./explore_with_me2.pdf";
 import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import FloatingButton from "../components/FloatingButton";
 
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+
+import {
+  TransformWrapper,
+  TransformComponent,
+  useControls,
+} from "react-zoom-pan-pinch";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface FlipBookProps {
@@ -162,6 +173,23 @@ function Flipbook() {
   const flipbookWidth = isXs ? 300 : isSm ? 400 : isMd ? 500 : 600;
   const flipbookHeight = isXs ? 400 : isSm ? 500 : isMd ? 700 : 770;
 
+  const Controls = () => {
+    const { zoomIn, zoomOut, resetTransform } = useControls();
+    return (
+      <Box sx={{ display: "flex", justifyContent: "end" }}>
+        <IconButton onClick={() => zoomIn()}>
+          <AddIcon />
+        </IconButton>
+        <IconButton onClick={() => zoomOut()}>
+          <RemoveIcon />
+        </IconButton>
+        <IconButton onClick={() => resetTransform()}>
+          <RotateLeftIcon />
+        </IconButton>
+      </Box>
+    );
+  };
+
   return (
     <Box
       sx={{
@@ -204,47 +232,55 @@ function Flipbook() {
                 border: "1px solid rgba(0, 0, 0, 0.1)",
               }}
             >
-              <FlipBookWrapper
-                width={flipbookWidth}
-                height={flipbookHeight}
-                showCover={true}
-                usePortrait={isXl}
-                startPage={1}
-                className="flipbook"
-                style={{ overflow: "hidden" }}
-                size="fixed"
-                minWidth={200}
-                maxWidth={600}
-                minHeight={300}
-                maxHeight={800}
-                drawShadow={true}
-                flippingTime={500}
-                startZIndex={10}
-                autoSize={true}
-                maxShadowOpacity={0.5}
-                mobileScrollSupport={true}
-                clickEventForward={true}
-                useMouseEvents={true}
-                swipeDistance={50}
-                showPageCorners={true}
-                disableFlipByClick={false}
-                ref={flipbookRef}
-                onFlip={(e: any) => onFlipPage(e.data)}
-                renderOnlyPageLengthChange={true}
-              >
-                {[...Array(numPages).keys()].map((pNum) => (
-                  <Pages key={pNum} number={pNum + 1}>
-                    <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
-                      <Page
-                        pageNumber={pNum + 1}
-                        width={flipbookWidth}
-                        renderAnnotationLayer={false}
-                        renderTextLayer={false}
-                      />
-                    </Document>
-                  </Pages>
-                ))}
-              </FlipBookWrapper>
+              <TransformWrapper>
+                <Controls />
+                <TransformComponent>
+                  <FlipBookWrapper
+                    width={flipbookWidth}
+                    height={flipbookHeight}
+                    showCover={true}
+                    usePortrait={isXl}
+                    startPage={1}
+                    className="flipbook"
+                    style={{ overflow: "hidden" }}
+                    size="fixed"
+                    minWidth={200}
+                    maxWidth={600}
+                    minHeight={300}
+                    maxHeight={800}
+                    drawShadow={true}
+                    flippingTime={500}
+                    startZIndex={10}
+                    autoSize={true}
+                    maxShadowOpacity={0.5}
+                    mobileScrollSupport={true}
+                    clickEventForward={true}
+                    useMouseEvents={true}
+                    swipeDistance={50}
+                    showPageCorners={true}
+                    disableFlipByClick={false}
+                    ref={flipbookRef}
+                    onFlip={(e: any) => onFlipPage(e.data)}
+                    renderOnlyPageLengthChange={true}
+                  >
+                    {[...Array(numPages).keys()].map((pNum) => (
+                      <Pages key={pNum} number={pNum + 1}>
+                        <Document
+                          file={pdf}
+                          onLoadSuccess={onDocumentLoadSuccess}
+                        >
+                          <Page
+                            pageNumber={pNum + 1}
+                            width={flipbookWidth}
+                            renderAnnotationLayer={false}
+                            renderTextLayer={false}
+                          />
+                        </Document>
+                      </Pages>
+                    ))}
+                  </FlipBookWrapper>
+                </TransformComponent>
+              </TransformWrapper>
             </Box>
           </BookLayer1>
         </BookLayer2>
