@@ -145,19 +145,6 @@ function Flipbook() {
   const isLg = useMediaQuery("(min-width: 1025px)");
   const isXl = useMediaQuery("(max-width: 1200px)");
 
-  useEffect(() => {
-    // Disable zoom in upon double clicking the image
-    const handleWheel = (event: WheelEvent) => {
-      event.preventDefault();
-    };
-
-    document.addEventListener("wheel", handleWheel, { passive: false });
-
-    return () => {
-      document.removeEventListener("wheel", handleWheel);
-    };
-  }, []);
-
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
   }
