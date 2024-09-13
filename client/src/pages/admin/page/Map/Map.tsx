@@ -177,7 +177,15 @@ const Map = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <Container maxWidth="xl" sx={{ marginTop: 5, marginBottom: 10 }}>
+        <Container
+          maxWidth="xl"
+          sx={{
+            marginTop: 5,
+            marginBottom: 10,
+            height: "100vh",
+            overflowY: "auto",
+          }}
+        >
           <Stack direction="column" spacing={4}>
             <Box
               display="flex"

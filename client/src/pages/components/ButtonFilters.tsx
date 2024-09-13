@@ -6,6 +6,7 @@ import FilterVintageIcon from "@mui/icons-material/FilterVintage";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import SpaIcon from "@mui/icons-material/Spa";
 import { useScreenSize } from "../../context/MediaContext";
+import { useState } from "react";
 
 export default function ButtonFilters({
   typeData,
@@ -13,13 +14,20 @@ export default function ButtonFilters({
   buttonFilters,
   setButtonFilters,
 }) {
+  const [toggle, setToggle] = useState(false);
   const { name } = typeData;
   const screenSize = useScreenSize();
   const screenType = screenSize?.screenSize;
 
   const filteredData = (types) => {
-    const data = filterDataByType({ items: speciesData, id: types?._id });
-    setButtonFilters(data);
+    setToggle(!toggle);
+
+    if (toggle) {
+      const data = filterDataByType({ items: speciesData, id: types?._id });
+      setButtonFilters(data);
+    } else {
+      setButtonFilters(null);
+    }
   };
 
   const buttonStyle = {
