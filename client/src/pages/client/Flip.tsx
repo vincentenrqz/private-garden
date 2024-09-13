@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { Document, Page, pdfjs } from "react-pdf";
 // import pdf from "./explore_with_me.pdf";
@@ -133,6 +133,19 @@ function Flipbook() {
   const isMd = useMediaQuery("(max-width: 1024px)");
   const isLg = useMediaQuery("(min-width: 1025px)");
   const isXl = useMediaQuery("(max-width: 1200px)");
+
+  useEffect(() => {
+    // Disable zoom in upon double clicking the image
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+    };
+
+    document.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      document.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
