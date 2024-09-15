@@ -194,7 +194,7 @@ const CustomMap = ({
           })}{" "}
         {forAdmin && <MapClickHandler onClick={handleMapClick} />}
       </MapContainer>
-      {countOnes >= 10 && <Certificate />}
+      {countOnes >= 20 && <Certificate />}
     </>
   );
 };

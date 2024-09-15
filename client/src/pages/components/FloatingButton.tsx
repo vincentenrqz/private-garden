@@ -36,7 +36,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
   useEffect(() => {
     const getProgress = () => {
       if (clickedCounts) {
-        const totalSteps = 10;
+        const totalSteps = 20;
         const completedSteps = clickedCounts.filter(
           (value) => value === 1
         ).length;
