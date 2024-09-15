@@ -25,7 +25,6 @@ const theme = createTheme({
 const App = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [loadedMapData, setLoadedMapData] = useState([]);
   const controls = useAnimation();
   const location = useLocation();
 
@@ -68,7 +67,7 @@ const App = () => {
                 path="/"
                 element={
                   <motion.div {...pageTransition}>
-                    {loading ? <LandingPage /> : <LandingPageLoader />}
+                    {loading ? <LandingPageLoader /> : <LandingPage />}
                   </motion.div>
                 }
               />
