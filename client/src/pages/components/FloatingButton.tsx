@@ -13,7 +13,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type Props = {
-  clickedCounts: number[];
+  clickedCounts?: number[];
 };
 
 const FloatingButton = ({ clickedCounts }: Props) => {
