@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
+  Box,
   Button,
   CardContent,
   CardMedia,
@@ -43,7 +44,7 @@ const EditSpecies = ({
   });
   const [icons, setIcons] = useState(null);
   const [isLoadingAttach, setIsLoadingAttach] = useState(false);
-  const [showAdditionalFields, setShowAddtionalFields] = useState(false);
+  const [showAdditionalFields, setShowAddtionalFields] = useState(true);
   const { typesData } = useFetchData();
 
   useEffect(() => {
@@ -216,53 +217,63 @@ const EditSpecies = ({
               </TextField>
             </Stack>
             <Stack direction="row" spacing={1}>
-              {icons &&
-                icons.map((item: any, index: number) => {
-                  const { iconUrl, iconSize } = item;
-                  const findSelectedType = selectedType === iconUrl;
-                  const defaultIconValue = species?.icon?.iconUrl === iconUrl;
-                  const icon = selectedType
-                    ? findSelectedType
-                    : defaultIconValue;
-                  return (
-                    <CardContent
-                      key={index}
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: 80,
-                        height: 80,
-                        overflow: "hidden",
-                        position: "relative",
-                        transition: "all 0.3s ease",
-                        backgroundColor: icon ? "#e0e0e0" : "transparent",
-                        borderRadius: icon ? "8px" : "0",
-                        boxShadow: icon ? "0 4px 8px rgba(0,0,0,0.2)" : "none",
-                        transform: icon ? "scale(1.05)" : "none",
-                        "&:hover": {
-                          backgroundColor: "#f0f0f0",
-                          borderRadius: "8px",
-                          boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-                          transform: "scale(1.05)",
-                        },
-                      }}
-                      onClick={() => handleSelectIcon(item)}
-                    >
-                      <CardMedia
-                        component="img"
-                        alt=""
-                        src={iconUrl}
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(5, 1fr)",
+                  gap: 2,
+                }}
+              >
+                {icons &&
+                  icons.map((item: any, index: number) => {
+                    const { iconUrl, iconSize } = item;
+                    const findSelectedType = selectedType === iconUrl;
+                    const defaultIconValue = species?.icon?.iconUrl === iconUrl;
+                    const icon = selectedType
+                      ? findSelectedType
+                      : defaultIconValue;
+                    return (
+                      <CardContent
+                        key={index}
                         sx={{
-                          width: iconSize[0],
-                          height: iconSize[1],
-                          objectFit: "cover",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: "100%", // Full width of grid cell
+                          height: 100,
+                          overflow: "hidden",
+                          position: "relative",
+                          transition: "all 0.3s ease",
+                          backgroundColor: icon ? "#e0e0e0" : "transparent",
+                          borderRadius: icon ? "8px" : "0",
+                          boxShadow: icon
+                            ? "0 4px 8px rgba(0,0,0,0.2)"
+                            : "none",
+                          transform: icon ? "scale(1.05)" : "none",
+                          "&:hover": {
+                            backgroundColor: "#f0f0f0",
+                            borderRadius: "8px",
+                            boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+                            transform: "scale(1.05)",
+                          },
                         }}
-                      />
-                    </CardContent>
-                  );
-                })}
+                        onClick={() => handleSelectIcon(item)}
+                      >
+                        <CardMedia
+                          component="img"
+                          alt=""
+                          src={iconUrl}
+                          sx={{
+                            width: iconSize[0],
+                            height: iconSize[1],
+                            objectFit: "cover",
+                          }}
+                        />
+                      </CardContent>
+                    );
+                  })}
+              </Box>
             </Stack>
             <Stack direction="column" spacing={2}>
               <Typography
