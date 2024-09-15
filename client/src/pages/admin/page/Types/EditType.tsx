@@ -370,6 +370,7 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                                 onChange={(e: any) =>
                                   handleChangeIconWidth(index, e)
                                 }
+                                disabled
                                 fullWidth
                               />
                               <TextField
@@ -381,6 +382,7 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                                 onChange={(e: any) =>
                                   handleChangeIconHeight(index, e)
                                 }
+                                disabled
                                 fullWidth
                               />
                             </Stack>
@@ -394,6 +396,7 @@ const EditType = ({ data, openEdit, setOpenEdit, forceUpdate }: Props) => {
                             <Button
                               variant="outlined"
                               size="small"
+                              disabled
                               onClick={() =>
                                 handleResize({
                                   iconUrl: iconUrl,
