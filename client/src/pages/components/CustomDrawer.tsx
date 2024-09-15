@@ -190,8 +190,7 @@ const CustomDrawer = ({
 
         {Object.keys(data).length !== 0 && (
           <>
-            {/* Next Button */}
-            <Box
+            {/* <Box
               onClick={() => toggleInfo()}
               sx={{
                 position: "absolute",
@@ -217,7 +216,6 @@ const CustomDrawer = ({
               </Button>
             </Box>
 
-            {/* Prev Button */}
             <Box
               onClick={() => toggleInfo()}
               sx={{
@@ -242,7 +240,7 @@ const CustomDrawer = ({
               >
                 <Typography variant="caption">Prev</Typography>
               </Button>
-            </Box>
+            </Box> */}
           </>
         )}
 
