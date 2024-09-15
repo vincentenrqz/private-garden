@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import {
+  Box,
   CardContent,
   CardMedia,
   Checkbox,
@@ -261,51 +262,61 @@ const CreateSpecies = ({ handleOpen, open, setOpen, forceUpdate }: Props) => {
               </TextField>
             </Stack>
             <Stack direction="row" spacing={1}>
-              {types &&
-                types.map((item: any, index: number) => {
-                  const { iconUrl, iconSize } = item;
-                  const findSelect = selectedIcon === iconUrl;
-                  return (
-                    <CardContent
-                      key={index}
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: 80,
-                        height: 80,
-                        overflow: "hidden",
-                        position: "relative",
-                        transition: "all 0.3s ease",
-                        backgroundColor: findSelect ? "#e0e0e0" : "transparent",
-                        borderRadius: findSelect ? "8px" : "0",
-                        boxShadow: findSelect
-                          ? "0 4px 8px rgba(0,0,0,0.2)"
-                          : "none",
-                        transform: findSelect ? "scale(1.05)" : "none",
-                        "&:hover": {
-                          backgroundColor: "#f0f0f0",
-                          borderRadius: "8px",
-                          boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-                          transform: "scale(1.05)",
-                        },
-                      }}
-                      onClick={() => handleSelectType(item)}
-                    >
-                      <CardMedia
-                        component="img"
-                        alt=""
-                        src={iconUrl}
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(5, 1fr)",
+                  gap: 2,
+                }}
+              >
+                {types &&
+                  types.map((item: any, index: number) => {
+                    const { iconUrl, iconSize } = item;
+                    const findSelect = selectedIcon === iconUrl;
+                    return (
+                      <CardContent
+                        key={index}
                         sx={{
-                          width: iconSize[0],
-                          height: iconSize[1],
-                          objectFit: "cover",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: "100%", // Full width of grid cell
+                          height: 100,
+                          overflow: "hidden",
+                          position: "relative",
+                          transition: "all 0.3s ease",
+                          backgroundColor: findSelect
+                            ? "#e0e0e0"
+                            : "transparent",
+                          borderRadius: findSelect ? "8px" : "0",
+                          boxShadow: findSelect
+                            ? "0 4px 8px rgba(0,0,0,0.2)"
+                            : "none",
+                          transform: findSelect ? "scale(1.05)" : "none",
+                          "&:hover": {
+                            backgroundColor: "#f0f0f0",
+                            borderRadius: "8px",
+                            boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+                            transform: "scale(1.05)",
+                          },
                         }}
-                      />
-                    </CardContent>
-                  );
-                })}
+                        onClick={() => handleSelectType(item)}
+                      >
+                        <CardMedia
+                          component="img"
+                          alt=""
+                          src={iconUrl}
+                          sx={{
+                            width: iconSize[0],
+                            height: iconSize[1],
+                            objectFit: "cover",
+                          }}
+                        />
+                      </CardContent>
+                    );
+                  })}
+              </Box>
             </Stack>
             <Stack direction="column" spacing={2}>
               <Typography
