@@ -67,7 +67,7 @@ const App = () => {
                 path="/"
                 element={
                   <motion.div {...pageTransition}>
-                    {loading ? <LandingPageLoader /> : <LandingPage />}
+                    {loading ? <LandingPage /> : <LandingPageLoader />}
                   </motion.div>
                 }
               />
