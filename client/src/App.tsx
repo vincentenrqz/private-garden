@@ -67,7 +67,7 @@ const App = () => {
                 path="/"
                 element={
                   <motion.div {...pageTransition}>
-                    {loading ? <LandingPage /> : <LandingPageLoader />}
+                    {loading ? <LandingPageLoader /> : <LandingPage />}
                   </motion.div>
                 }
               />
@@ -75,7 +75,7 @@ const App = () => {
                 path="/maps"
                 element={
                   <motion.div {...pageTransition}>
-                    <ClientMap />
+                    {loading ? <LandingPageLoader /> : <ClientMap />}
                   </motion.div>
                 }
               />
@@ -83,7 +83,7 @@ const App = () => {
                 path="/flipbook"
                 element={
                   <motion.div {...pageTransition}>
-                    <Flip />
+                    {loading ? <LandingPageLoader /> : <Flip />}
                   </motion.div>
                 }
               />
