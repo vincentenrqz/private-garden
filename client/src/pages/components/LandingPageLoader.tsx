@@ -46,7 +46,7 @@ export default function LandingPageLoader() {
           zIndex: 1,
         }}
       >
-        <CircularProgress sx={{ color: "white" }} />
+        <CircularProgress size={100} sx={{ color: "white" }} />
       </Box>
     </Box>
   );
