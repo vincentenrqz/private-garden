@@ -102,7 +102,7 @@ const CustomMap = ({
     buttonFilters?.some((filter) => marker?.species?._id === filter?._id)
   );
 
-  const countOnes = clickCounts.reduce(
+  const countOnes = clickCounts?.reduce(
     (acc, count) => (count === 1 ? acc + 1 : acc),
     0
   );
