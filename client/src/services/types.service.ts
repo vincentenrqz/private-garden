@@ -27,6 +27,10 @@ export const typesService = {
     return apiService.put(`${BASE_URL}/${id}`, { data });
   },
 
+  async getOneType(id: any) {
+    return apiService.get(`${BASE_URL}/${id}`);
+  },
+
   async deleteType(id: string) {
     return apiService.delete(`${BASE_URL}/${id}`);
   },

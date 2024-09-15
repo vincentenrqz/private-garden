@@ -95,12 +95,8 @@ const FlipbookPage: React.FC = () => {
   const [numPages, setNumPages] = React.useState<number | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
-  console.log("numPages", numPages);
-
   const onDocumentLoadSuccess = useCallback(
     ({ numPages }: { numPages: number }) => {
-      console.log("Document loaded successfully");
-      console.log("Number of pages:", numPages);
       setNumPages(numPages);
     },
     []

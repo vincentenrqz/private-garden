@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -12,7 +12,7 @@ import { IoIosInformationCircle } from "react-icons/io";
 import { useScreenSize } from "../../context/MediaContext";
 import ReactPlayer from "react-player";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
-
+import { typesService } from "../../services/types.service";
 interface Props {
   data: any;
   paperRef: React.RefObject<HTMLDivElement>;
@@ -29,8 +29,26 @@ const CustomDrawer = ({
   toggleReadMore,
   toggleInfo,
 }: Props) => {
+  const [speciesType, setSpeciesType] = useState(null);
   const { screenSize } = useScreenSize();
   const screenType = screenSize;
+
+  useEffect(() => {
+    if (data) {
+      const getType = async () => {
+        if (data?._id) {
+          const response = await typesService.getOneType(data.type);
+
+          if (response.data) {
+            const data = response.data.types;
+            setSpeciesType(data.name);
+          }
+        }
+      };
+
+      getType();
+    }
+  }, [data]);
 
   const informationStyle =
     screenSize === "xs"
@@ -42,23 +60,13 @@ const CustomDrawer = ({
       case "xs":
       case "sm":
         return "98%";
+      case "md":
+      case "lg":
+        return "30%";
       case "xl":
-        return "70%";
+        return "25%";
       default:
-        return "90%";
-    }
-  };
-
-  const leftPosition = () => {
-    switch (screenType) {
-      case "xs":
-        return "50%";
-      case "sm":
-        return "50%";
-      case "xl":
-        return "-32%";
-      default:
-        return "-43%";
+        return "25%";
     }
   };
 
@@ -72,6 +80,19 @@ const CustomDrawer = ({
         return 550;
       default:
         return 500;
+    }
+  };
+
+  const leftPosition = () => {
+    switch (screenType) {
+      case "xs":
+        return "50%";
+      case "sm":
+        return "50%";
+      case "xl":
+        return "-10%";
+      default:
+        return "-10%";
     }
   };
 
@@ -144,7 +165,6 @@ const CustomDrawer = ({
             screenType === "xs" || screenType === "sm" ? "auto" : "visible",
           scrollbarWidth: "none",
           msOverflowStyle: "none",
-          borderRadius: "15px",
         }}
       >
         {screenType !== "xs" && screenType !== "sm" && (
@@ -167,27 +187,72 @@ const CustomDrawer = ({
             <IoIosInformationCircle color="#2196f3" size="40px" />
           </Box>
         )}
+
+        {Object.keys(data).length !== 0 && (
+          <>
+            {/* <Box
+              onClick={() => toggleInfo()}
+              sx={{
+                position: "absolute",
+                bottom: screenType === "xs" || screenType === "sm" ? 10 : 0,
+                right:
+                  screenType === "xs" || screenType === "sm" ? "10px" : "-50px",
+                width: 50,
+                zIndex: 2000,
+                color: "white",
+              }}
+            >
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#647c64 !important",
+                  "&:hover": {
+                    backgroundColor: "#647c64 !important",
+                  },
+                  paddingY: 1,
+                }}
+              >
+                <Typography variant="caption">Next</Typography>
+              </Button>
+            </Box>
+
+            <Box
+              onClick={() => toggleInfo()}
+              sx={{
+                position: "absolute",
+                bottom: screenType === "xs" || screenType === "sm" ? 10 : 35,
+                right:
+                  screenType === "xs" || screenType === "sm" ? "10px" : "-50px",
+                width: 50,
+                zIndex: 2000,
+                color: "white",
+              }}
+            >
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#647c64 !important",
+                  "&:hover": {
+                    backgroundColor: "#647c64 !important",
+                  },
+                  paddingY: 1,
+                }}
+              >
+                <Typography variant="caption">Prev</Typography>
+              </Button>
+            </Box> */}
+          </>
+        )}
+
         <Box
           sx={{
-            order: {
-              xs: 1,
-              sm: 1,
-              md: 3,
-            },
-            flex: {
-              xs: "1 1 auto",
-              md: "1 1 25%",
-            },
-            padding: 2,
+            flex: "auto",
             position: "relative",
-            overflow: screenType === "md" ? "auto" : "visible",
+            overflow: screenType === "md" ? "auto" : "auto",
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="bg-drawer-right-page"
         >
-          <div className="absolute inset-0 bg-grid-lines-vertical z-0 my-5"></div>
-          <div className="absolute inset-0 bg-grid-lines-horizontal z-0 my-5"></div>
           {Object.keys(data).length !== 0 ? (
             <Grid
               container
@@ -208,163 +273,254 @@ const CustomDrawer = ({
               <Grid
                 item
                 xs={12}
-                sm={6}
+                sm={12}
                 md={12}
                 mt={screenType === "xs" || screenType === "sm" ? 2 : 0}
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
-                sx={{
-                  order: screenType === "xs" || screenType === "sm" ? 1 : 2,
-                  width:
-                    screenType === "xs"
-                      ? "150px"
-                      : screenType === "sm"
-                      ? "300px"
-                      : "auto",
-                  height:
-                    screenType === "xs" || screenType === "sm"
-                      ? "300px"
-                      : "150px",
-                  maxWidth:
-                    screenType === "xs"
-                      ? "400px"
-                      : screenType === "sm"
-                      ? "300px"
-                      : "100%",
-                  maxHeight:
-                    screenType === "xs" || screenType === "sm"
-                      ? "300px"
-                      : "500px",
-                }}
               >
-                <Box
-                  className="w-[90%] h-full bg-gray-200 flex justify-center items-center rounded-md"
-                  sx={{
-                    objectFit: "cover",
-                    borderRadius: "4px",
-                  }}
+                <div
+                  className={`w-full ${
+                    screenType === "xs" || screenType === "sm" ? "" : "mt-10"
+                  }`}
                 >
-                  {data?.attachments ? (
-                    <img
-                      src={data.attachments}
-                      alt="Thumbnail"
-                      className="w-full h-full rounded-md"
-                      style={{ objectFit: "cover" }}
-                    />
+                  {screenType === "md" ||
+                  screenType === "lg" ||
+                  screenType === "xl" ? (
+                    <>
+                      <Box display="flex" justifyContent="center">
+                        <Typography
+                          variant="h6"
+                          className="uppercase tracking-widest"
+                          sx={{
+                            color: "#647c64",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {speciesType}
+                        </Typography>
+                      </Box>
+
+                      <div className="relative w-full h-96">
+                        <div className="w-full h-full">
+                          {data?.attachments ? (
+                            <img
+                              src={data.attachments}
+                              alt="Sebastian Plum Tree"
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <Box
+                              sx={{
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "#e0e0e0",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Typography variant="body1" color="textSecondary">
+                                No image available
+                              </Typography>
+                            </Box>
+                          )}
+                        </div>
+                        <div className="absolute bottom-0 left-10 w-full text-left">
+                          <h2 className="text-white uppercase text-5xl">
+                            {data?.name}
+                          </h2>
+                        </div>
+                        <div className="text-left pl-10 -m-1">
+                          <p className="text-gray-700 text-2xl uppercase">
+                            {data?.sub_name ? `"${data?.sub_name}"` : ""}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="pb-6 mt-10">
+                        <div className="flex">
+                          <div className="bg-[#647c64] w-12 flex-shrink-0"></div>
+
+                          <div className="flex flex-col justify-start pl-4">
+                            <div className="mb-4">
+                              <Typography
+                                variant="h6"
+                                sx={{ color: "#647c64", fontWeight: "bold" }}
+                              >
+                                Scientific Name:
+                              </Typography>
+                              <Typography
+                                variant="body1"
+                                sx={{ color: "#647c64" }}
+                              >
+                                {data?.scientific_name}
+                              </Typography>
+                            </div>
+
+                            <div>
+                              <Typography
+                                variant="h6"
+                                sx={{ color: "#647c64", fontWeight: "bold" }}
+                              >
+                                Etymology:
+                              </Typography>
+                              <Typography
+                                variant="body1"
+                                sx={{ color: "#647c64" }}
+                              >
+                                {data?.etymology}
+                              </Typography>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
                   ) : (
-                    <span className="text-gray-500">No Image</span>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center w-full h-auto">
+                      {/* Image Section */}
+                      <div className="relative w-full sm:w-1/2 h-64 sm:h-60">
+                        <div className="w-full h-full">
+                          {data?.attachments ? (
+                            <img
+                              src={data.attachments}
+                              alt="Sebastian Plum Tree"
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <Box
+                              sx={{
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "#e0e0e0",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Typography variant="body1" color="textSecondary">
+                                No image available
+                              </Typography>
+                            </Box>
+                          )}
+                        </div>
+                        <div className="absolute bottom-0 left-10 w-full text-left">
+                          <h2 className="text-white uppercase text-5xl">
+                            {data?.name}
+                          </h2>
+                        </div>
+                        <div className="text-left pl-10 -m-1">
+                          <p className="text-gray-700 text-2xl uppercase">
+                            {data?.sub_name ? `"${data?.sub_name}"` : ""}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex w-full sm:w-1/2 h-64 sm:h-60 justify-start sm:pl-4 mt-4 sm:mt-0">
+                        <div className="bg-[#647c64] w-12 flex-shrink-0 mr-4 h-full"></div>
+
+                        <div className="flex flex-col justify-between h-full">
+                          <div className="mb-4">
+                            <Typography
+                              variant="h6"
+                              sx={{ color: "#647c64", fontWeight: "bold" }}
+                            >
+                              Scientific Name:
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              sx={{ color: "#647c64" }}
+                            >
+                              {data?.scientific_name}
+                            </Typography>
+                          </div>
+
+                          {/* Etymology */}
+                          <div>
+                            <Typography
+                              variant="h6"
+                              sx={{ color: "#647c64", fontWeight: "bold" }}
+                            >
+                              Etymology:
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              sx={{ color: "#647c64" }}
+                            >
+                              {data?.etymology}
+                            </Typography>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   )}
-                </Box>
-              </Grid>
 
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={12}
-                display="flex"
-                flexDirection="column"
-                alignItems={
-                  screenType === "xs" || screenType === "sm"
-                    ? "flex-start"
-                    : "center"
-                }
-                sx={{
-                  order: screenType === "xs" || screenType === "sm" ? 2 : 1,
-                  textAlign:
-                    screenType === "xs" || screenType === "sm"
-                      ? "left"
-                      : "center",
-                }}
-              >
-                <Box mt={2}>
-                  <Typography variant={variantSize()} fontWeight="bold">
-                    {data?.name} {data?.sub_name ? `'${data?.sub_name}'` : ""}
-                  </Typography>
-                  <Typography variant="h6" className="italic">
-                    {data?.scientific_name}
-                  </Typography>
-                </Box>
-                {(screenType === "xs" || screenType === "sm") && (
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    className="bg-orange-200 bg-opacity-60"
-                    p={2}
-                    width="100%"
-                    maxWidth={400}
-                    textAlign={
-                      screenType === "xs" || screenType === "sm"
-                        ? "left"
-                        : "center"
-                    }
-                    mt={10}
+                  <Typography
+                    variant="body1"
                     sx={{
-                      overflow: "auto",
-                      scrollbarWidth: "none",
-                      msOverflowStyle: "none",
+                      paddingX: 2,
+                      textAlign: "justify",
+                      marginBottom: 2,
+                      marginTop:
+                        screenType === "xs" || screenType === "sm" ? 5 : 0,
                     }}
-                    height={120}
                   >
-                    <Typography variant="body2" sx={{ textAlign: "justify" }}>
-                      Fun fact:
-                    </Typography>
-                    <Typography variant="body2" sx={{ textAlign: "justify" }}>
-                      {data?.fun_fact}
-                    </Typography>
-                  </Box>
-                )}
-              </Grid>
+                    {data?.description}
+                  </Typography>
+                  {data?.video ? (
+                    <Box sx={{ padding: 2 }}>
+                      <ReactPlayer
+                        url={data?.video}
+                        controls
+                        width="auto"
+                        height={300}
+                      />
+                    </Box>
+                  ) : (
+                    <Box
+                      sx={{
+                        width: "100%",
+                        height: 300,
+                        backgroundColor: "#e0e0e0",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Typography variant="body1" color="textSecondary">
+                        No video available
+                      </Typography>
+                    </Box>
+                  )}
 
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={12}
-                display="flex"
-                flexDirection="column"
-                alignItems={
-                  screenType === "xs" || screenType === "sm"
-                    ? "flex-start"
-                    : "center"
-                }
-                sx={{
-                  order: screenType === "xs" || screenType === "sm" ? 3 : 3,
-                  textAlign:
-                    screenType === "xs" || screenType === "sm"
-                      ? "left"
-                      : "center",
-                }}
-              >
-                {screenType !== "xs" && screenType !== "sm" && (
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    className="bg-orange-200 bg-opacity-60"
-                    p={2}
-                    width="100%"
-                    maxWidth={400}
-                    textAlign={
-                      screenType === "xs" || screenType === "sm"
-                        ? "left"
-                        : "center"
-                    }
-                    sx={{
-                      overflow: "auto",
-                      scrollbarWidth: "none",
-                      msOverflowStyle: "none",
-                    }}
-                    height={100}
-                  >
-                    <Typography variant="body2" sx={{ textAlign: "justify" }}>
-                      Fun fact:
-                    </Typography>
-                    <Typography variant="body2" sx={{ textAlign: "justify" }}>
-                      {data?.fun_fact}
-                    </Typography>
+                  <Box sx={{ marginY: 2 }}>
+                    {fields.map(
+                      (field, index) =>
+                        field.value && (
+                          <Box
+                            key={index}
+                            sx={{
+                              position: "relative",
+                              zIndex: 10,
+                              paddingX: 2,
+                            }}
+                          >
+                            <Typography
+                              variant="h6"
+                              className="first-letter:uppercase"
+                              sx={{ color: "#647c64", fontWeight: "bold" }}
+                            >
+                              {field.label}:
+                            </Typography>
+                            <Typography variant="subtitle1">
+                              {field.value}
+                            </Typography>
+                          </Box>
+                        )
+                    )}
                   </Box>
-                )}
+                </div>
               </Grid>
             </Grid>
           ) : (
@@ -388,244 +544,21 @@ const CustomDrawer = ({
 
         <Box
           sx={{
-            order: {
-              xs: 2,
-              sm: 2,
-              md: 1,
-            },
-            flex: {
-              xs: "1 1 auto",
-              md: "1 1 50%",
-            },
-            padding: 2,
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            height: "100%",
+            position: "fixed",
+            bottom: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            paddingBottom: 2,
+            zIndex: 10,
+            borderTop: "1px solid #e0e0e0",
+            textAlign: "center",
           }}
-          className={`${
-            screenSize === "xs" || screenSize === "sm"
-              ? "bg-drawer-right-page"
-              : "bg-drawer-left-page"
-          }`}
         >
-          <div className="absolute inset-0 bg-grid-lines-vertical z-0 m-5"></div>
-          <div className="absolute inset-0 bg-grid-lines-horizontal z-0 m-5"></div>
-          {data && (
-            <Box
-              sx={{
-                position: "relative",
-                overflowY: "auto",
-                maxHeight: "calc(100vh - 100px)",
-                padding: 2,
-                paddingBottom:
-                  screenType === "xs" || screenType === "sm" ? 0 : 4,
-                scrollbarWidth: "none",
-                msOverflowStyle: "none",
-                height: "100%",
-              }}
-            >
-              <Grid
-                container
-                display="flex"
-                justifyContent="center"
-                flexDirection="column"
-                sx={{
-                  position: "relative",
-                  zIndex: 10,
-                }}
-              >
-                <Grid item>
-                  <Typography variant="h6">Media</Typography>
-                </Grid>
-                <Grid item display="flex" justifyContent="center" mt={2}>
-                  <ReactPlayer
-                    url={data?.video}
-                    controls
-                    width={mediaPlayerSize()}
-                    height={300}
-                  />
-                </Grid>
-                <Stack mt={3} direction="column" spacing={2}>
-                  <Box>
-                    <Typography variant="h6" className="uppercase">
-                      Etymology:
-                    </Typography>
-                    <Typography variant="subtitle1">
-                      {data?.etymology}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography variant="h6" className="uppercase">
-                      Notable Remarks
-                    </Typography>
-                    <Typography variant="subtitle1">
-                      {data?.description}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography variant="h6" className="uppercase">
-                      Cultural Maintenance
-                    </Typography>
-                    <Typography variant="subtitle1">
-                      {data?.cultural_maintenance}
-                    </Typography>
-                  </Box>
-                  {screenType !== "xs" && screenType !== "sm" && (
-                    <Box
-                      sx={{
-                        position: "fixed",
-                        bottom: 0,
-                        left: "25%",
-                        transform: "translateX(-50%)",
-                        paddingBottom: 2,
-                        zIndex: 10,
-                        borderTop: "1px solid #e0e0e0",
-                        textAlign: "center",
-                      }}
-                    >
-                      <KeyboardDoubleArrowDownIcon
-                        className="text-gray-500 animate-fade-in-out"
-                        fontSize="small"
-                      />
-                    </Box>
-                  )}
-                </Stack>
-              </Grid>
-            </Box>
-          )}
+          <KeyboardDoubleArrowDownIcon
+            className="text-gray-500 animate-fade-in-out"
+            fontSize="small"
+          />
         </Box>
-
-        <Box
-          sx={{
-            order: {
-              xs: 3,
-              sm: 3,
-              md: 2,
-            },
-            flex: {
-              xs: "1 1 auto",
-              md: "1 1 25%",
-            },
-            overflow: screenType === "xs" || screenType === "sm" ? "" : "auto",
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
-          className="bg-drawer-right-page"
-        >
-          <div className="absolute inset-0 bg-grid-lines-vertical z-0 my-5"></div>
-          <div className="absolute inset-0 bg-grid-lines-horizontal z-0 my-5"></div>
-          {data && (
-            <Box
-              sx={{
-                position: "relative",
-                maxHeight: "calc(100vh - 100px)",
-                paddingBottom:
-                  screenType === "xs" || screenType === "sm" ? 0 : 4,
-              }}
-            >
-              <Grid
-                container
-                display="flex"
-                justifyContent="center"
-                flexDirection="column"
-                sx={{
-                  position: "relative",
-                  zIndex: 10,
-                }}
-                p={4}
-                className={
-                  screenType === "xs" || screenType === "sm"
-                    ? "bg-drawer-right-page"
-                    : ""
-                }
-              >
-                {screenType === "xs" ||
-                  (screenType === "sm" && (
-                    <>
-                      <div className="absolute inset-0 bg-grid-lines-vertical z-0 my-5"></div>
-                      <div className="absolute inset-0 bg-grid-lines-horizontal z-0 my-5"></div>
-                    </>
-                  ))}
-                {fields.map(
-                  (field, index) =>
-                    field.value && (
-                      <Box
-                        key={index}
-                        sx={{
-                          position: "relative",
-                          zIndex: 10,
-                        }}
-                      >
-                        <Typography variant="h6" className="uppercase">
-                          {field.label}:
-                        </Typography>
-                        <Typography variant="subtitle1">
-                          {field.value}
-                        </Typography>
-                        {screenType !== "xs" && screenType !== "sm" && (
-                          <Box
-                            sx={{
-                              position: "fixed",
-                              bottom: 0,
-                              left: "65%",
-                              transform: "translateX(-50%)",
-                              paddingBottom: 2,
-                              zIndex: 10,
-                              borderTop: "1px solid #e0e0e0",
-                              textAlign: "center",
-                            }}
-                          >
-                            <KeyboardDoubleArrowDownIcon
-                              className="text-gray-500 animate-fade-in-out"
-                              fontSize="small"
-                            />
-                          </Box>
-                        )}
-                      </Box>
-                    )
-                )}
-              </Grid>
-            </Box>
-          )}
-        </Box>
-
-        {Object.keys(data).length !== 0 && (
-          <Button
-            onClick={() => toggleReadMore()}
-            sx={{
-              color: "black",
-              position: "fixed",
-              bottom: {
-                xs: "auto",
-                sm: "auto",
-                md: 16,
-                lg: 0,
-              },
-              top: {
-                xs: 16,
-                sm: 16,
-                md: "auto",
-              },
-              right: 16,
-              zIndex: 1000,
-            }}
-          >
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: "#647c64 !important",
-                "&:hover": {
-                  backgroundColor: "#647c64 !important",
-                },
-              }}
-            >
-              <Typography variant="caption">
-                {open ? (readMore ? "Read less" : "Read more") : ""}
-              </Typography>
-            </Button>
-          </Button>
-        )}
       </Paper>
     </div>
   );
