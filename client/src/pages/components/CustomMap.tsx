@@ -7,6 +7,7 @@ import { handleMapSize } from "../../utils";
 import { useFetchData } from "../../utils/queries";
 
 import sound from "../../../public/resources/click_sound.mp3";
+import Certificate from "./Certificate";
 
 type Prop = {
   open?: boolean;
@@ -20,6 +21,8 @@ type Prop = {
   markers: any;
   openDrawerHandler: any;
   setData?: React.Dispatch<React.SetStateAction<null>>;
+  clickCounts?: number[];
+  setClickCounts?: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
 const CustomMap = ({
@@ -34,6 +37,8 @@ const CustomMap = ({
   markers,
   openDrawerHandler,
   setData,
+  clickCounts,
+  setClickCounts,
 }: Prop) => {
   const paperRef = useRef<HTMLDivElement>(null);
   const [defaultZoom, setDefaultZoom] = useState(1);
@@ -97,12 +102,17 @@ const CustomMap = ({
     buttonFilters?.some((filter) => marker?.species?._id === filter?._id)
   );
 
+  const countOnes = clickCounts.reduce(
+    (acc, count) => (count === 1 ? acc + 1 : acc),
+    0
+  );
+
   function playSound() {
     new Audio(sound).play();
   }
 
   const renderMarkers = (data) =>
-    data?.map((marker: any) => {
+    data?.map((marker: any, index: number) => {
       const { _id, species, position } = marker;
       const icon = species?.icon;
 
@@ -112,10 +122,17 @@ const CustomMap = ({
           position={position}
           icon={markerIconFunction(icon, icon?.iconUrl)}
           eventHandlers={{
-            click: () => {
+            click: (e) => {
               if (forAdmin) {
                 openDrawerHandler(marker);
               } else {
+                const newClickCounts = [...clickCounts];
+
+                if (newClickCounts[index] === 0) {
+                  newClickCounts[index] += 1;
+
+                  setClickCounts(newClickCounts);
+                }
                 setData(marker?.species);
                 playSound();
                 toggleDrawer(true);
@@ -177,6 +194,7 @@ const CustomMap = ({
           })}{" "}
         {forAdmin && <MapClickHandler onClick={handleMapClick} />}
       </MapContainer>
+      {countOnes >= 10 && <Certificate />}
     </>
   );
 };

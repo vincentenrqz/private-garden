@@ -19,7 +19,8 @@ const MapPage = () => {
   const mapSize = handleMapSize(screenSize);
   const flexStyle = handleFlexStyles(screenSize);
   const [buttonFilters, setButtonFilters] = useState(null); //Todo: Pass this in custom map to have a conditional logic
-  const { speciesData, typesData } = useFetchData();
+  const { speciesData, typesData, mapsData } = useFetchData();
+  const [clickCounts, setClickCounts] = useState([]);
 
   useEffect(() => {
     const handleClickOutside = (e: any) => {
@@ -32,9 +33,9 @@ const MapPage = () => {
           case "sm":
             return (paperRef.current.style.top = "95%");
           case "xl":
-            return (paperRef.current.style.left = "-32%");
+            return (paperRef.current.style.left = "-10%");
           default:
-            return (paperRef.current.style.left = "-43%");
+            return (paperRef.current.style.left = "-10%");
         }
       }
     };
@@ -57,11 +58,11 @@ const MapPage = () => {
         case "sm":
           return (paperRef.current.style.top = "68%");
         case "md":
-          return (paperRef.current.style.left = "-21%");
+          return (paperRef.current.style.left = "15%");
         case "lg":
-          return (paperRef.current.style.left = "-22%");
+          return (paperRef.current.style.left = "15%");
         case "xl":
-          return (paperRef.current.style.left = "-17%");
+          return (paperRef.current.style.left = "12%");
         default:
           return (paperRef.current.style.left = "-15%");
       }
@@ -114,6 +115,21 @@ const MapPage = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const storedClickCounts = localStorage.getItem("clickCounts");
+    if (storedClickCounts) {
+      setClickCounts(JSON.parse(storedClickCounts));
+    } else if (mapsData) {
+      setClickCounts(Array(mapsData.length).fill(0));
+    }
+  }, [mapsData]);
+
+  useEffect(() => {
+    if (clickCounts.length > 0) {
+      localStorage.setItem("clickCounts", JSON.stringify(clickCounts));
+    }
+  }, [clickCounts]);
 
   const supportAllDevice = {
     paddingTop: "8px",
@@ -176,6 +192,8 @@ const MapPage = () => {
               markers={undefined}
               openDrawerHandler={undefined}
               setData={setData}
+              clickCounts={clickCounts}
+              setClickCounts={setClickCounts}
             />
           </div>
         </Box>
@@ -209,7 +227,7 @@ const MapPage = () => {
           toggleReadMore={toggleReadMore}
           toggleInfo={toggleInfo}
         />
-        <FloatingButton />
+        <FloatingButton clickedCounts={clickCounts} />
       </div>
     </div>
   );
