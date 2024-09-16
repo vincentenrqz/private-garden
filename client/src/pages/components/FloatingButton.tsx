@@ -14,9 +14,9 @@ type Props = {
   clickedCounts?: number[];
 };
 
-const FloatingButton = ({ clickedCounts }: Props) => {
-  const [progress, setProgress] = useState<number>(0);
-  const [progressClick, setProgressClick] = useState<boolean>(false);
+const FloatingButton = () => {
+  // const [progress, setProgress] = useState<number>(0);
+  // const [progressClick, setProgressClick] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,32 +25,32 @@ const FloatingButton = ({ clickedCounts }: Props) => {
     navigate(path);
   };
 
-  useEffect(() => {
-    const getProgress = () => {
-      if (clickedCounts) {
-        const totalSteps = 20;
-        const completedSteps = clickedCounts.filter(
-          (value) => value === 1
-        ).length;
+  // useEffect(() => {
+  //   const getProgress = () => {
+  //     if (clickedCounts) {
+  //       const totalSteps = 20;
+  //       const completedSteps = clickedCounts.filter(
+  //         (value) => value === 1
+  //       ).length;
 
-        const progress =
-          (Math.min(completedSteps, totalSteps) / totalSteps) * 100;
-        setProgress(progress);
-      }
-    };
+  //       const progress =
+  //         (Math.min(completedSteps, totalSteps) / totalSteps) * 100;
+  //       setProgress(progress);
+  //     }
+  //   };
 
-    getProgress();
-  }, [clickedCounts]);
+  //   getProgress();
+  // }, [clickedCounts]);
 
-  const handleProgressClick = () => {
-    if (progress === 100) {
-      setProgressClick(!progressClick);
-    }
-  };
+  // const handleProgressClick = () => {
+  //   if (progress === 100) {
+  //     setProgressClick(!progressClick);
+  //   }
+  // };
 
   return (
     <React.Fragment>
-      {location.pathname === "/maps" && (
+      {/* {location.pathname === "/maps" && (
         <Tooltip
           title="Total progression"
           placement="left"
@@ -105,7 +105,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
             </Box>
           </Stack>
         </Tooltip>
-      )}
+      )} */}
       <Tooltip
         title="Navigate to landing page"
         placement="bottom"
@@ -227,7 +227,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
           />
         </Stack>
       </Tooltip>
-      {progressClick && <Certificate />}
+      {/* {progressClick && <Certificate />} */}
     </React.Fragment>
   );
 };

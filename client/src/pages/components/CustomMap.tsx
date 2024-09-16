@@ -8,7 +8,7 @@ import { useFetchData } from "../../utils/queries";
 import { ClickSound } from "../../utils";
 
 import Certificate from "./Certificate";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 type Prop = {
   open?: boolean;
@@ -166,7 +166,6 @@ const CustomMap = ({
 
   return (
     <>
-      {/* <Box sx={{ backgroundColor: "white" }}>asdasd</Box> */}
       <Box
         sx={{
           marginTop: "4rem",

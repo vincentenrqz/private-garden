@@ -7,6 +7,7 @@ import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import SpaIcon from "@mui/icons-material/Spa";
 import { useScreenSize } from "../../context/MediaContext";
 import { useState } from "react";
+import treesIcon from "./resources/trees.png";
 
 export default function ButtonFilters({
   typeData,

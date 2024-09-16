@@ -67,14 +67,36 @@ function LandingPage() {
   const infoVariation =
     screenType === "xs" || screenType === "sm" ? "subtitle1" : "h5";
 
-  const textMargin = screenType === "xl" ? 10 : screenType === "lg" ? 20 : 2;
+  const textMargin = screenType === "xl" ? 10 : screenType === "lg" ? 5 : 3;
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        {screenType !== "xs" && screenType !== "sm" && screenType !== "md" && (
+      <div
+        style={{
+          backgroundImage: `url(resources/backgroundMap.jpg)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        {(screenType === "xl" || screenType === "lg") && (
+          <img
+            src="/resources/Bougainvillea.png"
+            alt="Leaf"
+            width={screenType === "xl" ? 600 : screenType === "lg" ? 500 : 600}
+            height={screenType === "xl" ? 600 : screenType === "lg" ? 500 : 600}
+            style={{
+              position: "absolute",
+              top: -50,
+              right: -110,
+              margin: 10,
+              zIndex: 1000,
+            }}
+          />
+        )}
+        {/* {screenType !== "xs" && screenType !== "sm" && screenType !== "md" && (
           <>
-            {/* LEFT SIDE */}
             <img
               src="/resources/leaf4.png"
               alt="Leaf"
@@ -140,7 +162,6 @@ function LandingPage() {
               }}
             />
 
-            {/* RIGHT SIDE */}
             <img
               src="/resources/leaf4.png"
               alt="Leaf"
@@ -193,7 +214,7 @@ function LandingPage() {
               }}
             />
           </>
-        )}
+        )} */}
         <Container
           maxWidth="xl"
           sx={{
@@ -208,12 +229,26 @@ function LandingPage() {
             msOverflowStyle: "none",
           }}
         >
+          {(screenType === "xl" || screenType === "lg") && (
+            <Box sx={{ paddingRight: 10 }}>
+              <img
+                src="/resources/welcome_splash.png"
+                alt="Leaf"
+                width={400}
+                height={400}
+              />
+            </Box>
+          )}
           <Box
             sx={{
               display: "flex",
               flexDirection: flexBoxes ? "row" : "column",
-              width: "100%",
-              height: "90%",
+              marginY: 10,
+              width: screenType === "xl" || screenType === "lg" ? "50%" : "90%",
+              height: "75%",
+              zIndex: 1,
+              backgroundColor: "white",
+              position: "relative",
             }}
           >
             <Grid
@@ -234,68 +269,157 @@ function LandingPage() {
                   padding: 2,
                   margin: textMargin,
                   boxSizing: "border-box",
+                  position: "relative",
                 }}
               >
-                <Box display="flex">
+                <Box
+                  display="flex"
+                  flexDirection={flexBoxes ? "row" : "column"}
+                  alignItems="center"
+                >
                   <img
                     src="/resources/welcome-logo-bg.png"
                     alt="test"
-                    width={500}
-                    height={500}
+                    style={{ width: "400px", height: "auto" }} // Fixed width with auto height for responsiveness
                   />
-                  <div className="alexa-container" onClick={togglePlay}>
-                    <div className={`alexa-icon ${isPlaying ? "playing" : ""}`}>
-                      {/* Audio element */}
-                      <audio ref={audioRef} src={voice}></audio>
-                    </div>
-                  </div>
                 </Box>
+
                 <Typography
                   variant={infoVariation}
-                  sx={{ color: "#647c64", textAlign: "justify" }}
+                  sx={{
+                    color: "#647c64",
+                    textAlign: "justify",
+                    fontSize: { xs: "14px", sm: "16px", md: "20px" }, // Responsive font size
+                    wordBreak: "break-word", // Prevents long words from breaking layout
+                  }}
                   component="p"
                 >
-                  Come and explore my garden, a vibrant and ever-evolving
-                  landscape where technology and creativity blossom together !
+                  Welcome to an Exciting Journey!
                 </Typography>
+
                 <Typography
                   variant={infoVariation}
-                  sx={{ color: "#647c64", my: 2, textAlign: "justify" }}
+                  sx={{
+                    color: "#647c64",
+                    my: 2,
+                    textAlign: "justify",
+                    fontSize: { xs: "14px", sm: "16px", md: "20px" }, // Responsive font size
+                    wordBreak: "break-word",
+                  }}
                   component="p"
                 >
-                  As you step into this unique space, discover the breathtaking
-                  diversity of trees, crawlers, grass and shrubs, and a charming
-                  selection of colorful and beautiful flowers.
+                  Step into my vibrant garden, where technology and creativity
+                  bloom together.
                 </Typography>
+
                 <Typography
                   variant={infoVariation}
-                  sx={{ color: "#647c64", textAlign: "justify" }}
+                  sx={{
+                    color: "#647c64",
+                    my: 2,
+                    textAlign: "justify",
+                    fontSize: { xs: "14px", sm: "16px", md: "20px" }, // Responsive font size
+                    wordBreak: "break-word",
+                  }}
                   component="p"
                 >
-                  The book features visually stunning photographs and videos
-                  that will amuse and entertain.
+                  Explore a diverse array of trees, shrubs, flowers, and more.
+                  Stunning photos and videos will entertain and delight you.
                 </Typography>
+
                 <Typography
                   variant={infoVariation}
-                  sx={{ color: "#647c64", textAlign: "justify" }}
+                  sx={{
+                    color: "#647c64",
+                    textAlign: "justify",
+                    fontSize: { xs: "14px", sm: "16px", md: "20px" }, // Responsive font size
+                    wordBreak: "break-word",
+                  }}
                   component="p"
                 >
-                  As you navigate through the different sections of the garden,
-                  go ahead and click the icons. each specie has an interesting
-                  trivia and back story you will surely enjoy.
+                  As you browse, click on icons to discover fascinating trivia
+                  and backstories for each species.
                 </Typography>
+
                 <Typography
                   variant={infoVariation}
-                  sx={{ color: "#647c64", my: 2, textAlign: "justify" }}
+                  sx={{
+                    color: "#647c64",
+                    my: 2,
+                    textAlign: "justify",
+                    fontSize: { xs: "14px", sm: "16px", md: "20px" }, // Responsive font size
+                    wordBreak: "break-word",
+                  }}
                   component="p"
                 >
-                  Just like the physical garden, this digital space is designed
-                  to inspire curiosity and exploration, carefully curated to
-                  offer fresh perspectives and spark new insights.
+                  Just like a physical garden, this digital space invites
+                  curiosity and exploration, offering fresh perspectives and new
+                  insights.
+                </Typography>
+
+                <Typography
+                  variant={infoVariation}
+                  sx={{
+                    color: "#647c64",
+                    my: 2,
+                    textAlign: "justify",
+                    fontSize: { xs: "14px", sm: "16px", md: "20px" }, // Responsive font size
+                    wordBreak: "break-word",
+                  }}
+                  component="p"
+                >
+                  Click the book icon to learn about featured species, and the
+                  earth icon to navigate the garden.
                 </Typography>
               </Grid>
             </Grid>
+            <div
+              className="alexa-container"
+              onClick={togglePlay}
+              style={{
+                position: "fixed", // Fixes the position relative to the viewport
+                bottom:
+                  screenType === "xl"
+                    ? "100px"
+                    : screenType === "lg"
+                    ? "100px"
+                    : "20px",
+                right:
+                  screenType === "xl"
+                    ? "250px"
+                    : screenType === "lg"
+                    ? "60px"
+                    : "20px", // 20px from the right of the screen
+                zIndex: 1000, // Ensure it's on top of other content
+                width: "100px", // Test size for the Alexa container
+                height: "100px", // Test size for the Alexa container
+              }}
+            >
+              <div className={`alexa-icon ${isPlaying ? "playing" : ""}`}>
+                <audio ref={audioRef} src={voice}></audio>
+              </div>
+            </div>
           </Box>
+          {(screenType === "xs" ||
+            screenType === "sm" ||
+            screenType === "md") && (
+            <Box
+              sx={{
+                position: "fixed", // Fixed position
+                bottom: 0, // Positioned at the bottom
+                left: 0, // Positioned at the left
+                zIndex: 0, // Ensure it's on top of other elements
+                padding: 2, // Optional padding
+              }}
+            >
+              <img
+                src="/resources/welcome_splash.png"
+                alt="Leaf"
+                width={300}
+                height={300}
+              />
+            </Box>
+          )}
         </Container>
       </div>
 

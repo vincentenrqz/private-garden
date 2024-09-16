@@ -319,7 +319,7 @@ const CustomDrawer = ({
                             </Box>
                           )}
                         </div>
-                        <div className="absolute bottom-0 left-10 w-full text-left">
+                        <div className="absolute bottom-0 left-10 w-96 text-left">
                           <h2 className="text-white uppercase text-5xl">
                             {data?.name}
                           </h2>
