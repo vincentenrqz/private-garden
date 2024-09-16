@@ -8,6 +8,7 @@ import { useFetchData } from "../../utils/queries";
 
 import sound from "../../../public/resources/click_sound.mp3";
 import Certificate from "./Certificate";
+import { Box } from "@mui/material";
 
 type Prop = {
   open?: boolean;
@@ -143,57 +144,97 @@ const CustomMap = ({
       );
     });
 
+  const supportAllDevice = {
+    paddingTop: "8px",
+    paddingBottom: "8px",
+    paddingLeft: "16px",
+    paddingRight: "16px",
+    height: mapSize?.containerHeight,
+    maxWidth: mapSize?.width,
+    backgroundColor: "#c9c9c9",
+    boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
+  };
+
+  const mapStyle =
+    screenSize?.screenSize !== "xs"
+      ? supportAllDevice
+      : {
+          marginTop: "4rem",
+          paddingTop: "8px",
+          paddingBottom: "8px",
+          paddingLeft: "4px",
+          paddingRight: "4px",
+          boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
+          backgroundColor: "#c9c9c9",
+        };
+
   return (
     <>
-      <MapContainer
-        key={defaultZoom}
-        bounds={maxBounds}
-        center={[51.505, -0.09]}
-        zoom={defaultZoom}
-        minZoom={minZoom}
-        maxZoom={5}
-        zoomControl={true}
-        scrollWheelZoom={true}
-        doubleClickZoom={false}
-        maxBounds={maxBounds}
-        maxBoundsViscosity={1.0}
-        style={{
-          height: mapSize?.height,
-          width: mapSize?.width,
+      <Box sx={{ backgroundColor: "white" }}>asdasd</Box>
+      <Box
+        sx={{
+          marginTop: "4rem",
+          paddingTop: "8px",
+          paddingBottom: "8px",
+          paddingLeft: "16px",
+          paddingRight: "16px",
+          backgroundColor: "#c9c9c9",
+          boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
         }}
       >
-        <TileLayer
-          attribution="Private Garden"
-          url="/anning_clean/{z}/{x}/{y}.jpg"
+        <MapContainer
+          key={defaultZoom}
           bounds={maxBounds}
-          noWrap={true}
-        />
-        {renderMarkers(buttonFilters ? filteredMapData : mapsData)}
-        {forAdmin &&
-          markers?.map((marker: any) => {
-            const { _id, species, position } = marker;
-            const icon = species?.icon;
+          center={[51.505, -0.09]}
+          zoom={defaultZoom}
+          minZoom={minZoom}
+          maxZoom={5}
+          zoomControl={true}
+          scrollWheelZoom={true}
+          doubleClickZoom={false}
+          maxBounds={maxBounds}
+          maxBoundsViscosity={1.0}
+          style={{
+            height: mapSize?.height,
+            width: mapSize?.width,
+          }}
+        >
+          <TileLayer
+            attribution="Private Garden"
+            url="/anning_clean/{z}/{x}/{y}.jpg"
+            bounds={maxBounds}
+            noWrap={true}
+          />
+          {renderMarkers(buttonFilters ? filteredMapData : mapsData)}
+          {forAdmin &&
+            markers?.map((marker: any) => {
+              const { _id, species, position } = marker;
+              const icon = species?.icon;
 
-            return (
-              <Marker
-                key={_id}
-                position={position}
-                icon={markerIconFunction(icon?.options, icon?.options?.iconUrl)}
-                eventHandlers={{
-                  click: (e) => {
-                    if (forAdmin) {
-                      openDrawerHandler(marker);
-                    } else {
-                      setData(marker?.species);
-                      toggleDrawer(true);
-                    }
-                  },
-                }}
-              ></Marker>
-            );
-          })}{" "}
-        {forAdmin && <MapClickHandler onClick={handleMapClick} />}
-      </MapContainer>
+              return (
+                <Marker
+                  key={_id}
+                  position={position}
+                  icon={markerIconFunction(
+                    icon?.options,
+                    icon?.options?.iconUrl
+                  )}
+                  eventHandlers={{
+                    click: (e) => {
+                      if (forAdmin) {
+                        openDrawerHandler(marker);
+                      } else {
+                        setData(marker?.species);
+                        toggleDrawer(true);
+                      }
+                    },
+                  }}
+                ></Marker>
+              );
+            })}{" "}
+          {forAdmin && <MapClickHandler onClick={handleMapClick} />}
+        </MapContainer>
+      </Box>
       {countOnes >= 20 && <Certificate />}
     </>
   );

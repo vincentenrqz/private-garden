@@ -131,30 +131,6 @@ const MapPage = () => {
     }
   }, [clickCounts]);
 
-  const supportAllDevice = {
-    paddingTop: "8px",
-    paddingBottom: "8px",
-    paddingLeft: "16px",
-    paddingRight: "16px",
-    height: mapSize?.containerHeight,
-    maxWidth: mapSize?.width,
-    backgroundColor: "#c9c9c9",
-    boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
-  };
-
-  const mapStyle =
-    screenSize?.screenSize !== "xs"
-      ? supportAllDevice
-      : {
-          marginTop: "4rem",
-          paddingTop: "8px",
-          paddingBottom: "8px",
-          paddingLeft: "4px",
-          paddingRight: "4px",
-          boxShadow: "15px 10px 5px rgba(0, 0, 0, 0.3)",
-          backgroundColor: "#c9c9c9",
-        };
-
   return (
     <div
       style={{
@@ -178,7 +154,7 @@ const MapPage = () => {
         Explore with me
       </Typography>
       <div className={`flex ${flexStyle?.parent} `}>
-        <Box style={mapStyle}>
+        <Box>
           <div className="flex flex-row items-end">
             <CustomMap
               open={open}

@@ -1,11 +1,56 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { useScreenSize } from "../../context/MediaContext";
 import FloatingButton from "../components/FloatingButton";
+import voice from "../../../public/resources/voice_over.mp3";
 
 function LandingPage() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
   const screenSize = useScreenSize();
   const screenType = screenSize?.screenSize;
+  console.log("screenType", screenType);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    const playAudio = async () => {
+      try {
+        await audio.play();
+        setIsPlaying(true);
+      } catch (err) {
+        setIsPlaying(false);
+      }
+    };
+
+    playAudio();
+
+    return () => {
+      audio.pause();
+    };
+  }, []);
+
+  const togglePlay = () => {
+    const audio = audioRef.current;
+    if (audio.paused) {
+      audio.play();
+      setIsPlaying(true);
+    } else {
+      audio.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    const handleEnded = () => setIsPlaying(false);
+
+    audio.addEventListener("ended", handleEnded);
+    return () => {
+      audio.removeEventListener("ended", handleEnded);
+    };
+  }, []);
 
   const height =
     screenSize?.screenSize === "md" ||
@@ -21,6 +66,8 @@ function LandingPage() {
 
   const infoVariation =
     screenType === "xs" || screenType === "sm" ? "subtitle1" : "h5";
+
+  const textMargin = screenType === "xl" ? 10 : screenType === "lg" ? 20 : 2;
 
   return (
     <>
@@ -181,52 +228,28 @@ function LandingPage() {
                 item
                 xs={12}
                 md={12}
-                lg={6}
+                lg={12}
                 sx={{
                   width: flexBoxes ? "50%" : "100%",
                   padding: 2,
+                  margin: textMargin,
                   boxSizing: "border-box",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
                 }}
               >
-                <Box
-                  sx={{
-                    position: "relative",
-                    maxWidth: "sm",
-                    width: "100%",
-                  }}
-                >
+                <Box display="flex">
                   <img
-                    src={"/resources/cover-explore.jpg"}
-                    alt="Welcome Image"
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      maxHeight: height,
-                      objectFit: "cover",
-                    }}
+                    src="/resources/welcome-logo-bg.png"
+                    alt="test"
+                    width={500}
+                    height={500}
                   />
+                  <div className="alexa-container" onClick={togglePlay}>
+                    <div className={`alexa-icon ${isPlaying ? "playing" : ""}`}>
+                      {/* Audio element */}
+                      <audio ref={audioRef} src={voice}></audio>
+                    </div>
+                  </div>
                 </Box>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={12}
-                lg={6}
-                sx={{
-                  width: flexBoxes ? "50%" : "100%",
-                  padding: 2,
-                  boxSizing: "border-box",
-                }}
-              >
-                <img
-                  src="/resources/welcome-logo-bg.png"
-                  alt="test"
-                  width={500}
-                  height={500}
-                />
                 <Typography
                   variant={infoVariation}
                   sx={{ color: "#647c64", textAlign: "justify" }}

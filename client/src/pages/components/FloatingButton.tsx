@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import Certificate from "./Certificate";
+import sound from "../../../public/resources/floating_button_sound.mp3";
 
 type Props = {
   clickedCounts?: number[];
@@ -52,6 +53,10 @@ const FloatingButton = ({ clickedCounts }: Props) => {
     if (progress === 100) {
       setProgressClick(!progressClick);
     }
+  };
+
+  const buttonSound = () => {
+    new Audio(sound).play();
   };
 
   return (
@@ -114,7 +119,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
       )}
       <Tooltip
         title="Navigate to landing page"
-        placement="left"
+        placement="bottom"
         sx={{ zIndex: 3001 }}
       >
         <Stack
@@ -122,8 +127,9 @@ const FloatingButton = ({ clickedCounts }: Props) => {
           spacing={1}
           sx={{
             position: "fixed",
-            bottom: { xs: "250px", md: "500px" },
-            right: { xs: "15px", md: "30px" },
+            top: { xs: "10px", md: "20px" },
+            left: "45%",
+            transform: "translateX(-50%)",
             border: "none",
             borderRadius: "50px",
             cursor: "pointer",
@@ -137,6 +143,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
             location.pathname === "/" ? "bg-[#306d53]" : "bg-gray-200"
           } hover:bg-[#306d53] transition duration-300 ease-in-out`}
           onClick={() => {
+            buttonSound();
             handleClick;
             navigate("/");
           }}
@@ -155,7 +162,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
 
       <Tooltip
         title="Navigate to glossary page"
-        placement="left"
+        placement="bottom"
         sx={{ zIndex: 3001 }}
       >
         <Stack
@@ -163,8 +170,9 @@ const FloatingButton = ({ clickedCounts }: Props) => {
           spacing={1}
           sx={{
             position: "fixed",
-            bottom: { xs: "180px", md: "400px" },
-            right: { xs: "15px", md: "30px" },
+            top: { xs: "10px", md: "20px" },
+            left: "50%",
+            transform: "translateX(-50%)",
             border: "none",
             borderRadius: "50px",
             cursor: "pointer",
@@ -178,6 +186,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
             location.pathname === "/flipbook" ? "bg-[#306d53]" : "bg-gray-200"
           } hover:bg-[#306d53] transition duration-300 ease-in-out`}
           onClick={() => {
+            buttonSound();
             handleClick;
             navigate("/flipbook");
           }}
@@ -197,7 +206,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
       {/* FLOATING MAP BTN */}
       <Tooltip
         title="Navigate to map page"
-        placement="left"
+        placement="bottom"
         sx={{ zIndex: 3001 }}
       >
         <Stack
@@ -205,8 +214,9 @@ const FloatingButton = ({ clickedCounts }: Props) => {
           spacing={1}
           sx={{
             position: "fixed",
-            bottom: { xs: "110px", md: "300px" },
-            right: { xs: "15px", md: "30px" },
+            top: { xs: "10px", md: "20px" },
+            left: "55%",
+            transform: "translateX(-50%)",
             border: "none",
             borderRadius: "50px",
             cursor: "pointer",
@@ -218,6 +228,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
             location.pathname === "/maps" ? "bg-[#306d53]" : "bg-gray-200"
           } hover:bg-[#306d53] transition duration-300 ease-in-out`}
           onClick={() => {
+            buttonSound();
             handleClick;
             navigate("/maps");
           }}
