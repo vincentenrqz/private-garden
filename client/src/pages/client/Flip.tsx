@@ -233,7 +233,7 @@ function Flipbook() {
                 border: "1px solid rgba(0, 0, 0, 0.1)",
               }}
             >
-              <TransformWrapper>
+              <TransformWrapper disabled>
                 <Controls />
                 <TransformComponent>
                   <FlipBookWrapper
