@@ -7,10 +7,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import domtoimage from "dom-to-image-more";
 import Confetti from "react-confetti";
 import CloseIcon from "@mui/icons-material/Close";
+import sound from "../../../public/resources/confetti.mp3";
 
 // type Props = {
 //   openCertificate: boolean;
@@ -23,6 +24,14 @@ const Certificate = () => {
   const [hideCloseButton, setHideCloseButton] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+
+  function ConfettiSound() {
+    new Audio(sound).play();
+  }
+
+  useEffect(() => {
+    ConfettiSound();
+  }, []);
 
   const handleDownloadImage = () => {
     const input = certificateRef.current;
