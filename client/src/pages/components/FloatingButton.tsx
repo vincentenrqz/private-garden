@@ -117,7 +117,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
           sx={{
             position: "fixed",
             top: { xs: "10px", md: "20px" },
-            left: "45%",
+            left: { xs: "30%", md: "40%", lg: "42%" },
             transform: "translateX(-50%)",
             border: "none",
             borderRadius: "50px",
@@ -200,7 +200,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
           sx={{
             position: "fixed",
             top: { xs: "10px", md: "20px" },
-            left: "55%",
+            left: { xs: "70%", md: "60%", lg: "58%" },
             transform: "translateX(-50%)",
             border: "none",
             borderRadius: "50px",
