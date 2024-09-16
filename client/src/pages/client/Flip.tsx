@@ -289,7 +289,7 @@ function Flipbook() {
         <Button
           variant="contained"
           onClick={goToPreviousPage}
-          disabled={currentPage <= 2}
+          disabled={currentPage <= 1}
           sx={{
             backgroundColor: "#647c64 !important",
             "&:hover": {
