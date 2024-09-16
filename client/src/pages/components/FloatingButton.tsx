@@ -67,7 +67,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
             spacing={1}
             sx={{
               position: "fixed",
-              bottom: { xs: "180px", md: "600px" },
+              bottom: { xs: "300px", md: "600px" },
               right: { xs: "15px", md: "30px" },
               border: "none",
               borderRadius: "50px",
@@ -122,7 +122,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
           spacing={1}
           sx={{
             position: "fixed",
-            bottom: { xs: "180px", md: "500px" },
+            bottom: { xs: "230px", md: "500px" },
             right: { xs: "15px", md: "30px" },
             border: "none",
             borderRadius: "50px",
@@ -163,7 +163,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
           spacing={1}
           sx={{
             position: "fixed",
-            bottom: { xs: "110px", md: "400px" },
+            bottom: { xs: "160px", md: "400px" },
             right: { xs: "15px", md: "30px" },
             border: "none",
             borderRadius: "50px",
@@ -205,7 +205,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
           spacing={1}
           sx={{
             position: "fixed",
-            bottom: { xs: "40px", md: "300px" },
+            bottom: { xs: "90px", md: "300px" },
             right: { xs: "15px", md: "30px" },
             border: "none",
             borderRadius: "50px",
