@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Fade,
-  Grid,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 import { IoIosInformationCircle } from "react-icons/io";
 import { useScreenSize } from "../../context/MediaContext";
 import ReactPlayer from "react-player";

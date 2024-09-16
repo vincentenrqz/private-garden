@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   CircularProgress,
-  IconButton,
-  LinearProgress,
   Stack,
   Tooltip,
   Typography,
 } from "@mui/material";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
-import HomeIcon from "@mui/icons-material/Home";
 import { useLocation, useNavigate } from "react-router-dom";
+import Certificate from "./Certificate";
 
 type Props = {
   clickedCounts?: number[];
@@ -18,6 +15,7 @@ type Props = {
 
 const FloatingButton = ({ clickedCounts }: Props) => {
   const [progress, setProgress] = useState<number>(0);
+  const [progressClick, setProgressClick] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -50,6 +48,12 @@ const FloatingButton = ({ clickedCounts }: Props) => {
     getProgress();
   }, [clickedCounts]);
 
+  const handleProgressClick = () => {
+    if (progress === 100) {
+      setProgressClick(!progressClick);
+    }
+  };
+
   return (
     <React.Fragment>
       {location.pathname === "/maps" && (
@@ -75,6 +79,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
               zIndex: 3000,
             }}
             className="bg-gray-200"
+            onClick={progress === 100 ? handleProgressClick : undefined}
           >
             <Box position="relative" display="inline-flex">
               <CircularProgress
@@ -228,6 +233,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
           />
         </Stack>
       </Tooltip>
+      {progressClick && <Certificate />}
     </React.Fragment>
   );
 };

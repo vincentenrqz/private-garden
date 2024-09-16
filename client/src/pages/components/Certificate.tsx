@@ -53,7 +53,7 @@ const Certificate = () => {
   };
 
   return (
-    <Modal open={isModalOpen}>
+    <Modal open={isModalOpen} onClick={() => setModalOpen(false)}>
       <>
         <Card
           ref={certificateRef}
