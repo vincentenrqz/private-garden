@@ -205,13 +205,13 @@ function Flipbook() {
       }}
     >
       {/* Text above the FlipBook */}
-      <Typography
+      {/* <Typography
         variant="h3"
         component="h3"
         sx={{ fontWeight: "medium", mb: 4, color: "#647c64" }}
       >
         Glossary
-      </Typography>
+      </Typography> */}
 
       {/* FlipBook */}
       <BookLayer3>
