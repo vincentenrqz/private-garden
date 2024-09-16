@@ -1,5 +1,5 @@
 import { IconButton, Stack, Tooltip } from "@mui/material";
-import { filterDataByType } from "../../utils";
+import { ClickSound, filterDataByType } from "../../utils";
 import GrassIcon from "@mui/icons-material/Grass";
 import ParkIcon from "@mui/icons-material/Park";
 import FilterVintageIcon from "@mui/icons-material/FilterVintage";
@@ -21,6 +21,7 @@ export default function ButtonFilters({
 
   const filteredData = (types) => {
     setToggle(!toggle);
+    ClickSound();
 
     if (toggle) {
       const data = filterDataByType({ items: speciesData, id: types?._id });

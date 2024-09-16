@@ -1,4 +1,5 @@
 import { format, getYear, isToday, isYesterday, parseISO } from "date-fns";
+import sound from "../../public/resources/click_sound.mp3";
 
 export const handleFlexStyles = (
   screenSize: any
@@ -98,3 +99,7 @@ export const filterDataByName = ({ items, name }: any) => {
 export const filterSpeciesDataByType = ({ data, type }: any) => {
   return data?.filter((data) => data?._id === type);
 };
+
+export function ClickSound() {
+  new Audio(sound).play();
+}

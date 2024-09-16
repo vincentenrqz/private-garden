@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import Certificate from "./Certificate";
+import { ClickSound } from "../../utils";
 
 type Props = {
   clickedCounts?: number[];
@@ -19,16 +20,9 @@ const FloatingButton = ({ clickedCounts }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleClick = () => {
-    const currentPath = location.pathname;
-
-    if (currentPath === "/") {
-      navigate("/flipbook");
-    } else if (currentPath === "/flipbook") {
-      navigate("/");
-    } else if (currentPath === "/maps") {
-      navigate("/maps");
-    }
+  const handleClick = (path: string) => {
+    ClickSound();
+    navigate(path);
   };
 
   useEffect(() => {
@@ -137,8 +131,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
             location.pathname === "/" ? "bg-[#306d53]" : "bg-gray-200"
           } hover:bg-[#306d53] transition duration-300 ease-in-out`}
           onClick={() => {
-            handleClick;
-            navigate("/");
+            handleClick("/");
           }}
         >
           <img
@@ -178,8 +171,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
             location.pathname === "/flipbook" ? "bg-[#306d53]" : "bg-gray-200"
           } hover:bg-[#306d53] transition duration-300 ease-in-out`}
           onClick={() => {
-            handleClick;
-            navigate("/flipbook");
+            handleClick("/flipbook");
           }}
         >
           <img
@@ -218,8 +210,7 @@ const FloatingButton = ({ clickedCounts }: Props) => {
             location.pathname === "/maps" ? "bg-[#306d53]" : "bg-gray-200"
           } hover:bg-[#306d53] transition duration-300 ease-in-out`}
           onClick={() => {
-            handleClick;
-            navigate("/maps");
+            handleClick("/maps");
           }}
         >
           <img
