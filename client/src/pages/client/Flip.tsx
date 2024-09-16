@@ -238,7 +238,7 @@ function Flipbook() {
                     height={flipbookHeight}
                     showCover={true}
                     usePortrait={isXl}
-                    startPage={1}
+                    startPage={0}
                     className="flipbook"
                     style={{ overflow: "hidden" }}
                     size="fixed"
