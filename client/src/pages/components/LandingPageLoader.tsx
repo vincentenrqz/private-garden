@@ -82,7 +82,7 @@ export default function LandingPageLoader() {
               },
             }}
           >
-            Get Started
+            Start your Journey
           </Button>
         )}
       </Box>
