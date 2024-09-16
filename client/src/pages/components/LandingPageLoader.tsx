@@ -5,6 +5,7 @@ export default function LandingPageLoader() {
     <Box
       sx={{
         display: "flex",
+        flexDirection: "column", // Stack elements vertically
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
@@ -17,6 +18,9 @@ export default function LandingPageLoader() {
         sx={{
           maxWidth: "sm",
           marginX: "auto",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <img
@@ -25,8 +29,7 @@ export default function LandingPageLoader() {
           style={{
             width: "100%",
             height: "auto",
-            maxHeight: "100vh",
-
+            maxHeight: "90vh",
             objectFit: "cover",
           }}
         />
@@ -34,19 +37,13 @@ export default function LandingPageLoader() {
 
       <Box
         sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          marginTop: 2,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          zIndex: 1,
         }}
       >
-        <CircularProgress size={100} sx={{ color: "white" }} />
+        <CircularProgress size={50} sx={{ color: "#647c64" }} />
       </Box>
     </Box>
   );
