@@ -48,10 +48,6 @@ const FloatingButton = ({ clickedCounts }: Props) => {
     }
   };
 
-  const buttonSound = () => {
-    new Audio(sound).play();
-  };
-
   return (
     <React.Fragment>
       {location.pathname === "/maps" && (
