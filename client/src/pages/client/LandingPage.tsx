@@ -186,6 +186,39 @@ function LandingPage() {
                   width: flexBoxes ? "50%" : "100%",
                   padding: 2,
                   boxSizing: "border-box",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "relative",
+                    maxWidth: "sm",
+                    width: "100%",
+                  }}
+                >
+                  <img
+                    src={"/resources/cover-explore.jpg"}
+                    alt="Welcome Image"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      maxHeight: height,
+                      objectFit: "cover",
+                    }}
+                  />
+                </Box>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                md={12}
+                lg={6}
+                sx={{
+                  width: flexBoxes ? "50%" : "100%",
+                  padding: 2,
+                  boxSizing: "border-box",
                 }}
               >
                 <img
@@ -237,39 +270,6 @@ function LandingPage() {
                   to inspire curiosity and exploration, carefully curated to
                   offer fresh perspectives and spark new insights.
                 </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={12}
-                lg={6}
-                sx={{
-                  width: flexBoxes ? "50%" : "100%",
-                  padding: 2,
-                  boxSizing: "border-box",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Box
-                  sx={{
-                    position: "relative",
-                    maxWidth: "sm",
-                    width: "100%",
-                  }}
-                >
-                  <img
-                    src={"/resources/cover-explore.jpg"}
-                    alt="Welcome Image"
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      maxHeight: height,
-                      objectFit: "cover",
-                    }}
-                  />
-                </Box>
               </Grid>
             </Grid>
           </Box>
