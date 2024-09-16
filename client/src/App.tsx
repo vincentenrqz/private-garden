@@ -9,12 +9,13 @@ import AdminMap from "./pages/admin/page/Map/Map";
 import Types from "./pages/admin/page/Types/types";
 import { ThemeProvider, createTheme, useMediaQuery } from "@mui/material";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import PageEffect from "./pages/components/PageEffect";
 import LandingPage from "./pages/client/LandingPage";
-import Flip from "./pages/client/Flip";
 import { useFetchData } from "./utils/queries";
 import LandingPageLoader from "./pages/components/LandingPageLoader";
+
+const Flipbook = lazy(() => import("../src/pages/client/Flip"));
 
 const theme = createTheme({
   typography: {
@@ -83,7 +84,7 @@ const App = () => {
                 path="/flipbook"
                 element={
                   <motion.div {...pageTransition}>
-                    {loading ? <LandingPageLoader /> : <Flip />}
+                    {loading ? <LandingPageLoader /> : <Flipbook />}
                   </motion.div>
                 }
               />

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { Document, Page, pdfjs } from "react-pdf";
-import pdf from "./explore_with_me.pdf";
+import pdf from "./explore_with_me2.pdf";
 import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import FloatingButton from "../components/FloatingButton";
 
@@ -16,7 +16,8 @@ import {
   useControls,
 } from "react-zoom-pan-pinch";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface FlipBookProps {
   width: number;
