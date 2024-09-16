@@ -232,10 +232,14 @@ const Map = () => {
             <Divider />
             <Box
               display="flex"
+              flexDirection={{ xs: "column", sm: "row" }}
               justifyContent="space-between"
               paddingBottom={10}
+              sx={{
+                gap: { xs: 2, sm: 4 },
+              }}
             >
-              <Stack direction="column">
+              <Stack direction={{ xs: "row", sm: "column" }}>
                 {typesData?.map((type) => (
                   <ButtonFilters
                     key={type?._id}
