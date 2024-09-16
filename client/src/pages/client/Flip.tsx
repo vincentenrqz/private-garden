@@ -1,8 +1,7 @@
 import React, { useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { Document, Page, pdfjs } from "react-pdf";
-// import pdf from "./explore_with_me.pdf";
-import pdf from "./explore_with_me2.pdf";
+import pdf from "./explore_with_me.pdf";
 import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import FloatingButton from "../components/FloatingButton";
 
