@@ -468,7 +468,7 @@ const CustomDrawer = ({
                   >
                     {data?.description}
                   </Typography>
-                  {data?.video ? (
+                  {data?.video && (
                     <Box sx={{ padding: 2 }}>
                       <ReactPlayer
                         url={data?.video}
@@ -476,21 +476,6 @@ const CustomDrawer = ({
                         width="auto"
                         height={300}
                       />
-                    </Box>
-                  ) : (
-                    <Box
-                      sx={{
-                        width: "100%",
-                        height: 300,
-                        backgroundColor: "#e0e0e0",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Typography variant="body1" color="textSecondary">
-                        No video available
-                      </Typography>
                     </Box>
                   )}
 
