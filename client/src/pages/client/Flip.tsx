@@ -230,7 +230,7 @@ function Flipbook() {
                 border: "1px solid rgba(0, 0, 0, 0.1)",
               }}
             >
-              <TransformWrapper disabled>
+              <TransformWrapper>
                 <Controls />
                 <TransformComponent>
                   <FlipBookWrapper
@@ -253,10 +253,10 @@ function Flipbook() {
                     maxShadowOpacity={0.5}
                     mobileScrollSupport={true}
                     clickEventForward={true}
-                    useMouseEvents={true}
+                    useMouseEvents={false}
                     swipeDistance={50}
                     showPageCorners={true}
-                    disableFlipByClick={false}
+                    disableFlipByClick={true}
                     ref={flipbookRef}
                     onFlip={(e: any) => onFlipPage(e.data)}
                     renderOnlyPageLengthChange={true}
