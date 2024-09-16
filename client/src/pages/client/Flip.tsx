@@ -137,7 +137,7 @@ Pages.displayName = "Pages";
 
 function Flipbook() {
   const [numPages] = useState<number>(images?.length ?? 0);
-  const [currentPage, setCurrentPage] = useState<number>(2);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const flipbookRef = useRef<any>(null);
   const imageSrc = images;
 
