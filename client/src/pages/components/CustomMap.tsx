@@ -5,8 +5,8 @@ import L, { LatLngBoundsExpression } from "leaflet";
 import { useScreenSize } from "../../context/MediaContext";
 import { handleMapSize } from "../../utils";
 import { useFetchData } from "../../utils/queries";
+import { ClickSound } from "../../utils";
 
-import sound from "../../../public/resources/click_sound.mp3";
 import Certificate from "./Certificate";
 import { Box } from "@mui/material";
 
@@ -108,10 +108,6 @@ const CustomMap = ({
     0
   );
 
-  function playSound() {
-    new Audio(sound).play();
-  }
-
   const renderMarkers = (data) =>
     data?.map((marker: any, index: number) => {
       const { _id, species, position } = marker;
@@ -135,7 +131,7 @@ const CustomMap = ({
                   setClickCounts(newClickCounts);
                 }
                 setData(marker?.species);
-                playSound();
+                ClickSound();
                 toggleDrawer(true);
               }
             },

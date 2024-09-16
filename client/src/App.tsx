@@ -49,6 +49,7 @@ const App = () => {
   };
 
   const mobile = useMediaQuery("(max-width:900px)");
+  const redirected = localStorage.getItem("redirect") === "true";
 
   return (
     <ThemeProvider theme={theme}>
@@ -68,7 +69,13 @@ const App = () => {
                 path="/"
                 element={
                   <motion.div {...pageTransition}>
-                    {loading ? <LandingPageLoader /> : <LandingPage />}
+                    {loading ? (
+                      <LandingPageLoader />
+                    ) : redirected ? (
+                      <LandingPage />
+                    ) : (
+                      <LandingPageLoader />
+                    )}
                   </motion.div>
                 }
               />

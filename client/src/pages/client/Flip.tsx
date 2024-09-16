@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
-import { Document, Page, pdfjs } from "react-pdf";
-import pdf from "./explore_with_me2.pdf";
+import { pdfjs } from "react-pdf";
 import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import FloatingButton from "../components/FloatingButton";
 
@@ -17,6 +16,8 @@ import {
 } from "react-zoom-pan-pinch";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+
+import images from "../../utils/imageImports";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -135,9 +136,10 @@ const Pages = React.forwardRef((props: any, ref: any) => {
 Pages.displayName = "Pages";
 
 function Flipbook() {
-  const [numPages, setNumPages] = useState<number>();
-  const [currentPage, setCurrentPage] = useState<number>(2);
+  const [numPages] = useState<number>(images?.length ?? 0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const flipbookRef = useRef<any>(null);
+  const imageSrc = images;
 
   // Responsive breakpoints
   const isXs = useMediaQuery("(max-width: 480px)");
@@ -145,10 +147,6 @@ function Flipbook() {
   const isMd = useMediaQuery("(max-width: 1024px)");
   const isLg = useMediaQuery("(min-width: 1025px)");
   const isXl = useMediaQuery("(max-width: 1200px)");
-
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
-    setNumPages(numPages);
-  }
 
   // Go to the previous page
   const goToPreviousPage = () => {
@@ -207,16 +205,15 @@ function Flipbook() {
       }}
     >
       {/* Text above the FlipBook */}
-      <Typography
+      {/* <Typography
         variant="h3"
         component="h3"
         sx={{ fontWeight: "medium", mb: 4, color: "#647c64" }}
       >
         Glossary
-      </Typography>
+      </Typography> */}
 
       {/* FlipBook */}
-
       <BookLayer3>
         <BookLayer2>
           <BookLayer1>
@@ -241,7 +238,7 @@ function Flipbook() {
                     height={flipbookHeight}
                     showCover={true}
                     usePortrait={isXl}
-                    startPage={1}
+                    startPage={0}
                     className="flipbook"
                     style={{ overflow: "hidden" }}
                     size="fixed"
@@ -256,27 +253,21 @@ function Flipbook() {
                     maxShadowOpacity={0.5}
                     mobileScrollSupport={true}
                     clickEventForward={true}
-                    useMouseEvents={true}
+                    useMouseEvents={false}
                     swipeDistance={50}
                     showPageCorners={true}
-                    disableFlipByClick={false}
+                    disableFlipByClick={true}
                     ref={flipbookRef}
                     onFlip={(e: any) => onFlipPage(e.data)}
                     renderOnlyPageLengthChange={true}
                   >
-                    {[...Array(numPages).keys()].map((pNum) => (
-                      <Pages key={pNum} number={pNum + 1}>
-                        <Document
-                          file={pdf}
-                          onLoadSuccess={onDocumentLoadSuccess}
-                        >
-                          <Page
-                            pageNumber={pNum + 1}
-                            width={flipbookWidth}
-                            renderAnnotationLayer={false}
-                            renderTextLayer={false}
-                          />
-                        </Document>
+                    {imageSrc?.map((image, index) => (
+                      <Pages number={index}>
+                        <img
+                          key={index}
+                          src={image}
+                          alt={`Flipbook-image-${index}`}
+                        />
                       </Pages>
                     ))}
                   </FlipBookWrapper>
@@ -298,7 +289,7 @@ function Flipbook() {
         <Button
           variant="contained"
           onClick={goToPreviousPage}
-          disabled={currentPage <= 2}
+          disabled={currentPage <= 1}
           sx={{
             backgroundColor: "#647c64 !important",
             "&:hover": {

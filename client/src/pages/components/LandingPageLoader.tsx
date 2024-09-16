@@ -1,10 +1,37 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
+import { useFetchData } from "../../utils/queries";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { ClickSound } from "../../utils";
 
 export default function LandingPageLoader() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { loading } = useFetchData();
+  const [redirect, setRedirect] = useState(() => {
+    return localStorage.getItem("redirect") === "true";
+  });
+
+  useEffect(() => {
+    if (redirect) {
+      navigate("/");
+    }
+  }, [redirect, navigate]);
+
+  const showButton = !loading && location.pathname === "/";
+  const showLoader = loading;
+
+  const handleGetStartedClick = () => {
+    ClickSound();
+    setRedirect(true);
+    localStorage.setItem("redirect", "true");
+  };
+
   return (
     <Box
       sx={{
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
@@ -17,6 +44,9 @@ export default function LandingPageLoader() {
         sx={{
           maxWidth: "sm",
           marginX: "auto",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <img
@@ -25,8 +55,7 @@ export default function LandingPageLoader() {
           style={{
             width: "100%",
             height: "auto",
-            maxHeight: "100vh",
-
+            maxHeight: "90vh",
             objectFit: "cover",
           }}
         />
@@ -34,19 +63,28 @@ export default function LandingPageLoader() {
 
       <Box
         sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          marginTop: 2,
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          zIndex: 1,
         }}
       >
-        <CircularProgress size={100} sx={{ color: "white" }} />
+        {showLoader && <CircularProgress size={50} sx={{ color: "#647c64" }} />}
+        {showButton && (
+          <Button
+            variant="contained"
+            onClick={handleGetStartedClick}
+            sx={{
+              backgroundColor: "#647c64 !important",
+              "&:hover": {
+                backgroundColor: "#647c64 !important",
+              },
+            }}
+          >
+            Start your Journey
+          </Button>
+        )}
       </Box>
     </Box>
   );

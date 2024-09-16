@@ -144,7 +144,7 @@ const MapPage = () => {
           : "min-w-full min-h-screen flex justify-center items-center"
       }`}
     >
-      <Typography
+      {/* <Typography
         variant="h3"
         color="white"
         sx={{
@@ -152,7 +152,7 @@ const MapPage = () => {
         }}
       >
         Explore with me
-      </Typography>
+      </Typography> */}
       <div className={`flex ${flexStyle?.parent} `}>
         <Box>
           <div className="flex flex-row items-end">
