@@ -166,7 +166,7 @@ const CustomMap = ({
 
   return (
     <>
-      <Box sx={{ backgroundColor: "white" }}>asdasd</Box>
+      {/* <Box sx={{ backgroundColor: "white" }}>asdasd</Box> */}
       <Box
         sx={{
           marginTop: "4rem",

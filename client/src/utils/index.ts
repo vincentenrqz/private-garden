@@ -42,7 +42,7 @@ export const handleMapSize = (
     case "lg":
       return { height: "90vh", width: "73vw", containerHeight: "92vh" };
     case "xl":
-      return { height: "70vh", width: "52vw", containerHeight: "72vh" };
+      return { height: "80vh", width: "52vw", containerHeight: "82vh" };
   }
 };
 
