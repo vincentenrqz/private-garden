@@ -1,7 +1,16 @@
-import { Box, Button, Card, Modal, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  IconButton,
+  Modal,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useRef, useState } from "react";
 import domtoimage from "dom-to-image-more";
 import Confetti from "react-confetti";
+import CloseIcon from "@mui/icons-material/Close";
 
 // type Props = {
 //   openCertificate: boolean;
@@ -11,6 +20,7 @@ import Confetti from "react-confetti";
 const Certificate = () => {
   const [isModalOpen, setModalOpen] = useState(true);
   const certificateRef = useRef(null);
+  const [hideCloseButton, setHideCloseButton] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
@@ -34,6 +44,7 @@ const Certificate = () => {
       },
       quality: 1,
     };
+    setHideCloseButton(true);
 
     domtoimage
       .toPng(input, options)
@@ -53,7 +64,7 @@ const Certificate = () => {
   };
 
   return (
-    <Modal open={isModalOpen} onClick={() => setModalOpen(false)}>
+    <Modal open={isModalOpen}>
       <>
         <Card
           ref={certificateRef}
@@ -75,6 +86,20 @@ const Certificate = () => {
             border: "none",
           }}
         >
+          {hideCloseButton ? null : (
+            <IconButton
+              onClick={() => setModalOpen(false)}
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                color: "text.primary",
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          )}
+
           <Box
             display="flex"
             justifyContent="center"
