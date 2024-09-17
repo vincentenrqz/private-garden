@@ -79,7 +79,7 @@ export default function ButtonFilters({
             margin: 3,
             boxShadow: "0 3px 6px rgba(0,0,0,0.16)",
             transition: "background-color 0.3s ease, transform 0.2s ease",
-            background: "gray",
+            background: "#647c64",
           }}
           onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
           onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1.0)")}
