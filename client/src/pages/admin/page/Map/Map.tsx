@@ -242,6 +242,7 @@ const Map = () => {
               <Stack direction={{ xs: "row", sm: "column" }}>
                 {typesData?.map((type) => (
                   <ButtonFilters
+                    admin={true}
                     key={type?._id}
                     typeData={type}
                     speciesData={speciesData}

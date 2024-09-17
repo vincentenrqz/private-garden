@@ -12,6 +12,7 @@ import Climbers from "../../../public/resources/climbers.png";
 import GroundCover from "../../../public/resources/ground-cover.png";
 
 export default function ButtonFilters({
+  admin,
   typeData,
   speciesData,
   buttonFilters,
@@ -35,7 +36,7 @@ export default function ButtonFilters({
   };
 
   const iconStyle = {
-    width: "100%",
+    width: admin ? "50%" : "100%",
     height: "auto",
   };
 

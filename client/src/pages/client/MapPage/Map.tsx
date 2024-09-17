@@ -228,6 +228,7 @@ const MapPage = () => {
               >
                 {typesData?.map((type) => (
                   <ButtonFilters
+                    admin={false}
                     key={type?._id}
                     typeData={type}
                     speciesData={speciesData}
