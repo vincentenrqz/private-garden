@@ -1,13 +1,15 @@
 import { IconButton, Stack, Tooltip } from "@mui/material";
 import { ClickSound, filterDataByType } from "../../utils";
-import GrassIcon from "@mui/icons-material/Grass";
-import ParkIcon from "@mui/icons-material/Park";
-import FilterVintageIcon from "@mui/icons-material/FilterVintage";
-import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
-import SpaIcon from "@mui/icons-material/Spa";
 import { useScreenSize } from "../../context/MediaContext";
 import { useState } from "react";
-import treesIcon from "./resources/trees.png";
+
+// Import images from the resources folder
+import Trees from "../../../public/resources/trees.png";
+import Shrubs from "../../../public/resources/shrubs.png";
+import Palms from "../../../public/resources/palms.png";
+import Grasses from "../../../public/resources/grasses.png";
+import Climbers from "../../../public/resources/climbers.png";
+import GroundCover from "../../../public/resources/ground-cover.png";
 
 export default function ButtonFilters({
   typeData,
@@ -32,37 +34,27 @@ export default function ButtonFilters({
     }
   };
 
-  const buttonStyle = {
-    backgroundColor:
-      typeData.name === "Trees"
-        ? "green"
-        : typeData.name === "Shrubs"
-        ? "blue"
-        : typeData.name === "Climbers"
-        ? "red"
-        : typeData.name === "Creepers"
-        ? "purple"
-        : typeData.name === "Herbs"
-        ? "orange"
-        : "gray",
-    color: "white",
-    borderRadius: 0,
+  const iconStyle = {
+    width: "100%",
+    height: "auto",
   };
 
   const handleDataIcon = () => {
     switch (typeData.name) {
       case "Trees":
-        return <ParkIcon />;
+        return <img src={Trees} alt="Trees" style={iconStyle} />;
       case "Shrubs":
-        return <SpaIcon />;
+        return <img src={Shrubs} alt="Shrubs" style={iconStyle} />;
+      case "Palms":
+        return <img src={Palms} alt="Palms" style={iconStyle} />;
+      case "Grasses Bamboos and Ferns":
+        return <img src={Grasses} alt="Grasses" style={iconStyle} />;
       case "Climbers":
-        return <LocalFloristIcon />;
-      case "Creepers":
-        return <FilterVintageIcon />;
-      case "Herbs":
-        return <GrassIcon />;
+        return <img src={Climbers} alt="Climbers" style={iconStyle} />;
+      case "Ground Cover":
+        return <img src={GroundCover} alt="Ground Cover" style={iconStyle} />;
       default:
-        return <ParkIcon />;
+        return <img src={Trees} alt="Default" style={iconStyle} />;
     }
   };
 
@@ -77,7 +69,20 @@ export default function ButtonFilters({
         }
         arrow
       >
-        <IconButton onClick={() => filteredData(typeData)} style={buttonStyle}>
+        <IconButton
+          onClick={() => filteredData(typeData)}
+          style={{
+            minWidth: 40,
+            minHeight: 40,
+            borderRadius: "12px",
+            margin: 3,
+            boxShadow: "0 3px 6px rgba(0,0,0,0.16)",
+            transition: "background-color 0.3s ease, transform 0.2s ease",
+            background: "gray",
+          }}
+          onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+          onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1.0)")}
+        >
           {handleDataIcon()}
         </IconButton>
       </Tooltip>

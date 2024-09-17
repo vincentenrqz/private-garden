@@ -168,7 +168,7 @@ const CustomMap = ({
     <>
       <Box
         sx={{
-          marginTop: "4rem",
+          marginTop: "4.5rem",
           paddingTop: "8px",
           paddingBottom: "8px",
           paddingLeft: "16px",
