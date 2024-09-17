@@ -247,7 +247,7 @@ function LandingPage() {
               width: screenType === "xl" || screenType === "lg" ? "50%" : "90%",
               height: "75%",
               zIndex: 1,
-              backgroundColor: "white",
+              // backgroundColor: "white",
               position: "relative",
             }}
           >
@@ -270,6 +270,7 @@ function LandingPage() {
                   margin: textMargin,
                   boxSizing: "border-box",
                   position: "relative",
+                  background: "white",
                 }}
               >
                 <Box
