@@ -310,65 +310,12 @@ function LandingPage() {
                   component="p"
                 >
                   Step into my vibrant garden, where technology and creativity
-                  bloom together.
-                </Typography>
-
-                <Typography
-                  variant={infoVariation}
-                  sx={{
-                    color: "#647c64",
-                    my: 2,
-                    textAlign: "justify",
-                    fontSize: { xs: "14px", sm: "16px", md: "20px" }, // Responsive font size
-                    wordBreak: "break-word",
-                  }}
-                  component="p"
-                >
-                  Explore a diverse array of trees, shrubs, flowers, and more.
-                  Stunning photos and videos will entertain and delight you.
-                </Typography>
-
-                <Typography
-                  variant={infoVariation}
-                  sx={{
-                    color: "#647c64",
-                    textAlign: "justify",
-                    fontSize: { xs: "14px", sm: "16px", md: "20px" }, // Responsive font size
-                    wordBreak: "break-word",
-                  }}
-                  component="p"
-                >
-                  As you browse, click on icons to discover fascinating trivia
-                  and backstories for each species.
-                </Typography>
-
-                <Typography
-                  variant={infoVariation}
-                  sx={{
-                    color: "#647c64",
-                    my: 2,
-                    textAlign: "justify",
-                    fontSize: { xs: "14px", sm: "16px", md: "20px" }, // Responsive font size
-                    wordBreak: "break-word",
-                  }}
-                  component="p"
-                >
-                  Just like a physical garden, this digital space invites
-                  curiosity and exploration, offering fresh perspectives and new
-                  insights.
-                </Typography>
-
-                <Typography
-                  variant={infoVariation}
-                  sx={{
-                    color: "#647c64",
-                    my: 2,
-                    textAlign: "justify",
-                    fontSize: { xs: "14px", sm: "16px", md: "20px" }, // Responsive font size
-                    wordBreak: "break-word",
-                  }}
-                  component="p"
-                >
+                  bloom together. Explore a diverse array of trees, shrubs,
+                  flowers, and more. Stunning photos and videos will entertain
+                  and delight you. As you browse, click on icons to discover
+                  fascinating trivia and backstories for each species. Just like
+                  a physical garden, this digital space invites curiosity and
+                  exploration, offering fresh perspectives and new insights.
                   Click the book icon to learn about featured species, and the
                   earth icon to navigate the garden.
                 </Typography>
