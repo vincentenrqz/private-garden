@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import { IoIosInformationCircle } from "react-icons/io";
 import { useScreenSize } from "../../context/MediaContext";
 import ReactPlayer from "react-player";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { typesService } from "../../services/types.service";
+
 interface Props {
   data: any;
   paperRef: React.RefObject<HTMLDivElement>;
@@ -160,24 +161,59 @@ const CustomDrawer = ({
         }}
       >
         {screenType !== "xs" && screenType !== "sm" && (
-          <Box
-            onClick={() => toggleInfo()}
-            sx={{
-              position: "absolute",
-              top: screenType === "xs" || screenType === "sm" ? 10 : 20,
-              right:
-                screenType === "xs" || screenType === "sm" ? "10px" : "-50px",
-              width: 50,
-              backgroundColor: "rgba(237,233,146,255)",
-              display: "flex",
-              alignItems: "center",
-              padding: 1,
-              ...informationStyle,
-              zIndex: 2000,
-            }}
-          >
-            <IoIosInformationCircle color="#2196f3" size="40px" />
-          </Box>
+          <>
+            {Object.keys(data).length > 0 && (
+              <Button
+                onClick={() => toggleInfo()}
+                sx={{
+                  position: "absolute",
+                  top: screenType === "xs" || screenType === "sm" ? 10 : -20,
+                  right:
+                    screenType === "xs" || screenType === "sm"
+                      ? "10px"
+                      : "-20px",
+                  width: 50,
+                  padding: 1,
+                  zIndex: 2000,
+                  backgroundColor: "transparent",
+                  "&:hover": {
+                    backgroundColor: "transparent",
+                  },
+                  "&:focusVisible": {
+                    backgroundColor: "transparent",
+                  },
+                  "&:active": {
+                    backgroundColor: "transparent",
+                  },
+                }}
+              >
+                <img
+                  src="/resources/remove.png"
+                  alt=""
+                  height={40}
+                  width={40}
+                />
+              </Button>
+            )}
+            <Box
+              onClick={() => toggleInfo()}
+              sx={{
+                position: "absolute",
+                top: screenType === "xs" || screenType === "sm" ? 10 : 30,
+                right:
+                  screenType === "xs" || screenType === "sm" ? "10px" : "-50px",
+                width: 50,
+                backgroundColor: "rgba(237,233,146,255)",
+                display: "flex",
+                alignItems: "center",
+                padding: 1,
+                ...informationStyle,
+                zIndex: 2000,
+              }}
+            >
+              <IoIosInformationCircle color="#2196f3" size="40px" />
+            </Box>
+          </>
         )}
 
         {Object.keys(data).length !== 0 && (
@@ -335,7 +371,7 @@ const CustomDrawer = ({
                         <div className="flex">
                           <div className="bg-[#647c64] w-12 flex-shrink-0"></div>
 
-                          <div className="flex flex-col justify-start pl-4">
+                          <div className="flex flex-col justify-start pl-4 pr-4">
                             <div className="mb-4">
                               <Typography
                                 variant="h6"
@@ -451,7 +487,8 @@ const CustomDrawer = ({
                   <Typography
                     variant="body1"
                     sx={{
-                      paddingX: 2,
+                      paddingLeft: 2,
+                      paddingRight: 4,
                       textAlign: "justify",
                       marginBottom: 2,
                       marginTop:
@@ -480,7 +517,7 @@ const CustomDrawer = ({
                             sx={{
                               position: "relative",
                               zIndex: 10,
-                              paddingX: 2,
+                              paddingX: 4,
                             }}
                           >
                             <Typography

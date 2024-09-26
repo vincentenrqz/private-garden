@@ -3,6 +3,7 @@ import "leaflet/dist/leaflet.css";
 import {
   Box,
   CircularProgress,
+  IconButton,
   Stack,
   Tooltip,
   Typography,
@@ -10,11 +11,16 @@ import {
 import ButtonFilters from "../../components/ButtonFilters";
 import CustomDrawer from "../../components/CustomDrawer";
 import { useScreenSize } from "../../../context/MediaContext";
-import { handleFlexStyles, handleMapSize } from "../../../utils";
+import {
+  filterDataByType,
+  handleFlexStyles,
+  handleMapSize,
+} from "../../../utils";
 import CustomMap from "../../components/CustomMap";
 import FloatingButton from "../../components/FloatingButton";
 import { useFetchData } from "../../../utils/queries";
 import Certificate from "../../components/Certificate";
+import { CiVideoOn } from "react-icons/ci";
 
 const MapPage = () => {
   const paperRef = useRef<HTMLDivElement>(null);
@@ -30,6 +36,7 @@ const MapPage = () => {
   const [clickCounts, setClickCounts] = useState([]);
   const [progress, setProgress] = useState<number>(0);
   const [progressClick, setProgressClick] = useState<boolean>(false);
+  const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (e: any) => {
@@ -107,6 +114,7 @@ const MapPage = () => {
 
   const toggleInfo = () => {
     setOpen(true);
+    setData({});
     if (paperRef.current) {
       switch (screenSize?.screenSize) {
         case "xs":
@@ -118,7 +126,7 @@ const MapPage = () => {
         case "lg":
           return (paperRef.current.style.left = "-22%");
         case "xl":
-          return (paperRef.current.style.left = "-17%");
+          return (paperRef.current.style.left = "-10%");
         default:
           return (paperRef.current.style.left = "-15%");
       }
@@ -160,6 +168,19 @@ const MapPage = () => {
   const handleProgressClick = () => {
     if (progress === 100) {
       setProgressClick(!progressClick);
+    }
+  };
+
+  const handleVideoFilter = () => {
+    setToggle(!toggle);
+    const filterWithVideo = speciesData.filter(
+      (item) => item.video && item.video.trim() !== ""
+    );
+
+    if (toggle) {
+      setButtonFilters(filterWithVideo);
+    } else {
+      setButtonFilters(null);
     }
   };
 
@@ -226,6 +247,39 @@ const MapPage = () => {
                   marginTop: 3,
                 }}
               >
+                <Tooltip
+                  title={`Filter species with video`}
+                  placement={
+                    screenSize?.screenSize === "xs" ||
+                    screenSize?.screenSize === "sm" ||
+                    screenSize?.screenSize === "md"
+                      ? "bottom"
+                      : "right"
+                  }
+                  arrow
+                >
+                  <IconButton
+                    onClick={handleVideoFilter}
+                    style={{
+                      minWidth: 40,
+                      minHeight: 40,
+                      borderRadius: "12px",
+                      margin: 3,
+                      boxShadow: "0 3px 6px rgba(0,0,0,0.16)",
+                      transition:
+                        "background-color 0.3s ease, transform 0.2s ease",
+                      background: "#647c64",
+                    }}
+                    onMouseOver={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.1)")
+                    }
+                    onMouseOut={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.0)")
+                    }
+                  >
+                    <CiVideoOn color="white" size={20} />
+                  </IconButton>
+                </Tooltip>
                 {typesData?.map((type) => (
                   <ButtonFilters
                     admin={false}
