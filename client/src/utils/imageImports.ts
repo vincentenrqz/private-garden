@@ -6,5 +6,5 @@ const generateImagePaths = (count: number) => {
   );
 };
 
-const imagePaths = generateImagePaths(101);
+const imagePaths = generateImagePaths(107);
 export default imagePaths;
