@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { pdfjs } from "react-pdf";
 import { Box, Button, Typography, useMediaQuery } from "@mui/material";
@@ -138,8 +138,30 @@ Pages.displayName = "Pages";
 function Flipbook() {
   const [numPages] = useState<number>(images?.length ?? 0);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [usePortrait, setUsePortrait] = useState<boolean>(true);
   const flipbookRef = useRef<any>(null);
   const imageSrc = images;
+
+  useEffect(() => {
+    const isPortraitPage = currentPage === 1 || currentPage === numPages;
+    setUsePortrait(isPortraitPage);
+  }, [currentPage, numPages]);
+
+  useEffect(() => {
+    const flipPage = () => {
+      if (flipbookRef.current) {
+        const pageFlip = flipbookRef.current.pageFlip();
+        if (pageFlip) {
+          pageFlip.flipNext();
+          setCurrentPage((prev) => prev + 1);
+        }
+      }
+    };
+
+    if (!usePortrait && currentPage < numPages) {
+      flipPage();
+    }
+  }, [usePortrait]);
 
   // Responsive breakpoints
   const isXs = useMediaQuery("(max-width: 480px)");
@@ -165,7 +187,11 @@ function Flipbook() {
   };
 
   const onFlipPage = (pageIndex: number) => {
-    setCurrentPage(pageIndex + 2);
+    if (numPages - 1) {
+      setCurrentPage(pageIndex + 1);
+    } else {
+      setCurrentPage(pageIndex + 2);
+    }
   };
 
   // Determine the size of the flipbook based on screen size
@@ -234,11 +260,12 @@ function Flipbook() {
                 <Controls />
                 <TransformComponent>
                   <FlipBookWrapper
+                    key={`flipbook-${usePortrait}`}
                     width={flipbookWidth}
                     height={flipbookHeight}
                     showCover={true}
-                    usePortrait={isXl}
-                    startPage={0}
+                    usePortrait={usePortrait || isXl}
+                    startPage={currentPage - 1}
                     className="flipbook"
                     style={{ overflow: "hidden" }}
                     size="fixed"
