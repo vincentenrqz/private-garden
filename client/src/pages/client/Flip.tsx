@@ -143,10 +143,13 @@ function Flipbook() {
   const imageSrc = images;
 
   useEffect(() => {
-    const isPortraitPage = currentPage === 1 || currentPage === numPages;
-    setUsePortrait(isPortraitPage);
-  }, [currentPage, numPages]);
+    const timer = setTimeout(() => {
+      const isPortraitPage = currentPage === 1 || currentPage === numPages;
+      setUsePortrait(isPortraitPage);
+    }, 700);
 
+    return () => clearTimeout(timer);
+  }, [currentPage, numPages]);
   useEffect(() => {
     const flipPage = () => {
       if (flipbookRef.current) {
