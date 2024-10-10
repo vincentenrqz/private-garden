@@ -11,12 +11,7 @@ import React, { useEffect, useRef, useState } from "react";
 import domtoimage from "dom-to-image-more";
 import Confetti from "react-confetti";
 import CloseIcon from "@mui/icons-material/Close";
-import sound from "../../../public/resources/confetti.mp3";
-
-// type Props = {
-//   openCertificate: boolean;
-//   setOpenCertificate: React.Dispatch<React.SetStateAction<boolean>>;
-// };
+import sound from "../../../public/resources/AG-privategarden-thankYou-01.wav";
 
 const Certificate = () => {
   const [isModalOpen, setModalOpen] = useState(true);
@@ -24,14 +19,27 @@ const Certificate = () => {
   const [hideCloseButton, setHideCloseButton] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   function ConfettiSound() {
-    new Audio(sound).play();
+    if (!audioRef.current) {
+      audioRef.current = new Audio(sound);
+    }
+    audioRef.current.play();
   }
 
   useEffect(() => {
     ConfettiSound();
   }, []);
+
+  const closeCertificate = () => {
+    setModalOpen(false);
+
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  };
 
   const handleDownloadImage = () => {
     const input = certificateRef.current;
@@ -70,6 +78,11 @@ const Certificate = () => {
       });
 
     localStorage.removeItem("clickCounts");
+
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
   };
 
   return (
@@ -97,7 +110,7 @@ const Certificate = () => {
         >
           {hideCloseButton ? null : (
             <IconButton
-              onClick={() => setModalOpen(false)}
+              onClick={closeCertificate}
               sx={{
                 position: "absolute",
                 top: 8,

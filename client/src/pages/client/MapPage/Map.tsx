@@ -11,15 +11,10 @@ import {
 import ButtonFilters from "../../components/ButtonFilters";
 import CustomDrawer from "../../components/CustomDrawer";
 import { useScreenSize } from "../../../context/MediaContext";
-import {
-  filterDataByType,
-  handleFlexStyles,
-  handleMapSize,
-} from "../../../utils";
+import { handleFlexStyles, handleMapSize } from "../../../utils";
 import CustomMap from "../../components/CustomMap";
 import FloatingButton from "../../components/FloatingButton";
 import { useFetchData } from "../../../utils/queries";
-import Certificate from "../../components/Certificate";
 import { CiVideoOn } from "react-icons/ci";
 
 const MapPage = () => {
@@ -35,7 +30,7 @@ const MapPage = () => {
   const { speciesData, typesData, mapsData } = useFetchData();
   const [clickCounts, setClickCounts] = useState([]);
   const [progress, setProgress] = useState<number>(0);
-  const [progressClick, setProgressClick] = useState<boolean>(false);
+  // const [progressClick, setProgressClick] = useState<boolean>(false);
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
@@ -151,7 +146,7 @@ const MapPage = () => {
   useEffect(() => {
     const getProgress = () => {
       if (clickCounts) {
-        const totalSteps = 20;
+        const totalSteps = 96;
         const completedSteps = clickCounts.filter(
           (value) => value === 1
         ).length;
@@ -165,11 +160,11 @@ const MapPage = () => {
     getProgress();
   }, [clickCounts]);
 
-  const handleProgressClick = () => {
-    if (progress === 100) {
-      setProgressClick(!progressClick);
-    }
-  };
+  // const handleProgressClick = () => {
+  //   if (progress === 100) {
+  //     setProgressClick(!progressClick);
+  //   }
+  // };
 
   const handleVideoFilter = () => {
     setToggle(!toggle);
@@ -313,7 +308,7 @@ const MapPage = () => {
                       justifyContent: "center",
                       zIndex: 1000,
                     }}
-                    onClick={progress === 100 ? handleProgressClick : undefined}
+                    // onClick={progress === 100 ? handleProgressClick : undefined}
                   >
                     <Box position="relative" display="inline-flex">
                       <CircularProgress
@@ -403,7 +398,7 @@ const MapPage = () => {
         />
 
         <FloatingButton />
-        {progressClick && <Certificate />}
+        {/* {progressClick && <Certificate />} */}
       </div>
     </div>
   );

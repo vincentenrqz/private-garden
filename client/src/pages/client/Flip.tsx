@@ -18,6 +18,7 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 
 import images from "../../utils/imageImports";
+import Certificate from "../components/Certificate";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -139,6 +140,7 @@ function Flipbook() {
   const [numPages] = useState<number>(images?.length ?? 0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [usePortrait, setUsePortrait] = useState<boolean>(true);
+  const [progressClick, setProgressClick] = useState<boolean>(false);
   const flipbookRef = useRef<any>(null);
   const imageSrc = images;
 
@@ -150,6 +152,7 @@ function Flipbook() {
 
     return () => clearTimeout(timer);
   }, [currentPage, numPages]);
+
   useEffect(() => {
     const flipPage = () => {
       if (flipbookRef.current) {
@@ -165,6 +168,12 @@ function Flipbook() {
       flipPage();
     }
   }, [usePortrait]);
+
+  useEffect(() => {
+    if (currentPage === 106) {
+      setProgressClick(true);
+    }
+  }, [currentPage]);
 
   // Responsive breakpoints
   const isXs = useMediaQuery("(max-width: 480px)");
@@ -354,6 +363,7 @@ function Flipbook() {
         </Button>
       </Box>
       <FloatingButton />
+      {progressClick && <Certificate />}
     </Box>
   );
 }

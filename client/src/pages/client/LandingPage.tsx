@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { useScreenSize } from "../../context/MediaContext";
 import FloatingButton from "../components/FloatingButton";
-import voice from "../../../public/resources/voice_over.mp3";
+import voice from "../../../public/resources/AG-privategarden-intro01.wav";
 
-function LandingPage() {
+const LandingPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
 
@@ -52,12 +52,12 @@ function LandingPage() {
     };
   }, []);
 
-  const height =
-    screenSize?.screenSize === "md" ||
-    screenSize?.screenSize === "lg" ||
-    screenSize?.screenSize === "xl"
-      ? "unset"
-      : "90vh";
+  // const height =
+  //   screenSize?.screenSize === "md" ||
+  //   screenSize?.screenSize === "lg" ||
+  //   screenSize?.screenSize === "xl"
+  //     ? "unset"
+  //     : "90vh";
 
   const flexBoxes =
     screenType === "xs" || screenType === "sm" || screenType === "md"
@@ -281,7 +281,7 @@ function LandingPage() {
                   <img
                     src="/resources/welcome-logo-bg.png"
                     alt="test"
-                    style={{ width: "400px", height: "auto" }} // Fixed width with auto height for responsiveness
+                    style={{ width: "400px", height: "auto" }}
                   />
                 </Box>
 
@@ -290,8 +290,8 @@ function LandingPage() {
                   sx={{
                     color: "#647c64",
                     textAlign: "justify",
-                    fontSize: { xs: "14px", sm: "16px", md: "20px" }, // Responsive font size
-                    wordBreak: "break-word", // Prevents long words from breaking layout
+                    fontSize: { xs: "14px", sm: "16px", md: "20px" },
+                    wordBreak: "break-word",
                   }}
                   component="p"
                 >
@@ -304,20 +304,38 @@ function LandingPage() {
                     color: "#647c64",
                     my: 2,
                     textAlign: "justify",
-                    fontSize: { xs: "14px", sm: "16px", md: "20px" }, // Responsive font size
+                    fontSize: {
+                      xs: "12px",
+                      sm: "14px",
+                      md: "20px",
+                      lg: "18px",
+                      xl: "18px",
+                    },
                     wordBreak: "break-word",
                   }}
                   component="p"
                 >
-                  Step into my vibrant garden, where technology and creativity
-                  bloom together. Explore a diverse array of trees, shrubs,
-                  flowers, and more. Stunning photos and videos will entertain
-                  and delight you. As you browse, click on icons to discover
-                  fascinating trivia and backstories for each species. Just like
-                  a physical garden, this digital space invites curiosity and
-                  exploration, offering fresh perspectives and new insights.
-                  Click the book icon to learn about featured species, and the
-                  earth icon to navigate the garden.
+                  Come and explore my garden, a vibrant and ever-evolving
+                  landscape where technology and creativity blossom together. As
+                  you step into this unique space, discover the breathtaking
+                  diversity of trees, crawlers, grass, and shrubs, and a
+                  charming selection of colorful and beautiful flowers. The book
+                  features visually stunning photographs and videos that will
+                  amuse and entertain. As you navigate through the different
+                  sections of the garden, go ahead and click the icons. Each
+                  species has an interesting trivia and backstory you will
+                  surely enjoy. Like the physical garden, this digital space is
+                  designed to inspire curiosity and exploration, carefully
+                  curated to offer fresh perspectives and spark new insights.
+                  Immerse yourself fully and let your curiosity guide you. Get
+                  ready to explore, interact, and discover. Here, ideas grow
+                  freely and every corner holds something new and exciting.
+                  Click the book icon to learn about featured species and the
+                  earth icon to navigate the garden. Thank you for visiting,
+                  congratulations on discovering the 96 plant species found in
+                  our private garden. I hope it has been a fun and informative
+                  experience. Welcome to our private garden. Click any tree or
+                  plant in the garden and discover its name and description.
                 </Typography>
               </Grid>
             </Grid>
@@ -374,6 +392,6 @@ function LandingPage() {
       <FloatingButton />
     </>
   );
-}
+};
 
 export default React.memo(LandingPage);
