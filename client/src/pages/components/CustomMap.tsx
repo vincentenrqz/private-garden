@@ -230,7 +230,7 @@ const CustomMap = ({
           {forAdmin && <MapClickHandler onClick={handleMapClick} />}
         </MapContainer>
       </Box>
-      {countOnes >= 20 && <Certificate />}
+      {countOnes >= 80 && <Certificate />}
     </>
   );
 };
