@@ -16,6 +16,7 @@ import CustomMap from "../../components/CustomMap";
 import FloatingButton from "../../components/FloatingButton";
 import { useFetchData } from "../../../utils/queries";
 import { CiVideoOn } from "react-icons/ci";
+import Certificate from "../../components/Certificate";
 
 const MapPage = () => {
   const paperRef = useRef<HTMLDivElement>(null);
@@ -30,8 +31,9 @@ const MapPage = () => {
   const { speciesData, typesData, mapsData } = useFetchData();
   const [clickCounts, setClickCounts] = useState([]);
   const [progress, setProgress] = useState<number>(0);
-  // const [progressClick, setProgressClick] = useState<boolean>(false);
+  const [progressClick, setProgressClick] = useState<boolean>(false);
   const [toggle, setToggle] = useState(false);
+  const [clickedSpecies, setClickedSpecies] = useState(0);
 
   useEffect(() => {
     const handleClickOutside = (e: any) => {
@@ -146,11 +148,12 @@ const MapPage = () => {
   useEffect(() => {
     const getProgress = () => {
       if (clickCounts) {
-        const totalSteps = 96;
+        const totalSteps = 80;
         const completedSteps = clickCounts.filter(
           (value) => value === 1
         ).length;
 
+        setClickedSpecies(completedSteps);
         const progress =
           (Math.min(completedSteps, totalSteps) / totalSteps) * 100;
         setProgress(progress);
@@ -160,11 +163,11 @@ const MapPage = () => {
     getProgress();
   }, [clickCounts]);
 
-  // const handleProgressClick = () => {
-  //   if (progress === 100) {
-  //     setProgressClick(!progressClick);
-  //   }
-  // };
+  const handleProgressClick = () => {
+    if (progress === 100) {
+      setProgressClick(!progressClick);
+    }
+  };
 
   const handleVideoFilter = () => {
     setToggle(!toggle);
@@ -308,7 +311,7 @@ const MapPage = () => {
                       justifyContent: "center",
                       zIndex: 1000,
                     }}
-                    // onClick={progress === 100 ? handleProgressClick : undefined}
+                    onClick={progress === 100 ? handleProgressClick : undefined}
                   >
                     <Box position="relative" display="inline-flex">
                       <CircularProgress
@@ -326,16 +329,24 @@ const MapPage = () => {
                         right={0}
                         position="absolute"
                         display="flex"
+                        flexDirection="column"
                         alignItems="center"
                         justifyContent="center"
                         sx={{ textAlign: "center" }} // Ensures text is centered
                       >
                         <Typography
+                          variant="caption"
+                          component="div"
+                          color="#d5c87f"
+                        >
+                          Species found
+                        </Typography>
+                        <Typography
                           variant="h6"
                           component="div"
                           color="#d5c87f"
                         >
-                          Discovery <br /> Meter
+                          {clickedSpecies}
                         </Typography>
                       </Box>
                     </Box>
@@ -398,7 +409,7 @@ const MapPage = () => {
         />
 
         <FloatingButton />
-        {/* {progressClick && <Certificate />} */}
+        {progressClick && <Certificate />}
       </div>
     </div>
   );

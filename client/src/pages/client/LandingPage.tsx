@@ -331,11 +331,7 @@ const LandingPage = () => {
                   ready to explore, interact, and discover. Here, ideas grow
                   freely and every corner holds something new and exciting.
                   Click the book icon to learn about featured species and the
-                  earth icon to navigate the garden. Thank you for visiting,
-                  congratulations on discovering the 96 plant species found in
-                  our private garden. I hope it has been a fun and informative
-                  experience. Welcome to our private garden. Click any tree or
-                  plant in the garden and discover its name and description.
+                  earth icon to navigate the garden.
                 </Typography>
               </Grid>
             </Grid>
