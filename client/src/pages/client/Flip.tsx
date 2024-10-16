@@ -9,13 +9,14 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 
-import {
-  TransformWrapper,
-  TransformComponent,
-  useControls,
-} from "react-zoom-pan-pinch";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
+// THIS COMPONENT IS FOR THE ZOOM IN/OUT FEATURE
+// import {
+//   TransformWrapper,
+//   TransformComponent,
+//   useControls,
+// } from "react-zoom-pan-pinch";
+// import "react-pdf/dist/Page/AnnotationLayer.css";
+// import "react-pdf/dist/Page/TextLayer.css";
 
 import images from "../../utils/imageImports";
 
@@ -146,7 +147,7 @@ function Flipbook() {
     const timer = setTimeout(() => {
       const isPortraitPage = currentPage === 1 || currentPage === numPages;
       setUsePortrait(isPortraitPage);
-    }, 700);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [currentPage, numPages]);
@@ -202,22 +203,22 @@ function Flipbook() {
   const flipbookWidth = isXs ? 300 : isSm ? 400 : isMd ? 500 : 600;
   const flipbookHeight = isXs ? 400 : isSm ? 500 : isMd ? 700 : 770;
 
-  const Controls = () => {
-    const { zoomIn, zoomOut, resetTransform } = useControls();
-    return (
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
-        <IconButton onClick={() => zoomIn()}>
-          <AddIcon />
-        </IconButton>
-        <IconButton onClick={() => zoomOut()}>
-          <RemoveIcon />
-        </IconButton>
-        <IconButton onClick={() => resetTransform()}>
-          <RotateLeftIcon />
-        </IconButton>
-      </Box>
-    );
-  };
+  // const Controls = () => {
+  //   const { zoomIn, zoomOut, resetTransform } = useControls();
+  //   return (
+  //     <Box sx={{ display: "flex", justifyContent: "end" }}>
+  //       <IconButton onClick={() => zoomIn()}>
+  //         <AddIcon />
+  //       </IconButton>
+  //       <IconButton onClick={() => zoomOut()}>
+  //         <RemoveIcon />
+  //       </IconButton>
+  //       <IconButton onClick={() => resetTransform()}>
+  //         <RotateLeftIcon />
+  //       </IconButton>
+  //     </Box>
+  //   );
+  // };
 
   return (
     <Box
@@ -260,50 +261,50 @@ function Flipbook() {
                 border: "1px solid rgba(0, 0, 0, 0.1)",
               }}
             >
-              <TransformWrapper>
+              {/* <TransformWrapper>
                 <Controls />
-                <TransformComponent>
-                  <FlipBookWrapper
-                    key={`flipbook-${usePortrait}`}
-                    width={flipbookWidth}
-                    height={flipbookHeight}
-                    showCover={true}
-                    usePortrait={usePortrait || isXl}
-                    startPage={currentPage - 1}
-                    className="flipbook"
-                    style={{ overflow: "hidden" }}
-                    size="fixed"
-                    minWidth={200}
-                    maxWidth={600}
-                    minHeight={300}
-                    maxHeight={800}
-                    drawShadow={true}
-                    flippingTime={500}
-                    startZIndex={10}
-                    autoSize={true}
-                    maxShadowOpacity={0.5}
-                    mobileScrollSupport={true}
-                    clickEventForward={true}
-                    useMouseEvents={false}
-                    swipeDistance={50}
-                    showPageCorners={true}
-                    disableFlipByClick={true}
-                    ref={flipbookRef}
-                    onFlip={(e: any) => onFlipPage(e.data)}
-                    renderOnlyPageLengthChange={true}
-                  >
-                    {imageSrc?.map((image, index) => (
-                      <Pages number={index}>
-                        <img
-                          key={index}
-                          src={image}
-                          alt={`Flipbook-image-${index}`}
-                        />
-                      </Pages>
-                    ))}
-                  </FlipBookWrapper>
-                </TransformComponent>
-              </TransformWrapper>
+                <TransformComponent> */}
+              <FlipBookWrapper
+                key={`flipbook-${usePortrait}`}
+                width={flipbookWidth}
+                height={flipbookHeight}
+                showCover={true}
+                usePortrait={usePortrait || isXl}
+                startPage={currentPage - 1}
+                className="flipbook"
+                style={{ overflow: "hidden" }}
+                size="fixed"
+                minWidth={200}
+                maxWidth={600}
+                minHeight={300}
+                maxHeight={800}
+                drawShadow={true}
+                flippingTime={500}
+                startZIndex={10}
+                autoSize={true}
+                maxShadowOpacity={0.5}
+                mobileScrollSupport={true}
+                clickEventForward={true}
+                useMouseEvents={true}
+                swipeDistance={50}
+                showPageCorners={true}
+                disableFlipByClick={false}
+                ref={flipbookRef}
+                onFlip={(e: any) => onFlipPage(e.data)}
+                renderOnlyPageLengthChange={true}
+              >
+                {imageSrc?.map((image, index) => (
+                  <Pages number={index}>
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`Flipbook-image-${index}`}
+                    />
+                  </Pages>
+                ))}
+              </FlipBookWrapper>
+              {/* </TransformComponent>
+              </TransformWrapper> */}
             </Box>
           </BookLayer1>
         </BookLayer2>
