@@ -1,6 +1,13 @@
 import { useState } from "react";
 import Header from "../../../components/Header/Header";
-import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  IconButton,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import TableCell from "@mui/material/TableCell";
 import CreateSpecies from "./CreateSpecies";
 import { speciesService } from "../../../../services/species.service";
@@ -108,6 +115,12 @@ const Species = () => {
     );
   };
 
+  const [search, setSearch] = useState("");
+
+  const filteredSpecies = speciesData?.filter((species) =>
+    species?.name?.toLowerCase()?.includes(search?.toLowerCase())
+  );
+
   return (
     <>
       <Header />
@@ -119,8 +132,10 @@ const Species = () => {
             <Box
               sx={{
                 display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
                 justifyContent: "space-between",
                 marginBottom: 2,
+                gap: 3,
               }}
             >
               <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
@@ -141,6 +156,21 @@ const Species = () => {
                   </Typography>
                 </Typography>
               </Stack>
+
+              {/* Search Input */}
+              <TextField
+                id="outlined-textarea"
+                label="Search Species Data"
+                placeholder="Search..."
+                multiline
+                fullWidth
+                sx={{
+                  width: { xs: "100%", sm: "50%" },
+                  alignItems: "center",
+                }}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+
               <Box>
                 <CreateSpecies
                   handleOpen={handleOpen}
@@ -150,9 +180,10 @@ const Species = () => {
                 />
               </Box>
             </Box>
-            {speciesData.length > 0 ? (
+
+            {filteredSpecies?.length > 0 ? (
               <GenericTable
-                data={speciesData}
+                data={filteredSpecies}
                 headers={["ID", "Name", "Updated at", ""]}
                 renderRow={renderRow}
               />
@@ -169,6 +200,7 @@ const Species = () => {
               </Box>
             )}
           </Container>
+
           {openEdit && (
             <EditSpecies
               species={selectedRow}
