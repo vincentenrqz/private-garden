@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { pdfjs } from "react-pdf";
-import { Box, Button, Typography, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import FloatingButton from "../components/FloatingButton";
 
 import IconButton from "@mui/material/IconButton";
@@ -140,6 +146,7 @@ function Flipbook() {
   const [numPages] = useState<number>(images?.length ?? 0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [usePortrait, setUsePortrait] = useState<boolean>(true);
+  const [searchInput, setSearchInput] = useState<string>("");
   const flipbookRef = useRef<any>(null);
   const imageSrc = images;
 
@@ -183,11 +190,32 @@ function Flipbook() {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+
+    if (Number(value) <= 1) {
+      value = value.replace(/^0+/, "1");
+    } else if (Number(value) >= images?.length) {
+      value = images?.length.toString();
+    }
+
+    setSearchInput(value);
+  };
+
   // Go to the next page
   const goToNextPage = () => {
     if (flipbookRef.current && currentPage < numPages!) {
       flipbookRef.current.pageFlip().flipNext();
       setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const navigateToPage = () => {
+    const pageNumber = Number(searchInput);
+
+    if (flipbookRef.current) {
+      flipbookRef.current.pageFlip().flip(pageNumber - 1);
+      setCurrentPage(pageNumber);
     }
   };
 
@@ -243,6 +271,36 @@ function Flipbook() {
       >
         Glossary
       </Typography> */}
+      <Box
+        display="flex"
+        justifyContent="flex-end"
+        gap={2}
+        mt={13}
+        mb={2}
+        width="full"
+      >
+        <TextField
+          fullWidth
+          id="navigate"
+          variant="standard"
+          label="Navigate to Page"
+          type="number"
+          value={searchInput}
+          onChange={handleInputChange}
+        />
+        <Button
+          variant="contained"
+          onClick={navigateToPage}
+          sx={{
+            backgroundColor: "#647c64 !important",
+            "&:hover": {
+              backgroundColor: "#647c64 !important",
+            },
+          }}
+        >
+          Search
+        </Button>
+      </Box>
 
       {/* FlipBook */}
       <BookLayer3>
