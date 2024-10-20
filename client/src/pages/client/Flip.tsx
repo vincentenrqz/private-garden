@@ -287,6 +287,14 @@ function Flipbook() {
           type="number"
           value={searchInput}
           onChange={handleInputChange}
+          sx={{
+            "& .MuiInput-underline:after": {
+              borderBottomColor: "#647c64 !important",
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#647c64 !important",
+            },
+          }}
         />
         <Button
           variant="contained"

@@ -115,7 +115,7 @@ const MapPage = () => {
     if (paperRef.current) {
       switch (screenSize?.screenSize) {
         case "xs":
-          return (paperRef.current.style.top = "80%");
+          return (paperRef.current.style.top = "95%");
         case "sm":
           return (paperRef.current.style.top = "68%");
         case "md":
@@ -192,7 +192,7 @@ const MapPage = () => {
       }}
       className={`flex flex-col ${
         screenSize?.screenSize === "xs"
-          ? "min-w-full min-h-screen flex justify-center"
+          ? "min-w-full min-h-screen"
           : "min-w-full min-h-screen flex justify-center items-center"
       }`}
     >
@@ -208,6 +208,7 @@ const MapPage = () => {
                 order: screenSize?.screenSize === "xl" ? 2 : 1,
                 position: "relative",
                 flexGrow: 1,
+                marginTop: screenSize?.screenSize === "xs" ? 10 : 0,
               }}
             >
               <CustomMap

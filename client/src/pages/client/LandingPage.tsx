@@ -306,30 +306,36 @@ const LandingPage = () => {
                     textAlign: "justify",
                     fontSize: {
                       xs: "12px",
-                      sm: "14px",
-                      md: "20px",
-                      lg: "18px",
-                      xl: "18px",
+                      sm: "13px",
+                      md: "18px",
+                      lg: "16px",
+                      xl: "16px",
                     },
                     wordBreak: "break-word",
                   }}
                   component="p"
                 >
                   Come and explore my garden, a vibrant and ever-evolving
-                  landscape where technology and creativity blossom together. As
-                  you step into this unique space, discover the breathtaking
-                  diversity of trees, crawlers, grass, and shrubs, and a
-                  charming selection of colorful and beautiful flowers. The book
-                  features visually stunning photographs and videos that will
-                  amuse and entertain. As you navigate through the different
-                  sections of the garden, go ahead and click the icons. Each
-                  species has an interesting trivia and backstory you will
-                  surely enjoy. Like the physical garden, this digital space is
+                  landscape where technology and creativity blossom together!{" "}
+                  <br />
+                  <br /> As you step into this unique space, discover the
+                  breathtaking diversity of trees, crawlers, grass, and shrubs,
+                  and a charming selection of colorful and beautiful flowers.{" "}
+                  <br />
+                  <br />
+                  The book features visually stunning photographs and videos
+                  that will amuse and entertain.
+                  <br />
+                  <br /> As you navigate through the different sections of the
+                  garden, go ahead and click the icons. Each species has an
+                  interesting trivia and backstory you will surely enjoy. <br />
+                  <br /> Like the physical garden, this digital space is
                   designed to inspire curiosity and exploration, carefully
                   curated to offer fresh perspectives and spark new insights.
-                  Immerse yourself fully and let your curiosity guide you. Get
-                  ready to explore, interact, and discover. Here, ideas grow
-                  freely and every corner holds something new and exciting.
+                  <br />
+                  <br /> Immerse yourself fully and let your curiosity guide
+                  you. Get ready to explore, interact, and discover. Here, ideas
+                  grow freely and every corner holds something new and exciting.
                   Click the book icon to learn about featured species and the
                   earth icon to navigate the garden.
                 </Typography>
