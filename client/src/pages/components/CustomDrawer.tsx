@@ -13,6 +13,7 @@ interface Props {
   readMore: boolean;
   toggleReadMore: () => void;
   toggleInfo: () => void;
+  toggleClose: () => void;
 }
 const CustomDrawer = ({
   data,
@@ -21,6 +22,7 @@ const CustomDrawer = ({
   readMore,
   toggleReadMore,
   toggleInfo,
+  toggleClose,
 }: Props) => {
   const [speciesType, setSpeciesType] = useState(null);
   const { screenSize } = useScreenSize();
@@ -163,7 +165,7 @@ const CustomDrawer = ({
         <>
           {Object.keys(data).length > 0 && (
             <Button
-              onClick={() => toggleInfo()}
+              onClick={() => toggleClose()}
               sx={{
                 position: "absolute",
                 top: screenType === "xs" || screenType === "sm" ? 10 : -20,
@@ -187,7 +189,7 @@ const CustomDrawer = ({
               <img src="/resources/remove.png" alt="" height={40} width={40} />
             </Button>
           )}
-          {screenType !== "xs" && (
+          {screenType !== "xs" && screenType !== "sm" && (
             <Box
               onClick={() => toggleInfo()}
               sx={{
@@ -539,7 +541,12 @@ const CustomDrawer = ({
               height={
                 screenType !== "xs" && screenType !== "sm" ? "100vh" : "auto"
               }
-              sx={{ position: "relative", zIndex: 10, bottom: 100 }}
+              sx={{
+                position: "relative",
+                zIndex: 10,
+                bottom: 100,
+                marginX: 5,
+              }}
             >
               <Typography variant="h5">Please select a species</Typography>
               <Typography variant="subtitle1">

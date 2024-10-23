@@ -110,6 +110,9 @@ const MapPage = () => {
   };
 
   const toggleInfo = () => {
+    if (Object.keys(data).length > 0) {
+      return;
+    }
     setOpen(true);
     setData({});
     if (paperRef.current) {
@@ -119,13 +122,35 @@ const MapPage = () => {
         case "sm":
           return (paperRef.current.style.top = "68%");
         case "md":
-          return (paperRef.current.style.left = "-21%");
+          return (paperRef.current.style.left = "15%");
         case "lg":
-          return (paperRef.current.style.left = "-22%");
+          return (paperRef.current.style.left = "15%");
+        case "xl":
+          return (paperRef.current.style.left = "12%");
+        default:
+          return (paperRef.current.style.left = "-15%");
+      }
+    }
+  };
+
+  console.log("screenSize?.screenSize", screenSize?.screenSize);
+  const toggleClose = () => {
+    setOpen(true);
+    setData({});
+    if (paperRef.current) {
+      switch (screenSize?.screenSize) {
+        case "xs":
+          return (paperRef.current.style.top = "95%");
+        case "sm":
+          return (paperRef.current.style.top = "95%");
+        case "md":
+          return (paperRef.current.style.left = "-10%");
+        case "lg":
+          return (paperRef.current.style.left = "-10%");
         case "xl":
           return (paperRef.current.style.left = "-10%");
         default:
-          return (paperRef.current.style.left = "-15%");
+          return (paperRef.current.style.left = "-10%");
       }
     }
   };
@@ -182,7 +207,6 @@ const MapPage = () => {
     }
   };
 
-  console.log("screenSize?.screenSize", screenSize?.screenSize);
   return (
     <div
       style={{
@@ -407,6 +431,7 @@ const MapPage = () => {
           readMore={readMore}
           toggleReadMore={toggleReadMore}
           toggleInfo={toggleInfo}
+          toggleClose={toggleClose}
         />
 
         <FloatingButton />
