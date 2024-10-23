@@ -26,6 +26,8 @@ const theme = createTheme({
 const App = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [redirect, setRedirect] = useState(false);
+
   const controls = useAnimation();
   const location = useLocation();
 
@@ -49,7 +51,6 @@ const App = () => {
   };
 
   const mobile = useMediaQuery("(max-width:900px)");
-  const redirected = localStorage.getItem("redirect") === "true";
 
   return (
     <ThemeProvider theme={theme}>
@@ -69,12 +70,10 @@ const App = () => {
                 path="/"
                 element={
                   <motion.div {...pageTransition}>
-                    {loading ? (
-                      <LandingPageLoader />
-                    ) : redirected ? (
-                      <LandingPage />
+                    {loading || !redirect ? (
+                      <LandingPageLoader setRedirect={setRedirect} />
                     ) : (
-                      <LandingPageLoader />
+                      <LandingPage />
                     )}
                   </motion.div>
                 }
@@ -83,7 +82,11 @@ const App = () => {
                 path="/maps"
                 element={
                   <motion.div {...pageTransition}>
-                    {loading ? <LandingPageLoader /> : <ClientMap />}
+                    {loading ? (
+                      <LandingPageLoader setRedirect={setRedirect} />
+                    ) : (
+                      <ClientMap />
+                    )}
                   </motion.div>
                 }
               />
@@ -91,7 +94,11 @@ const App = () => {
                 path="/flipbook"
                 element={
                   <motion.div {...pageTransition}>
-                    {loading ? <LandingPageLoader /> : <Flipbook />}
+                    {loading ? (
+                      <LandingPageLoader setRedirect={setRedirect} />
+                    ) : (
+                      <Flipbook />
+                    )}
                   </motion.div>
                 }
               />

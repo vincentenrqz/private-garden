@@ -10,7 +10,6 @@ const LandingPage = () => {
 
   const screenSize = useScreenSize();
   const screenType = screenSize?.screenSize;
-  console.log("screenType", screenType);
 
   useEffect(() => {
     const audio = audioRef.current;

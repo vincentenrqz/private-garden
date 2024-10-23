@@ -1,22 +1,11 @@
 import { Box, Button, CircularProgress } from "@mui/material";
 import { useFetchData } from "../../utils/queries";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { ClickSound } from "../../utils";
 
-export default function LandingPageLoader() {
+export default function LandingPageLoader({ setRedirect }) {
   const location = useLocation();
-  const navigate = useNavigate();
   const { loading } = useFetchData();
-  const [redirect, setRedirect] = useState(() => {
-    return localStorage.getItem("redirect") === "true";
-  });
-
-  useEffect(() => {
-    if (redirect) {
-      navigate("/");
-    }
-  }, [redirect, navigate]);
 
   const showButton = !loading && location.pathname === "/";
   const showLoader = loading;
@@ -24,7 +13,6 @@ export default function LandingPageLoader() {
   const handleGetStartedClick = () => {
     ClickSound();
     setRedirect(true);
-    localStorage.setItem("redirect", "true");
   };
 
   return (
