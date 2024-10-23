@@ -351,7 +351,7 @@ const CustomDrawer = ({
                           )}
                         </div>
                         <div className="absolute bottom-0 left-10 w-96 text-left">
-                          <h2 className="text-white uppercase text-5xl">
+                          <h2 className="text-white uppercase text-4xl xl:text-5xl">
                             {data?.name}
                           </h2>
                         </div>

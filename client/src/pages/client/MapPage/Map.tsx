@@ -133,7 +133,6 @@ const MapPage = () => {
     }
   };
 
-  console.log("screenSize?.screenSize", screenSize?.screenSize);
   const toggleClose = () => {
     setOpen(true);
     setData({});
