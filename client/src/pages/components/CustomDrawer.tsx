@@ -160,41 +160,34 @@ const CustomDrawer = ({
           msOverflowStyle: "none",
         }}
       >
-        {screenType !== "xs" && screenType !== "sm" && (
-          <>
-            {Object.keys(data).length > 0 && (
-              <Button
-                onClick={() => toggleInfo()}
-                sx={{
-                  position: "absolute",
-                  top: screenType === "xs" || screenType === "sm" ? 10 : -20,
-                  right:
-                    screenType === "xs" || screenType === "sm"
-                      ? "10px"
-                      : "-20px",
-                  width: 50,
-                  padding: 1,
-                  zIndex: 2000,
+        <>
+          {Object.keys(data).length > 0 && (
+            <Button
+              onClick={() => toggleInfo()}
+              sx={{
+                position: "absolute",
+                top: screenType === "xs" || screenType === "sm" ? 10 : -20,
+                right:
+                  screenType === "xs" || screenType === "sm" ? "-5px" : "-20px",
+                width: 50,
+                padding: 1,
+                zIndex: 2000,
+                backgroundColor: "transparent",
+                "&:hover": {
                   backgroundColor: "transparent",
-                  "&:hover": {
-                    backgroundColor: "transparent",
-                  },
-                  "&:focusVisible": {
-                    backgroundColor: "transparent",
-                  },
-                  "&:active": {
-                    backgroundColor: "transparent",
-                  },
-                }}
-              >
-                <img
-                  src="/resources/remove.png"
-                  alt=""
-                  height={40}
-                  width={40}
-                />
-              </Button>
-            )}
+                },
+                "&:focusVisible": {
+                  backgroundColor: "transparent",
+                },
+                "&:active": {
+                  backgroundColor: "transparent",
+                },
+              }}
+            >
+              <img src="/resources/remove.png" alt="" height={40} width={40} />
+            </Button>
+          )}
+          {screenType !== "xs" && (
             <Box
               onClick={() => toggleInfo()}
               sx={{
@@ -213,8 +206,8 @@ const CustomDrawer = ({
             >
               <IoIosInformationCircle color="#2196f3" size="40px" />
             </Box>
-          </>
-        )}
+          )}
+        </>
 
         {Object.keys(data).length !== 0 && (
           <>
@@ -434,7 +427,7 @@ const CustomDrawer = ({
                           )}
                         </div>
                         <div className="absolute bottom-0 left-10 w-full text-left">
-                          <h2 className="text-white uppercase text-5xl">
+                          <h2 className="text-white uppercase text-4xl xl:text-5xl">
                             {data?.name}
                           </h2>
                         </div>
@@ -445,7 +438,7 @@ const CustomDrawer = ({
                         </div>
                       </div>
 
-                      <div className="flex w-full sm:w-1/2 h-64 sm:h-60 justify-start sm:pl-4 mt-4 sm:mt-0">
+                      <div className="flex w-full sm:w-1/2 h-64 sm:h-60 justify-start sm:pl-4 mt-10 sm:mt-0">
                         <div className="bg-[#647c64] w-12 flex-shrink-0 mr-4 h-full"></div>
 
                         <div className="flex flex-col justify-between h-full">
