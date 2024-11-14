@@ -14,6 +14,7 @@ import PageEffect from "./pages/components/PageEffect";
 import LandingPage from "./pages/client/LandingPage";
 import { useFetchData } from "./utils/queries";
 import LandingPageLoader from "./pages/components/LandingPageLoader";
+import { useRedirectContext } from "./context/loaderRedirectContext";
 
 const Flipbook = lazy(() => import("../src/pages/client/Flip"));
 
@@ -26,11 +27,11 @@ const theme = createTheme({
 const App = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [redirect, setRedirect] = useState(false);
 
   const controls = useAnimation();
   const location = useLocation();
 
+  const { loaderPage, setRedirect } = useRedirectContext();
   const { loading } = useFetchData();
 
   useEffect(() => {
@@ -70,7 +71,7 @@ const App = () => {
                 path="/"
                 element={
                   <motion.div {...pageTransition}>
-                    {loading || !redirect ? (
+                    {loaderPage ? (
                       <LandingPageLoader setRedirect={setRedirect} />
                     ) : (
                       <LandingPage />

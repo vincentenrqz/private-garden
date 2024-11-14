@@ -9,6 +9,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import Certificate from "./Certificate";
 import { ClickSound } from "../../utils";
+import { useRedirectContext } from "../../context/loaderRedirectContext";
 
 type Props = {
   clickedCounts?: number[];
@@ -19,6 +20,7 @@ const FloatingButton = () => {
   // const [progressClick, setProgressClick] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { setRedirect } = useRedirectContext();
 
   const handleClick = (path: string) => {
     ClickSound();
@@ -133,6 +135,7 @@ const FloatingButton = () => {
           } hover:bg-[#306d53] transition duration-300 ease-in-out`}
           onClick={() => {
             handleClick("/");
+            setRedirect(false);
           }}
         >
           <img
