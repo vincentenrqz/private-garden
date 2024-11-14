@@ -17,6 +17,8 @@ export default function ButtonFilters({
   speciesData,
   buttonFilters,
   setButtonFilters,
+  setSelectedFilter,
+  defaultColor,
 }) {
   const [toggle, setToggle] = useState(false);
   const [lastClickedType, setLastClickedType] = useState(null);
@@ -26,6 +28,7 @@ export default function ButtonFilters({
 
   const filteredData = (types) => {
     ClickSound();
+    setSelectedFilter(types?.name);
 
     if (lastClickedType !== types?.name) {
       setLastClickedType(types?.name);
@@ -84,7 +87,7 @@ export default function ButtonFilters({
             margin: 3,
             boxShadow: "0 3px 6px rgba(0,0,0,0.16)",
             transition: "background-color 0.3s ease, transform 0.2s ease",
-            background: "#647c64",
+            background: defaultColor,
           }}
           onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
           onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1.0)")}

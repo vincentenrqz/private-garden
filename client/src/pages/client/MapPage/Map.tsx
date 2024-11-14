@@ -17,6 +17,7 @@ import FloatingButton from "../../components/FloatingButton";
 import { useFetchData } from "../../../utils/queries";
 import { CiVideoOn } from "react-icons/ci";
 import Certificate from "../../components/Certificate";
+import mapSound from "../../../../public/resources/map_page.mp3";
 
 const MapPage = () => {
   const paperRef = useRef<HTMLDivElement>(null);
@@ -34,6 +35,17 @@ const MapPage = () => {
   const [progressClick, setProgressClick] = useState<boolean>(false);
   const [toggle, setToggle] = useState(false);
   const [clickedSpecies, setClickedSpecies] = useState(0);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+
+  useEffect(() => {
+    const audio = new Audio(mapSound);
+    audio.play();
+
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e: any) => {
@@ -302,16 +314,25 @@ const MapPage = () => {
                     <CiVideoOn color="white" size={20} />
                   </IconButton>
                 </Tooltip>
-                {typesData?.map((type) => (
-                  <ButtonFilters
-                    admin={false}
-                    key={type?._id}
-                    typeData={type}
-                    speciesData={speciesData}
-                    buttonFilters={buttonFilters}
-                    setButtonFilters={setButtonFilters}
-                  />
-                ))}
+                {typesData?.map((type) => {
+                  const { _id, name } = type;
+
+                  const filtered =
+                    name === selectedFilter ? "#495c49" : "#647c64";
+
+                  return (
+                    <ButtonFilters
+                      admin={false}
+                      key={_id}
+                      typeData={type}
+                      speciesData={speciesData}
+                      buttonFilters={buttonFilters}
+                      setButtonFilters={setButtonFilters}
+                      setSelectedFilter={setSelectedFilter}
+                      defaultColor={filtered}
+                    />
+                  );
+                })}
               </Stack>
               {location.pathname === "/maps" && (
                 <Tooltip

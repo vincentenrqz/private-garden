@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { useScreenSize } from "../../context/MediaContext";
 import FloatingButton from "../components/FloatingButton";
-import voice from "../../../public/resources/AG-privategarden-intro01.wav";
+import voice from "../../../public/resources/AG-privategarden-intro01.mp3";
+import { FaPlay, FaPause } from "react-icons/fa";
 
 const LandingPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -344,27 +345,32 @@ const LandingPage = () => {
               className="alexa-container"
               onClick={togglePlay}
               style={{
-                position: "fixed", // Fixes the position relative to the viewport
+                position: "fixed",
                 bottom:
-                  screenType === "xl"
-                    ? "100px"
-                    : screenType === "lg"
-                    ? "100px"
-                    : "20px",
+                  screenType === "xl" || screenType === "lg" ? "100px" : "20px",
                 right:
                   screenType === "xl"
                     ? "250px"
                     : screenType === "lg"
                     ? "60px"
-                    : "20px", // 20px from the right of the screen
-                zIndex: 1000, // Ensure it's on top of other content
-                width: "100px", // Test size for the Alexa container
-                height: "100px", // Test size for the Alexa container
+                    : "20px",
+                zIndex: 1000,
+                width: "60px",
+                height: "60px",
+                borderRadius: "50%",
+                backgroundColor: "#647c64",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
               }}
             >
-              <div className={`alexa-icon ${isPlaying ? "playing" : ""}`}>
-                <audio ref={audioRef} src={voice}></audio>
-              </div>
+              <audio ref={audioRef} src={voice}></audio>
+              {isPlaying ? (
+                <FaPause size={30} color="#FFFFFF" />
+              ) : (
+                <FaPlay size={30} color="#FFFFFF" />
+              )}
             </div>
           </Box>
           {(screenType === "xs" ||

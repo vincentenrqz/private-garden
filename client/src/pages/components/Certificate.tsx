@@ -11,7 +11,7 @@ import React, { useEffect, useRef, useState } from "react";
 import domtoimage from "dom-to-image-more";
 import Confetti from "react-confetti";
 import CloseIcon from "@mui/icons-material/Close";
-import sound from "../../../public/resources/AG-privategarden-thankYou-01.wav";
+import sound from "../../../public/resources/AG-privategarden-thankYou-01.mp3";
 
 const Certificate = () => {
   const [isModalOpen, setModalOpen] = useState(true);
