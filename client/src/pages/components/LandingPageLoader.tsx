@@ -2,10 +2,12 @@ import { Box, Button, CircularProgress } from "@mui/material";
 import { useFetchData } from "../../utils/queries";
 import { useLocation } from "react-router-dom";
 import { ClickSound } from "../../utils";
+import { useScreenSize } from "../../context/MediaContext";
 
 export default function LandingPageLoader({ setRedirect }) {
   const location = useLocation();
   const { loading } = useFetchData();
+  const screenSize = useScreenSize();
 
   const showButton = !loading && location.pathname === "/";
   const showLoader = loading;
@@ -14,6 +16,8 @@ export default function LandingPageLoader({ setRedirect }) {
     ClickSound();
     setRedirect(true);
   };
+
+  console.log("screenSize", screenSize);
 
   return (
     <Box
@@ -30,6 +34,7 @@ export default function LandingPageLoader({ setRedirect }) {
     >
       <Box
         sx={{
+          position: "relative",
           maxWidth: "sm",
           marginX: "auto",
           display: "flex",
@@ -47,23 +52,30 @@ export default function LandingPageLoader({ setRedirect }) {
             objectFit: "cover",
           }}
         />
-      </Box>
 
-      <Box
-        sx={{
-          marginTop: 2,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {showLoader && <CircularProgress size={50} sx={{ color: "#647c64" }} />}
+        {showLoader && (
+          <CircularProgress
+            size={50}
+            sx={{ color: "#647c64" }}
+            className="absolute"
+            style={{ position: "absolute", bottom: 16, right: 16 }}
+          />
+        )}
         {showButton && (
           <Button
             variant="contained"
             onClick={handleGetStartedClick}
             sx={{
+              position: "absolute",
+              bottom:
+                screenSize?.screenSize === "xs"
+                  ? 150
+                  : screenSize?.screenSize === "sm"
+                  ? 250
+                  : screenSize?.screenSize === "md"
+                  ? 250
+                  : 200,
+              right: 35,
               backgroundColor: "#647c64 !important",
               "&:hover": {
                 backgroundColor: "#647c64 !important",
@@ -74,6 +86,16 @@ export default function LandingPageLoader({ setRedirect }) {
           </Button>
         )}
       </Box>
+
+      <Box
+        sx={{
+          marginTop: 2,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      ></Box>
     </Box>
   );
 }
