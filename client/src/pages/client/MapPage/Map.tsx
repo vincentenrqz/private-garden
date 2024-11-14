@@ -337,7 +337,7 @@ const MapPage = () => {
                     }}
                     onClick={progress === 100 ? handleProgressClick : undefined}
                   >
-                    <Box position="relative" display="inline-flex">
+                    {/* <Box position="relative" display="inline-flex">
                       <CircularProgress
                         variant="determinate"
                         value={progress}
@@ -373,7 +373,7 @@ const MapPage = () => {
                           {clickedSpecies}
                         </Typography>
                       </Box>
-                    </Box>
+                    </Box> */}
                   </Stack>
                 </Tooltip>
               )}
