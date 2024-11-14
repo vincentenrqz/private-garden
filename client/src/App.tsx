@@ -104,11 +104,18 @@ const App = () => {
                 }
               />
               {/* <Route path="/signin" element={<Signin />} /> */}
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/species" element={<Species />} />
-              <Route path="/admin/maps" element={<AdminMap />} />
-              <Route path="/admin/types" element={<Types />} />
-              {/* <Route path="/admin/user-settings" element={<UserSettings />} /> */}
+              {process.env.NODE_ENV === "development" && (
+                <>
+                  <Route path="/admin" element={<AdminDashboard />} />
+                  <Route path="/admin/species" element={<Species />} />
+                  <Route path="/admin/maps" element={<AdminMap />} />
+                  <Route path="/admin/types" element={<Types />} />
+                  <Route
+                    path="/admin/user-settings"
+                    element={<UserSettings />}
+                  />
+                </>
+              )}
             </Routes>
           </AnimatePresence>
         </div>
