@@ -19,19 +19,24 @@ export default function ButtonFilters({
   setButtonFilters,
 }) {
   const [toggle, setToggle] = useState(false);
+  const [lastClickedType, setLastClickedType] = useState(null);
   const { name } = typeData;
   const screenSize = useScreenSize();
   const screenType = screenSize?.screenSize;
 
   const filteredData = (types) => {
-    setToggle(!toggle);
     ClickSound();
 
-    if (toggle) {
+    if (lastClickedType !== types?.name) {
+      setLastClickedType(types?.name);
       const data = filterDataByType({ items: speciesData, id: types?._id });
       setButtonFilters(data);
+      setToggle(true);
     } else {
-      setButtonFilters(null);
+      setToggle(!toggle);
+      setButtonFilters(
+        toggle ? null : filterDataByType({ items: speciesData, id: types?._id })
+      );
     }
   };
 
