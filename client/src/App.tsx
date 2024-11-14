@@ -103,9 +103,10 @@ const App = () => {
                   </motion.div>
                 }
               />
-              {/* <Route path="/signin" element={<Signin />} /> */}
+              {/* TODO: Make work for this using jwt auth */}
               {process.env.NODE_ENV === "development" && (
                 <>
+                  <Route path="/signin" element={<Signin />} />
                   <Route path="/admin" element={<AdminDashboard />} />
                   <Route path="/admin/species" element={<Species />} />
                   <Route path="/admin/maps" element={<AdminMap />} />
