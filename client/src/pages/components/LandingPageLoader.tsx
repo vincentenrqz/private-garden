@@ -58,7 +58,19 @@ export default function LandingPageLoader({ setRedirect }) {
             size={50}
             sx={{ color: "#647c64" }}
             className="absolute"
-            style={{ position: "absolute", bottom: 16, right: 16 }}
+            style={{
+              position: "absolute",
+              bottom:
+                screenSize?.screenSize === "xs"
+                  ? 150
+                  : screenSize?.screenSize === "sm"
+                  ? 250
+                  : screenSize?.screenSize === "md"
+                  ? 250
+                  : 200,
+              right: 120,
+              backgroundColor: "#647c64 !important",
+            }}
           />
         )}
         {showButton && (
