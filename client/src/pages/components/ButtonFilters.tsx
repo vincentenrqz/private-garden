@@ -65,7 +65,7 @@ export default function ButtonFilters({
         title={`Filter by ${name}`}
         placement={
           screenType === "xs" || screenType === "sm" || screenType === "md"
-            ? "bottom"
+            ? "top"
             : "right"
         }
         arrow
