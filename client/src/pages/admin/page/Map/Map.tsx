@@ -248,6 +248,8 @@ const Map = () => {
                     speciesData={speciesData}
                     buttonFilters={buttonFilters}
                     setButtonFilters={setButtonFilters}
+                    setSelectedFilter={null} //todo: work on this
+                    defaultColor={"#647c64"}
                   />
                 ))}
               </Stack>
