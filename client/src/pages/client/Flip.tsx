@@ -193,7 +193,6 @@ function Flipbook() {
   };
 
   const { speciesData } = useFetchData();
-  console.log("speciesData", speciesData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
