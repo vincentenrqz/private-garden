@@ -25,6 +25,7 @@ import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 // import "react-pdf/dist/Page/TextLayer.css";
 
 import images from "../../utils/imageImports";
+import { useFetchData } from "../../utils/queries";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -147,6 +148,7 @@ function Flipbook() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [usePortrait, setUsePortrait] = useState<boolean>(true);
   const [searchInput, setSearchInput] = useState<string>("");
+  const [pageIndex, setPageIndex] = useState(null);
   const flipbookRef = useRef<any>(null);
   const imageSrc = images;
 
@@ -190,14 +192,20 @@ function Flipbook() {
     }
   };
 
+  const { speciesData } = useFetchData();
+  console.log("speciesData", speciesData);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
 
-    if (Number(value) <= 1) {
-      value = value.replace(/^0+/, "1");
-    } else if (Number(value) >= images?.length) {
-      value = images?.length.toString();
-    }
+    const filteredSpecies = speciesData?.find(
+      (species) =>
+        species?.name?.toLowerCase() === value.toLowerCase() ||
+        species?.sub_name?.toLowerCase() === value?.toLowerCase()
+    );
+
+    const pageIndex = filteredSpecies?.page_index;
+    setPageIndex(pageIndex);
 
     setSearchInput(value);
   };
@@ -211,7 +219,7 @@ function Flipbook() {
   };
 
   const navigateToPage = () => {
-    const pageNumber = Number(searchInput);
+    const pageNumber = Number(pageIndex);
 
     if (flipbookRef.current) {
       flipbookRef.current.pageFlip().flip(pageNumber - 1);
@@ -284,7 +292,6 @@ function Flipbook() {
           id="navigate"
           variant="standard"
           label="Navigate to Page"
-          type="number"
           value={searchInput}
           onChange={handleInputChange}
           sx={{
