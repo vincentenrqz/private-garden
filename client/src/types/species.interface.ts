@@ -31,6 +31,7 @@ export class SpeciesDto {
   ethnobotanical_uses?: string;
   landscape_uses?: string;
   thematic_landscaping?: string;
+  page_index?: number;
 }
 
 export class SpeciesCoordinatesDto extends SpeciesDto {

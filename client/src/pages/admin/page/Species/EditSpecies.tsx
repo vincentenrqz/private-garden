@@ -192,6 +192,20 @@ const EditSpecies = ({
               />
             </Stack>
             <Typography gutterBottom variant="subtitle1" component="div">
+              Page number
+            </Typography>
+            <TextField
+              id="page_index"
+              label="Enter page number"
+              variant="outlined"
+              fullWidth
+              defaultValue={species?.page_index || ""}
+              onChange={handleChange}
+              InputProps={{
+                inputProps: { min: 1 },
+              }}
+            />
+            <Typography gutterBottom variant="subtitle1" component="div">
               Type
             </Typography>
             <Stack direction="row" spacing={2}>

@@ -9,6 +9,7 @@ export interface SpeciesDto {
   scientific_name?: string;
   etymology?: string;
   description?: string;
+  page_index?: number;
 }
 
 export const speciesService = {

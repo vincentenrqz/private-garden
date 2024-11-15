@@ -35,6 +35,7 @@ const SpeciesSchema = new Schema(
     ethnobotanical_uses: String,
     landscape_uses: String,
     thematic_landscaping: String,
+    page_index: Number,
   },
   { timestamps: true }
 );
